@@ -26,7 +26,6 @@ jobs:
           pip install -r requirements.txt
 
       - name: Run scraper
-        # BAGIAN PENTING: Kunci Discord & Telegram diserahkan di sini
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
           TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
@@ -39,6 +38,9 @@ jobs:
           git config --local user.name "GitHub Action"
           git add latest_report.md || echo "No changes to add"
           git commit -m "Update report: $(date)" || exit 0
-          # BARIS AJAIB: Tarik dulu data terbaru biar gak error
-          git pull --rebase
+          
+          # --- OBAT ANTI ERROR ---
+          git pull --rebase origin main
+          # -----------------------
+          
           git push
