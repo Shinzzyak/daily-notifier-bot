@@ -2,18 +2,19 @@ name: Daily Scrape
 
 on:
   schedule:
-    - cron: '0 */6 * * *' # Jalan tiap 6 jam
-  workflow_dispatch:      # Tombol manual
+    - cron: '0 */6 * * *' # Berjalan otomatis setiap 6 jam
+  workflow_dispatch: # Memungkinkan dijalankan secara manual
 
 jobs:
   scrape:
     runs-on: ubuntu-latest
     permissions:
-      contents: write
-
+      contents: write # Memberikan izin tulis ke repositori
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 # Mengambil history lengkap agar sinkronisasi lancar
 
       - name: Set up Python
         uses: actions/setup-python@v4
@@ -32,15 +33,18 @@ jobs:
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         run: python scraper.py
 
-      - name: Commit and push
+      - name: Commit and push if changes
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git add latest_report.md || echo "No changes to add"
-          git commit -m "Update report: $(date)" || exit 0
+          git add latest_report.md
           
-          # --- OBAT ANTI ERROR ---
-          git pull --rebase origin main
-          # -----------------------
-          
-          git push
+          # Hanya commit jika ada perubahan pada file
+          if git diff --quiet && git diff --staged --quiet; then
+            echo "Tidak ada perubahan untuk di-commit"
+          else
+            git commit -m "Update latest report: $(date)"
+            # Sinkronisasi dengan server sebelum push
+            git pull --rebase origin main
+            git push origin main
+          fi
