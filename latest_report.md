@@ -1,6 +1,6 @@
 
 # 🤖 Daily Notification Bot Report
-Generated at: 2026-01-26 16:38:31
+Generated at: 2026-01-26 16:45:57
 
 ## 🌍 Geopolitics (War/Conflict)
 - As US ‘armada’ approaches, Iran warns of dire consequences if attacked (https://www.aljazeera.com/news/2026/1/26/as-us-armada-approaches-iran-warns-of-dire-consequences-if-attacked?traffic_source=rss)
@@ -13,7 +13,7 @@ Generated at: 2026-01-26 16:38:31
 - vivoiQOO 15 Ultra (https://www.gsmarena.com/vivo_iqoo_15_ultra_5g-14445.php)
 
 ## 💸 Deals (Reddit r/coupons)
-Error scraping Reddit: Expecting value: line 1 column 1 (char 0)
+Error scraping Reddit: 403 Client Error: Blocked for url: https://www.reddit.com/r/coupons/new/.json?limit=25
 
 ---
 *Automated by GitHub Actions*
