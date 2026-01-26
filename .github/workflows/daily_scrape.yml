@@ -2,14 +2,12 @@ name: Daily Scrape
 
 on:
   schedule:
-    - cron: '0 */6 * * *' # Berjalan otomatis setiap 6 jam
-  workflow_dispatch:      # Memungkinkan dijalankan secara manual
+    - cron: '0 */6 * * *' # Jalan tiap 6 jam
+  workflow_dispatch:      # Tombol manual
 
 jobs:
   scrape:
     runs-on: ubuntu-latest
-    
-    # Memberikan izin menulis agar bot bisa update laporan
     permissions:
       contents: write
 
@@ -28,17 +26,19 @@ jobs:
           pip install -r requirements.txt
 
       - name: Run scraper
-        # BAGIAN PENTING: Menyerahkan kunci rahasia ke Python
+        # BAGIAN PENTING: Kunci Discord & Telegram diserahkan di sini
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
           TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         run: python scraper.py
 
-      - name: Commit and push if changes
+      - name: Commit and push
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git add latest_report.md
-          git commit -m "Update latest report: $(date)" || exit 0
+          git add latest_report.md || echo "No changes to add"
+          git commit -m "Update report: $(date)" || exit 0
+          # BARIS AJAIB: Tarik dulu data terbaru biar gak error
+          git pull --rebase
           git push
