@@ -3,11 +3,16 @@ name: Daily Scrape
 on:
   schedule:
     - cron: '0 */6 * * *' # Berjalan otomatis setiap 6 jam
-  workflow_dispatch: # Memungkinkan dijalankan secara manual
+  workflow_dispatch:      # Memungkinkan dijalankan secara manual
 
 jobs:
   scrape:
     runs-on: ubuntu-latest
+    
+    # Memberikan izin menulis agar bot bisa update laporan
+    permissions:
+      contents: write
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -23,6 +28,11 @@ jobs:
           pip install -r requirements.txt
 
       - name: Run scraper
+        # BAGIAN PENTING: Menyerahkan kunci rahasia ke Python
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         run: python scraper.py
 
       - name: Commit and push if changes
@@ -32,4 +42,3 @@ jobs:
           git add latest_report.md
           git commit -m "Update latest report: $(date)" || exit 0
           git push
-
