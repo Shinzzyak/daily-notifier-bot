@@ -1,8 +1,9 @@
 
 # 🤖 Daily Notification Bot Report
-Generated at: 2026-01-26 16:17:34
+Generated at: 2026-01-26 16:38:31
 
 ## 🌍 Geopolitics (War/Conflict)
+- As US ‘armada’ approaches, Iran warns of dire consequences if attacked (https://www.aljazeera.com/news/2026/1/26/as-us-armada-approaches-iran-warns-of-dire-consequences-if-attacked?traffic_source=rss)
 - Syrian army, Kurdish-led SDF accuse each other of ceasefire violations (https://www.aljazeera.com/news/2026/1/26/syrian-army-kurdish-led-sdf-accuse-each-other-of-ceasefire-violations?traffic_source=rss)
 - Iraq’s Kataib Hezbollah warns of ‘total war’ if Iran is attacked (https://www.aljazeera.com/news/2026/1/26/iraqs-kataib-hezbollah-warns-of-total-war-if-iran-is-attacked?traffic_source=rss)
 
