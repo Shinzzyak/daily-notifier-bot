@@ -6,8 +6,7 @@ from bs4 import BeautifulSoup
 import feedparser
 import random
 import time
-from google import genai
-from google.generativeai.errors import APIError
+import google.generativeai as genai
 
 # Header User-Agent palsu untuk menghindari pemblokiran
 HEADERS = {
@@ -52,7 +51,7 @@ def get_ai_content_idea(trending_topic):
 
     try:
         genai.configure(api_key=api_key)
-        client = genai.Client()
+        model = genai.GenerativeModel('gemini-1.5-flash') # Menggunakan model standar yang tersedia
         
         prompt = f"""
         Buatkan ide konten TikTok yang singkat, menarik, dan viral dari topik trending berikut: "{trending_topic}".
@@ -64,15 +63,9 @@ def get_ai_content_idea(trending_topic):
         *Pembahasan 3:* [Poin utama 3]
         """
         
-        response = client.models.generate_content(
-            model='gemini-2.5-flash',
-            contents=prompt
-        )
-        
+        response = model.generate_content(prompt)
         return response.text.strip()
         
-    except APIError as e:
-        return f"Error API Gemini: {e}"
     except Exception as e:
         return f"Error AI Writer: {e}"
 
