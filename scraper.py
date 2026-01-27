@@ -51,7 +51,7 @@ def get_ai_content_idea(trending_topic):
 
     try:
         genai.configure(api_key=api_key)
-        model = genai.GenerativeModel('gemini-1.5-flash') # Menggunakan model standar yang tersedia
+        model = genai.GenerativeModel('gemini-1.5-flash')
         
         prompt = f"""
         Buatkan ide konten TikTok yang singkat, menarik, dan viral dari topik trending berikut: "{trending_topic}".
@@ -71,24 +71,24 @@ def get_ai_content_idea(trending_topic):
 
 # --- Scraping Functions ---
 
-def get_google_trends():
-    print("Scraping Google Trends for Indonesia via RSS...")
-    url = "https://trends.google.com/trends/trendingsearches/daily/rss?geo=ID"
+def get_google_news_id():
+    print("Scraping Google News Indonesia via RSS (Pengganti Pytrends)...")
+    url = "https://news.google.com/rss?ceid=ID:id&hl=id&gl=ID"
     try:
         response = requests.get(url, headers=HEADERS, timeout=15)
         feed = feedparser.parse(response.content)
-        trends_list = []
-        
-        # Ambil topik paling trending (yang pertama) untuk AI Writer
-        top_topic = feed.entries[0].title if feed.entries else None
+        news_list = []
         
         for entry in feed.entries:
-            trends_list.append(f"- {entry.title}")
-            if len(trends_list) >= 5: break
+            news_list.append(f"- {entry.title} ([Link]({entry.link}))")
+            if len(news_list) >= 5: break
             
-        return "\n".join(trends_list) if trends_list else "Tidak ada tren harian yang ditemukan saat ini.", top_topic
+        # Ambil judul berita pertama untuk AI Writer
+        top_topic = feed.entries[0].title if feed.entries else None
+        
+        return "\n".join(news_list) if news_list else "Tidak ada berita utama ditemukan saat ini.", top_topic
     except Exception as e:
-        return f"Error scraping Google Trends: {str(e)}", None
+        return f"Error scraping Google News ID: {str(e)}", None
 
 def get_geopolitics_news():
     print("Scraping Geopolitics news from multiple sources...")
@@ -140,10 +140,7 @@ def get_tech_news():
                 title = title_tag.text.strip()
                 link = "https://www.gsmarena.com/" + link_tag['href']
                 
-                # Filter 1: Kata kunci umum (announced, leak, dll)
                 is_relevant_keyword = any(kw.lower() in title.lower() for kw in keywords)
-                
-                # Filter 2: Filter Merek
                 is_relevant_brand = any(brand.lower() in title.lower() for brand in brand_filter)
                 
                 if is_relevant_keyword and is_relevant_brand:
@@ -263,19 +260,25 @@ def main():
     now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     
     # 1. Ambil Data
-    trends_text, top_topic = get_google_trends()
-    
-    # 2. AI Writer
-    ai_idea = "Tidak ada topik trending untuk diolah AI."
-    if top_topic:
-        ai_idea = get_ai_content_idea(top_topic)
-    
+    google_news_id_text, top_topic_id = get_google_news_id()
     geopolitics = get_geopolitics_news()
     tech = get_tech_news()
     youtube = get_youtube_monitor()
     deals = get_reddit_deals()
     
-    # 3. Format Laporan Teks (untuk file lokal dan Telegram)
+    # 2. Tentukan Topik Utama untuk AI Writer (Safety Net)
+    ai_topic = top_topic_id
+    if not ai_topic and geopolitics:
+        ai_topic = geopolitics[0]['title']
+    elif not ai_topic and tech:
+        ai_topic = tech[0]['title']
+    
+    # 3. AI Writer
+    ai_idea = "Tidak ada topik trending untuk diolah AI."
+    if ai_topic:
+        ai_idea = get_ai_content_idea(ai_topic)
+    
+    # 4. Format Laporan Teks (untuk file lokal dan Telegram)
     geo_text = "\n".join([f"- {item['title']} ([Link]({item['link']}))" for item in geopolitics])
     tech_text = "\n".join([f"- {item['title']} ([Link]({item['link']}))" for item in tech])
     yt_text = "\n".join([f"- {item['source']}: {item['title']} ([Link]({item['link']}))" for item in youtube])
@@ -284,11 +287,11 @@ def main():
 # 🤖 Daily Notification Bot Report
 Generated at: {now}
 
-## 🧠 AI Content Idea (Top Topic: {top_topic or 'N/A'})
+## 🧠 AI Content Idea (Top Topic: {ai_topic or 'N/A'})
 {ai_idea}
 
 ## 🔥 Sedang Trending di Indonesia
-{trends_text}
+{google_news_id_text}
 
 ## 🌍 Geopolitics (Multi-Source)
 {geo_text}
@@ -310,14 +313,14 @@ Generated at: {now}
     with open("latest_report.md", "w") as f:
         f.write(report)
     
-    # 4. Kirim Notifikasi
+    # 5. Kirim Notifikasi
     discord_webhook = os.getenv("DISCORD_WEBHOOK")
     telegram_token = os.getenv("TELEGRAM_TOKEN")
     telegram_chat_id = os.getenv("TELEGRAM_CHAT_ID")
     
     if discord_webhook:
         # AI Writer (Paling Atas)
-        send_discord_text(discord_webhook, "🧠 AI Content Idea", f"**Topik Trending:** {top_topic or 'N/A'}\n\n{ai_idea}")
+        send_discord_text(discord_webhook, "🧠 AI Content Idea", f"**Topik Utama:** {ai_topic or 'N/A'}\n\n{ai_idea}")
         
         # Kirim Embeds (Visual)
         send_discord_embeds(discord_webhook, "🌍 Geopolitics News", geopolitics, color=16711680)
@@ -325,7 +328,7 @@ Generated at: {now}
         send_discord_embeds(discord_webhook, "📺 YouTube Competitor Monitor", youtube, color=16711935)
         
         # Kirim Teks (Non-Visual)
-        send_discord_text(discord_webhook, "🔥 Sedang Trending di Indonesia", trends_text)
+        send_discord_text(discord_webhook, "🔥 Top News Indonesia", google_news_id_text)
         send_discord_text(discord_webhook, "💸 Deals & Coupons", deals)
         
     if telegram_token and telegram_chat_id:
