@@ -52,7 +52,8 @@ def get_ai_content_idea(trending_topic):
     try:
         genai.configure(api_key=api_key)
         # Menggunakan model yang lebih stabil untuk Free Tier
-        model = genai.GenerativeModel('gemini-1.5-flash')
+        # Menggunakan model Gemini 2.0 Flash terbaru
+        model = genai.GenerativeModel('gemini-2.0-flash')
         
         prompt = f"""
         Buatkan ide konten TikTok yang singkat, menarik, dan viral dari topik trending berikut: "{trending_topic}".
