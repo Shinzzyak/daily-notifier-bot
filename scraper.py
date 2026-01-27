@@ -5,8 +5,9 @@ import requests
 from bs4 import BeautifulSoup
 import feedparser
 import random
-from pytrends.request import TrendReq
 import time
+from google import genai
+from google.generativeai.errors import APIError
 
 # Header User-Agent palsu untuk menghindari pemblokiran
 HEADERS = {
@@ -41,6 +42,40 @@ def get_image(url):
         print(f"Error getting image for {url}: {e}")
     return None
 
+# --- AI Writer Function ---
+
+def get_ai_content_idea(trending_topic):
+    """Menggunakan Gemini untuk membuat ide konten TikTok dari topik trending."""
+    api_key = os.getenv('GEMINI_API_KEY')
+    if not api_key:
+        return "Error: GEMINI_API_KEY tidak ditemukan."
+
+    try:
+        genai.configure(api_key=api_key)
+        client = genai.Client()
+        
+        prompt = f"""
+        Buatkan ide konten TikTok yang singkat, menarik, dan viral dari topik trending berikut: "{trending_topic}".
+        Gunakan bahasa gaul Indonesia. Format outputnya harus:
+        
+        *Hook:* [Kalimat pembuka yang sangat menarik]
+        *Pembahasan 1:* [Poin utama 1]
+        *Pembahasan 2:* [Poin utama 2]
+        *Pembahasan 3:* [Poin utama 3]
+        """
+        
+        response = client.models.generate_content(
+            model='gemini-2.5-flash',
+            contents=prompt
+        )
+        
+        return response.text.strip()
+        
+    except APIError as e:
+        return f"Error API Gemini: {e}"
+    except Exception as e:
+        return f"Error AI Writer: {e}"
+
 # --- Scraping Functions ---
 
 def get_google_trends():
@@ -50,12 +85,17 @@ def get_google_trends():
         response = requests.get(url, headers=HEADERS, timeout=15)
         feed = feedparser.parse(response.content)
         trends_list = []
+        
+        # Ambil topik paling trending (yang pertama) untuk AI Writer
+        top_topic = feed.entries[0].title if feed.entries else None
+        
         for entry in feed.entries:
             trends_list.append(f"- {entry.title}")
             if len(trends_list) >= 5: break
-        return "\n".join(trends_list) if trends_list else "Tidak ada tren harian yang ditemukan saat ini."
+            
+        return "\n".join(trends_list) if trends_list else "Tidak ada tren harian yang ditemukan saat ini.", top_topic
     except Exception as e:
-        return f"Error scraping Google Trends: {str(e)}"
+        return f"Error scraping Google Trends: {str(e)}", None
 
 def get_geopolitics_news():
     print("Scraping Geopolitics news from multiple sources...")
@@ -71,7 +111,6 @@ def get_geopolitics_news():
         try:
             response = requests.get(url, headers=HEADERS, timeout=15)
             feed = feedparser.parse(response.content)
-            
             count = 0
             for entry in feed.entries:
                 if any(keyword.lower() in entry.title.lower() for keyword in keywords):
@@ -82,17 +121,18 @@ def get_geopolitics_news():
                         "image": get_image(entry.link)
                     })
                     count += 1
-                if count >= 3: break # Ambil 3 per sumber
+                if count >= 3: break
         except Exception as e:
             print(f"Error scraping {source_name}: {e}")
             
     return all_news
 
 def get_tech_news():
-    print("Scraping GSMArena for latest device news...")
+    print("Scraping GSMArena for latest device news with brand filter...")
     url = "https://www.gsmarena.com/news.php3"
     results = []
     keywords = ['announced', 'released', 'coming soon', 'TKDN', 'launch', 'review', 'leak']
+    brand_filter = ['Samsung', 'Apple', 'iPhone', 'Xiaomi', 'Redmi', 'Poco', 'Infinix', 'iQOO', 'Realme', 'Pixel', 'Asus', 'Rog']
     
     try:
         response = requests.get(url, headers=HEADERS, timeout=15)
@@ -107,7 +147,13 @@ def get_tech_news():
                 title = title_tag.text.strip()
                 link = "https://www.gsmarena.com/" + link_tag['href']
                 
-                if any(kw.lower() in title.lower() for kw in keywords):
+                # Filter 1: Kata kunci umum (announced, leak, dll)
+                is_relevant_keyword = any(kw.lower() in title.lower() for kw in keywords)
+                
+                # Filter 2: Filter Merek
+                is_relevant_brand = any(brand.lower() in title.lower() for brand in brand_filter)
+                
+                if is_relevant_keyword and is_relevant_brand:
                     results.append({
                         "title": title,
                         "link": link,
@@ -142,7 +188,7 @@ def get_youtube_monitor():
                     "image": thumbnail_url
                 })
                 count += 1
-                if count >= 2: break # Ambil 2 per channel
+                if count >= 2: break
         except Exception as e:
             print(f"Error monitoring {channel_name}: {e}")
             
@@ -223,13 +269,20 @@ def send_to_telegram(token, chat_id, content):
 def main():
     now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     
-    trends = get_google_trends()
+    # 1. Ambil Data
+    trends_text, top_topic = get_google_trends()
+    
+    # 2. AI Writer
+    ai_idea = "Tidak ada topik trending untuk diolah AI."
+    if top_topic:
+        ai_idea = get_ai_content_idea(top_topic)
+    
     geopolitics = get_geopolitics_news()
     tech = get_tech_news()
     youtube = get_youtube_monitor()
     deals = get_reddit_deals()
     
-    # Format teks untuk file lokal dan Telegram
+    # 3. Format Laporan Teks (untuk file lokal dan Telegram)
     geo_text = "\n".join([f"- {item['title']} ([Link]({item['link']}))" for item in geopolitics])
     tech_text = "\n".join([f"- {item['title']} ([Link]({item['link']}))" for item in tech])
     yt_text = "\n".join([f"- {item['source']}: {item['title']} ([Link]({item['link']}))" for item in youtube])
@@ -238,13 +291,16 @@ def main():
 # 🤖 Daily Notification Bot Report
 Generated at: {now}
 
+## 🧠 AI Content Idea (Top Topic: {top_topic or 'N/A'})
+{ai_idea}
+
 ## 🔥 Sedang Trending di Indonesia
-{trends}
+{trends_text}
 
 ## 🌍 Geopolitics (Multi-Source)
 {geo_text}
 
-## 📱 Tech News (GSMArena Latest Devices)
+## 📱 Tech News (GSMArena Latest Devices - Filtered)
 {tech_text}
 
 ## 📺 YouTube Monitor
@@ -257,18 +313,26 @@ Generated at: {now}
 *Automated by GitHub Actions*
 """
     
+    # Simpan ke file lokal
     with open("latest_report.md", "w") as f:
         f.write(report)
     
+    # 4. Kirim Notifikasi
     discord_webhook = os.getenv("DISCORD_WEBHOOK")
     telegram_token = os.getenv("TELEGRAM_TOKEN")
     telegram_chat_id = os.getenv("TELEGRAM_CHAT_ID")
     
     if discord_webhook:
+        # AI Writer (Paling Atas)
+        send_discord_text(discord_webhook, "🧠 AI Content Idea", f"**Topik Trending:** {top_topic or 'N/A'}\n\n{ai_idea}")
+        
+        # Kirim Embeds (Visual)
         send_discord_embeds(discord_webhook, "🌍 Geopolitics News", geopolitics, color=16711680)
         send_discord_embeds(discord_webhook, "📱 Tech News & Rumors", tech, color=3447003)
         send_discord_embeds(discord_webhook, "📺 YouTube Competitor Monitor", youtube, color=16711935)
-        send_discord_text(discord_webhook, "🔥 Sedang Trending di Indonesia", trends)
+        
+        # Kirim Teks (Non-Visual)
+        send_discord_text(discord_webhook, "🔥 Sedang Trending di Indonesia", trends_text)
         send_discord_text(discord_webhook, "💸 Deals & Coupons", deals)
         
     if telegram_token and telegram_chat_id:
