@@ -1,63 +1,16 @@
 
 # 🤖 Daily Notification Bot Report
-Generated at: 2026-01-27 11:42:37
+Generated at: 2026-01-27 12:38:20
 
-## 🧠 AI Content Idea (Top Topic: Ahok Minta Presiden dan BUMN Diperiksa Usai Djoko Priyono Dicopot - Kompas.com)
-Error AI Writer: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. 
-* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash
-* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash
-* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0, model: gemini-2.0-flash
-Please retry in 14.868067236s. [links {
-  description: "Learn more about Gemini API quotas"
-  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
-}
-, violations {
-  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
-  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"
-  quota_dimensions {
-    key: "model"
-    value: "gemini-2.0-flash"
-  }
-  quota_dimensions {
-    key: "location"
-    value: "global"
-  }
-}
-violations {
-  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
-  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
-  quota_dimensions {
-    key: "model"
-    value: "gemini-2.0-flash"
-  }
-  quota_dimensions {
-    key: "location"
-    value: "global"
-  }
-}
-violations {
-  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_input_token_count"
-  quota_id: "GenerateContentInputTokensPerModelPerMinute-FreeTier"
-  quota_dimensions {
-    key: "model"
-    value: "gemini-2.0-flash"
-  }
-  quota_dimensions {
-    key: "location"
-    value: "global"
-  }
-}
-, retry_delay {
-  seconds: 14
-}
-]
+## 🧠 AI Content Idea (Top Topic: Prediksi Cuaca Ekstrem di Jakarta Hari Ini Selasa, 27 Januari 2026, BMKG: Waspada Hujan Petir - Kompas.tv)
+Error AI Writer: 404 models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.
 
 ## 🔥 Sedang Trending di Indonesia
-- Ahok Minta Presiden dan BUMN Diperiksa Usai Djoko Priyono Dicopot - Kompas.com ([Link](https://news.google.com/rss/articles/CBMiugFBVV95cUxOWkd0UHZSUlVubmJ2X24zelhxalNMYkRMOUdMdUJKazRzZ3lxR28xYU5qMlc5QXk4YkZxXzJTMWFKSVVYMG45NE4yOUhub1puU2d4TnZHMk00YW0tOHFRZ2RUMnFQaUQwSC04WlFJaXk2aE5zYm5UTDBJNlVQVWlHaC12bGxRX0dpM2hBT0lXeTUzdGIzOE5MS01WT3k2V21fVU5TN3ZLWko3ZUl1bk5OZlpvejE2LU10aXc?oc=5))
+- Prediksi Cuaca Ekstrem di Jakarta Hari Ini Selasa, 27 Januari 2026, BMKG: Waspada Hujan Petir - Kompas.tv ([Link](https://news.google.com/rss/articles/CBMixwFBVV95cUxQMGItLUdXQWxFdGZiQ2ZxTTluaGdzQ1pNTnZYUDhBLTNpamRwU2FjTXh4M3FXVzE2Ym04ZS12VUZhX2t6WVRsWDdnQ3JHWXUtaTAxX0hQT1h1WUNZdnlIbXJyMkVTSFJXUDhuZVlGdWJTV2NYa2J3TDFZZ3JCOGxNeFdMYW9jYVpQc2Yxdk9vTWNfREpjdEZ0UHJRRV95NGktV3duVHNvNHNwNGVaekFBS3phMHFmQmkxTzRJblhTWUgwM29QczA00gHMAUFVX3lxTE1VdWN5allQN0hCVDJMUnA2RUktcVFxQUk0NmxiZ0Vna1JmT29Hamh4a0M3V2ZnYXczT3h3WnNnbTRUTmhPakpIQ1duRFdDZUZZc2hjSkh3NS1zUGNTeDVjb3FwM21Ba3lzcmtRVmJmTHItRVAyR21tZEdmcURrejdEN1lhN0ZFZjNQMXhFLUxOZ0IyVm9LajIzQVpRdk92U1pRZVo3UUJRYk5ybGZCUHg2THA0S09WcEVpRy1RcjNrYVQ1aDhET2g2cEpfMA?oc=5))
 - Gempa Besar M5,5 Guncang Pacitan Jatim Hari Ini, Tidak Berpotensi Tsunami - jatim.inews.id ([Link](https://news.google.com/rss/articles/CBMipAFBVV95cUxOb3J3YUVOdTBhVHdOa3I5SkJBXy11anhGeTEzVlFaYzk3S0Z3R0tBQUpEd2pxNi1jcGl0dlJRLS1XbERrUS1WNUtqNmhFdm5Nem5MTFF2My05T1BWU1NKUllhSzdVVUZ4NkZ0bHJsMTBuUWhobkNiWHhNRDJvb19zNWNvR2lCWFZLeURTV1JaaWp6M1JVZTdPbFNqWktjbXFXQWJSLdIBqgFBVV95cUxNMjR2WjBfNmVqd0k1VTdtdTN3MmFEVklZa0pmODBNWGlfaU4zM3ZHVmwzNk1PQ1pxV3M3VFhIbnpMNkxXZnp3ODM1MUNRNFAyUGg1cC1hYjJrWnNhcFhlZGpRNjEzVms4anFhdENjajFXb29ZU1BRTFFna2lGWkI0RnFRVTFhQmZTSFR1MWJ5THlkRHBsWmtMUm1yV2RNWUZXb095dXV1U2dEZw?oc=5))
 - 4 Poin Pernyataan Kapolri Tolak Polri di Bawah Kementerian - detikNews ([Link](https://news.google.com/rss/articles/CBMinwFBVV95cUxONkFhMHlFQXZBVVdNNVVhNzd6MmdWZXljWTQ1ZWJlekhXeTEzcmxITFNFeE80TVhZWVVTbzFUVDc2V3pUSlM5Yy10amRpdTQ5LWhlRWd5V1JaaVFtWGlMd2tndW9iUUVqRFdHNUN4Z0ZKWFhlRFN1S25FODRNVlVqSi1Jc19oZV8wWXpvSVA0X1pTdzkxRk1hQmRhbXRZVVXSAaQBQVVfeXFMTTA3bHdRTkdnN0pCLXVsa1JNX1BRdGpxU1psd193UVcwLU51V0VGbnhTVEV2UkhQSkhTT2RVUkVGUlpEN0VycVhIZlE0S3NsSkpkRDNkRDB1cGxTdTd4V21ZckQ1Wnd0cjhULVdYcEJSTmdTaGQxeVhvc2NjU1BqSGFTN0k4bHlJUjFPTkNCY2tQWFR6R1lBcUdab0hjN3pzTjY5MTg?oc=5))
-- Malapetaka AS Menggila, Negara "Membeku"-Korban Jiwa Melonjak Tajam - CNBC Indonesia ([Link](https://news.google.com/rss/articles/CBMiwAFBVV95cUxNcGNjcElOSTE5WDhhcWVzOEhNSHpPMjRURTQyaWlFRFQta0hZZXp0THJ1UjNPaDBjOWlzUW5TVGV4WFYtdThWb1V1QjRaaWt2SXh2c2t0SW1XUVhGM2lMakx5ODg2SFdfbDZzWkFoazExNGFzYkYtcXhGU2NzOWlqNy1xY3N0dVRmV3E0LUg0cmkzdzJBb0dQNHVoSk1UNnFUb29WRVFHaUQ0bGwzUGRIQ0xyck1iQ2hRZE5xUUtSRETSAcYBQVVfeXFMTkNZWm5JQjkzMGN1N1R4REd1UnNJU0E5VEJYTklwSFo1Snd6bjJiVkxyUEw2T25zR3ZxVHNuTllhOUNmV2tBRlg1SUlJeXVVV2dQTy1Cd3FWOGs5OG5MRzQwUkE0UzQtU00zSFd4MU1ZVm1WWTF2S1Vfc1lSVldQWWFlR2J5WWhyQ1dmd3Z5aXJ1SWlncTVqbjBLQzVVbUV6MkdqaENMQnU4dC0yOVFBTGhpWUFvQmRLR0F6RFlLV2Y1Xy05Y05R?oc=5))
-- Pramono: Besok Jakarta Diprediksi Hujan Lebat, 200 Ekskavator Siaga - CNN Indonesia ([Link](https://news.google.com/rss/articles/CBMiyAFBVV95cUxPQnVHRHQyU0h6WEVBTTNBYTZfYi1CY2hsR3l1T1BqUFpPOXVDUDlza0lTSGd6UDFKVWpGNHVURGZKLXI0REViRjJHZVZPS2RvRkI3aURvUEdQTlRyYXlDd0Jkc1Zrb2QxZVBIYzdPSWM4VHhubVQ2TlRuanVJQ04zUWw1Q2RyRy01bUdGNUFUSExpMjdrTkFic1AxTUdEcS1XYU5NMjB1dTZXYWVtVkM1QlZJcVZYeDJSZjRnVlFOQng5NDBKSUpfUNIBzgFBVV95cUxNWnBLQ0xuWWZmclB2eGppaDRXc0FwRXVBNGVNUWs4SW5EOHlhRzhrOFVzOWoyZW5UMEpURlkxUEtuNFJ6enU4RzJkcHpiUEdlVFM0U0kxNG52XzV2bXBTNTk0M1dhWW82UDUzYXlJanBSMUhraVRpQnVFSk55d1Y1T2k5NkpBOXkzUzVsQzV3bjB6TjAybldNVUdWMEhsaHRJaUdaU1JRZVVTaFdkNmRFNDlhVHp5ZjFEY1hSUmk5a2tpeTVLak95amptSTZ5dw?oc=5))
+- Dor! Kelompok Bersenjata Tembak Pertandingan Sepak Bola, 11 Tewas - CNBC Indonesia ([Link](https://news.google.com/rss/articles/CBMivwFBVV95cUxNNTZCNExKMEhSamVfOURqLWluQjgtZHVLNU5CTWh0YXBsM2k4RlhJdWhCZDV1Ml92LXFqS19GTnB3SVZQeS1pRm9sekpnT20xNWliXzNSRldqb2h6aWI0MkM0Um9GdkRvZ3NEdHNPN1NjUVExdUpLdHFHUDlJUVJ0LWlsWXlvMWExUE1TYmMxRkF5S1F2Tzd4amg4aWZodDhhOXlmd0MtY2V3a2pjYTBhZ0x3WTFPWktYc3daTm1RQdIBxAFBVV95cUxOZ2dwQ3ctd2JMWjBGVnJWcU5RTnhWZzJ6bE1iZERZcmRoM2RLMm9hOUl0SjN2WkxHdG9uYU1kcEQ2VzJQV0FLVkZuN19ZaFdqMDJYQWhHcFM4UlNhSkpSSGRnMkl4SzNPN3k1SV9aQkdlT2NRS3FxVmtnRUVEZXgzSUxRMHhyLUJ6VE5jMlFHUlhSOEtPdFNSZFFEQ2JEclZNaDFyVGQycUhkYmFvUmhMYTNqUUR0SGF2cDRFU0ZyRi1Ha3g2?oc=5))
+- DJP Naikkan Peran AR Jadi Pemeriksa untuk Optimalkan Penerimaan Negara - kontan.co.id ([Link](https://news.google.com/rss/articles/CBMiqAFBVV95cUxOZGNFTjIxbklzUmxnQllFRXR5SGg1YmtncENyVWFNdUtWazBGaFI1SXJLU2kyZFc3U1VXUXRJc2FOTFpkaEF0MHhqRFVoc0d1M0RMT0JVRF8wXzFfRzJsSGNvUWlBYXl4ZEJvdUlqRkxwWUlPZEtxcld2UktHU3ZPNW9GUDZ0ZTFxQTRuT3EwT0k3Z2hBcDBadjF5bnV4cDhMdS1DZE1HVEnSAaIBQVVfeXFMTlk4cjBrRTZsdkI3MjBHV291LUk2NE1HblIyYjZMRTJMUUVxQVhIMVhycFFVeW9uc2FHNksyYXI3VHIyeE1pM3lXVkxVbFYzb3B0cGoxTFFlcG52ekxPSEdRNHdDa080UzJVc256ZjFrLW5paXZiY01rSXZpUUJKeklseFNyTXRPUy1mZ0NaMzhJRk9kTTVEaS03ZWt5Y2tRcFp3?oc=5))
 
 ## 🌍 Geopolitics (Multi-Source)
 - Sudan army says two-year RSF siege of key town broken ([Link](https://www.aljazeera.com/news/2026/1/27/sudan-army-says-nearly-two-year-rsf-siege-of-key-town-broken?traffic_source=rss))
