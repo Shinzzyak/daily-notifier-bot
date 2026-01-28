@@ -1,334 +1,391 @@
 import os
-import requests
-import feedparser
+import datetime
 import json
-import time
+import requests
 from bs4 import BeautifulSoup
-from groq import Groq
-from duckduckgo_search import DDGS
+import feedparser
+import random
+import time
+from groq import Groq # Import Groq
+# from duckduckgo_search import DDGS # DuckDuckGo Search tidak digunakan lagi
 
-# --- KONFIGURASI ---
+# Header User-Agent palsu untuk menghindari pemblokiran
 HEADERS = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
 }
-HISTORY_FILE = 'history.json'
 
-# --- 1. MEMORY SYSTEM ---
-def load_history():
-    if os.path.exists(HISTORY_FILE):
-        try:
-            with open(HISTORY_FILE, 'r') as f:
-                return json.load(f)
-        except:
-            return []
-    return []
+# --- Helper Functions ---
 
-def save_history(history):
-    with open(HISTORY_FILE, 'w') as f:
-        json.dump(history[-60:], f, indent=4)
+EMOTIONAL_PREFIXES = [
+    '🔥 BREAKING:', 
+    '🤯 GILA:', 
+    '⚠️ WAJIB TAU:', 
+    '📱 UPDATE PENTING:', 
+    '💸 DISKON GEDE:', 
+    '🤔 MENDING MANA?'
+]
 
-# --- 2. DEEP RESEARCH SYSTEM ---
-def scrape_url_content(url):
-    print(f"📖 Membaca isi artikel: {url}...")
+def generate_hook(original_title):
+    """Memilih secara acak prefix emosional dan menggabungkannya dengan judul asli."""
+    prefix = random.choice(EMOTIONAL_PREFIXES)
+    return f"{prefix} {original_title}"
+
+# Fungsi get_image dihapus sesuai permintaan
+
+# --- AI Writer Function (Groq Integration) ---
+
+def get_ai_content_idea(trending_topic, ai_persona="default"):
+    """Menggunakan Groq (Llama 3) untuk membuat ide konten TikTok dari topik trending dengan persona tertentu."""
+    groq_api_key = os.getenv('GROQ_API_KEY')
+    if not groq_api_key:
+        return "Error: GROQ_API_KEY tidak ditemukan."
+
     try:
-        response = requests.get(url, headers=HEADERS, timeout=10)
-        soup = BeautifulSoup(response.content, 'html.parser')
-        paragraphs = soup.find_all('p')
-        full_text = " ".join([p.get_text() for p in paragraphs])
-        return full_text[:6000]
-    except Exception as e:
-        print(f"Gagal baca artikel: {e}")
-        return None
+        client = Groq(api_key=groq_api_key)
+        
+        system_prompt = ""
+        prompt_template = ""
 
-def research_fallback_deep(topic):
-    print(f"⚠️ Mode Fallback Deep Scraping...")
-    try:
-        results = DDGS().text(topic, max_results=2)
-        if not results: return None
-        top_url = results[0]['href']
-        full_content = scrape_url_content(top_url)
-        if full_content and len(full_content) > 500:
-            return f"[SUMBER: {top_url}]\nDATA ARTIKEL:\n{full_content}"
+        if ai_persona == "AI_SEC":
+            system_prompt = "Kamu adalah AI Security Researcher (White Hat Hacker). Gaya bahasamu analitis, tajam, dan penuh wawasan (Cybersecurity style)."
+            prompt_template = f"""
+            Dari topik riset keamanan AI berikut: "{trending_topic}", buatkan:
+            
+            🎣 5 HOOK: (Fokus ke celah keamanan/bahaya AI).
+            📱 NASKAH TIKTOK/REELS: Jelaskan celah keamanannya (Exploit), bagaimana cara kerjanya (secara sederhana), dan dampaknya.
+            🔒 MITIGATION: (Tips singkat cara mencegah serangan ini bagi developer).
+            
+            Gunakan bahasa gaul Indonesia.
+            """
         else:
-            return f"[SUMBER: DuckDuckGo]\nRINGKASAN:\n{results[0]['body']}"
-    except Exception as e:
-        print(f"Fallback Deep Error: {e}")
-        return None
+            # Default prompt untuk topik umum
+            prompt_template = f"""
+            Buatkan ide konten TikTok yang singkat, menarik, dan viral dari topik trending berikut: "{trending_topic}".
+            Gunakan bahasa gaul Indonesia. Format outputnya harus:
+            
+            *Hook:* [Kalimat pembuka yang sangat menarik]
+            *Pembahasan 1:* [Poin utama 1]
+            *Pembahasan 2:* [Poin utama 2]
+            *Pembahasan 3:* [Poin utama 3]
+            """
+        
+        messages = []
+        if system_prompt: messages.append({"role": "system", "content": system_prompt})
+        messages.append({"role": "user", "content": prompt_template})
 
-def research_with_perplexity(topic):
-    api_key = os.getenv('PERPLEXITY_API_KEY')
-    if not api_key: return research_fallback_deep(topic)
-
-    print(f"🕵️ Riset Premium (Perplexity): {topic}...")
-    url = "https://api.perplexity.ai/chat/completions"
-    headers = {"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"}
-    payload = {
-        "model": "sonar-pro",
-        "messages": [
-            {"role": "system", "content": "Kamu Gaming & Tech Scraper. Cari bocoran skin/hero, tanggal rilis, harga diamond, buff/nerf, dan reaksi komunitas. Cari juga nama YouTuber yang sudah review jika ada."},
-            {"role": "user", "content": f"Cari info lengkap: {topic}"}
-        ]
-    }
-    try:
-        response = requests.post(url, json=payload, headers=headers, timeout=20)
-        if response.status_code == 200:
-            return response.json()['choices'][0]['message']['content']
-        else:
-            return research_fallback_deep(topic)
-    except:
-        return research_fallback_deep(topic)
-
-# --- 3. GROQ WRITER ---
-def generate_content_strategy(topic, category='GENERAL'):
-    research_data = research_with_perplexity(topic)
-    context = research_data if research_data else f"Judul: {topic}"
-
-    groq_key = os.getenv('GROQ_API_KEY')
-    if not groq_key: return None
-    
-    client = Groq(api_key=groq_key)
-
-    # --- SETUP PROMPT BERDASARKAN KATEGORI ---
-    if category == 'GAMING':
-        sys_prompt = f"""
-        Kamu Content Creator Mobile Legends (Ala Leaker Terpercaya/AceUnyil/Dafrixkun).
-        Data Riset: {context}
-        
-        Tugas: Buat konten Bocoran/Update MLBB yang HYPE abis.
-        Gunakan istilah: OP, Buff, Nerf, Revamp, Gacha, Diamond, Pity System.
-        
-        OUTPUT WAJIB (Markdown):
-        ### 🎣 5 HOOK GAMING VIRAL
-        1. Hype: (Misal: "Skin Collector Bulan Ini Gila Banget!")
-        2. Fear/FOMO: (Misal: "Jangan Gacha Dulu Sebelum Nonton Ini!")
-        3. Gameplay: (Fokus ke skill baru).
-        4. Wallet: (Bahas harga diamond).
-        5. Savage: (Pendapat jujur).
-        
-        ### 📱 NASKAH TIKTOK (Gaya Cepat)
-        * Hook: ...
-        * Info Skin/Hero: (Nama, Tier, Tanggal Rilis).
-        * Efek Visual: (Jelaskan partikel skill/ultinya).
-        * Harga: (Perkiraan Diamond).
-        * Closing: (Saran: Tabung atau Skip?).
-        
-        ### 🎨 IMAGE PROMPT (Wajib Keren)
-        * Prompt: (Bahasa Inggris. Deskripsikan Hero/Skin dengan gaya 'Splash Art', cinematic lighting, 4k, mobile legends style).
-        
-        ### 📸 CAPTION IG & X
-        * Caption: (Pendek, padat, hashtag #MLBB #MobileLegendsIndonesia).
-        * Tweet: (Info singkat leak).
-        """
-    elif category == 'TECH':
-        sys_prompt = f"""
-        Kamu Content Creator Tech (Ala GadgetIn).
-        Data Riset: {context}
-        Tugas: Review Gadget/HP.
-        
-        OUTPUT WAJIB (Markdown):
-        ### 🎣 5 HOOK VIRAL
-        1. Fear: ...
-        2. Curiosity: ...
-        3. Price: ...
-        4. Versus: ...
-        5. Savage: ...
-        
-        ### 📱 NASKAH TIKTOK
-        * Hook: ...
-        * Isi: (3 Poin Spesifikasi).
-        * Closing: ...
-
-        ### 🎨 IMAGE PROMPT
-        * Prompt: (Bahasa Inggris untuk Thumbnail YouTube/Tech).
-        
-        ### 📸 INSTAGRAM & X
-        * Caption IG: ...
-        * Tweet: ...
-        """
-    else: # GENERAL NEWS
-        sys_prompt = f"""
-        Kamu News Anchor Senior.
-        Data Riset: {context}
-        Tugas: Berita Terkini.
-        
-        OUTPUT WAJIB (Markdown):
-        ### 🎣 5 LEAD BERITA
-        1. Breaking: ...
-        2. Emosional: ...
-        3. Data: ...
-        4. Quote: ...
-        5. Kontroversi: ...
-        
-        ### 📺 NASKAH BERITA
-        * Lead: ...
-        * Kronologi: ...
-        * Closing: ...
-
-        ### 🎨 IMAGE PROMPT
-        * Prompt: (Bahasa Inggris untuk Ilustrasi Berita).
-        
-        ### 📸 INSTAGRAM & X
-        * Caption IG: ...
-        * Thread X: ...
-        """
-
-    try:
-        completion = client.chat.completions.create(
-            model="llama-3.3-70b-versatile",
-            messages=[
-                {"role": "system", "content": sys_prompt},
-                {"role": "user", "content": f"Buatkan konten: {topic}"}
-            ],
-            temperature=0.7,
-            max_tokens=4096
+        chat_completion = client.chat.completions.create(
+            messages=messages,
+            model="llama-3.3-70b-versatile", # Menggunakan model Llama 3.3 terbaru yang stabil
         )
-        return completion.choices[0].message.content
+        
+        return chat_completion.choices[0].message.content.strip()
+        
     except Exception as e:
-        print(f"Groq Error: {e}")
-        return None
+        return f"Error AI Writer (Groq): {e}"
 
-# --- 4. NOTION INTEGRATION ---
-def save_to_notion(title, content, category, link):
-    token = os.getenv('NOTION_API_KEY')
-    db_id = os.getenv('NOTION_DATABASE_ID')
-    
-    if not token or not db_id: return
+# --- Scraping Functions ---
 
-    print(f"📝 Notion: {title}...")
-    url = "https://api.notion.com/v1/pages"
-    headers = {"Authorization": f"Bearer {token}", "Content-Type": "application/json", "Notion-Version": "2022-06-28"}
-    
-    chunks = [content[i:i+2000] for i in range(0, len(content), 2000)]
-    children = []
-    
-    if link:
-        children.append({"object": "block", "type": "paragraph", "paragraph": {"rich_text": [{"type": "text", "text": {"content": f"🔗 Sumber: {link}", "link": {"url": link}}}]}})
-    
-    for chunk in chunks:
-        children.append({"object": "block", "type": "paragraph", "paragraph": {"rich_text": [{"type": "text", "text": {"content": chunk}}]}})
+def get_google_news_id():
+    print("Scraping Google News Indonesia via RSS (Pengganti Pytrends)...")
+    url = "https://news.google.com/rss?ceid=ID:id&hl=id&gl=ID"
+    try:
+        response = requests.get(url, headers=HEADERS, timeout=15)
+        feed = feedparser.parse(response.content)
+        news_list = []
+        
+        for entry in feed.entries:
+            news_list.append(f"- {entry.title} ([Link]({entry.link}))")
+            if len(news_list) >= 5: break
+            
+        # Ambil judul berita pertama untuk AI Writer
+        top_topic = feed.entries[0].title if feed.entries else None
+        
+        return "\n".join(news_list) if news_list else "Tidak ada berita utama ditemukan saat ini.", top_topic
+    except Exception as e:
+        return f"Error scraping Google News ID: {str(e)}", None
 
-    payload = {
-        "parent": {"database_id": db_id},
-        "properties": {
-            "Name": {"title": [{"text": {"content": title}}]},
-            "Category": {"select": {"name": category}} 
-        },
-        "children": children
+def get_geopolitics_news():
+    print("Scraping Geopolitics news from multiple sources...")
+    RSS_SOURCES = {
+        "Al Jazeera": "https://www.aljazeera.com/xml/rss/all.xml",
+        "BBC World": "http://feeds.bbci.co.uk/news/world/rss.xml",
+        "Google News (Geopolitics)": "https://news.google.com/rss/search?q=geopolitics"
     }
+    all_news = []
+    keywords = ['war', 'conflict', 'military', 'battle', 'army', 'attack', 'strike', 'geopolitics', 'tension']
+    
+    for source_name, url in RSS_SOURCES.items():
+        try:
+            response = requests.get(url, headers=HEADERS, timeout=15)
+            feed = feedparser.parse(response.content)
+            count = 0
+            for entry in feed.entries:
+                if any(keyword.lower() in entry.title.lower() for keyword in keywords):
+                    all_news.append({
+                        "title": entry.title,
+                        "link": entry.link,
+                        "source": source_name,
+                        "image": None # Gambar dihapus
+                    })
+                    count += 1
+                if count >= 3: break
+        except Exception as e:
+            print(f"Error scraping {source_name}: {e}")
+            
+    return all_news
 
-    try:
-        res = requests.post(url, json=payload, headers=headers)
-        if res.status_code != 200:
-            del payload["properties"]["Category"]
-            requests.post(url, json=payload, headers=headers)
-    except: pass
-
-# --- 5. SCRAPERS ---
-def get_mlbb_news(history):
-    print("Scraping MLBB Leaks...")
-    # Menggunakan Google News Search Query khusus MLBB
-    url = "https://news.google.com/rss/search?q=Mobile+Legends+Bang+Bang+Update+OR+Skin+Leak+OR+Hero+Baru&hl=id&gl=ID&ceid=ID:id"
-    try:
-        feed = feedparser.parse(url)
-        for entry in feed.entries:
-            if entry.title not in history:
-                # Filter tambahan biar gak dapet berita turnamen doang
-                keywords = ['skin', 'hero', 'patch', 'update', 'revamp', 'bocoran', 'leak', 'kolaborasi']
-                if any(k in entry.title.lower() for k in keywords):
-                    history.append(entry.title)
-                    return entry.title, entry.link
-    except: pass
-    return None, None
-
-def get_tech_list(history):
-    print("Scraping Tech...")
+def get_tech_news():
+    print("Scraping GSMArena for latest device news with brand filter...")
+    url = "https://www.gsmarena.com/news.php3"
     results = []
+    keywords = ['announced', 'released', 'coming soon', 'TKDN', 'launch', 'review', 'leak']
+    brand_filter = ['Samsung', 'Apple', 'iPhone', 'Xiaomi', 'Redmi', 'Poco', 'Infinix', 'iQOO', 'Realme', 'Pixel', 'Asus', 'Rog']
+    
     try:
-        feed = feedparser.parse("https://www.gsmarena.com/rss-news-reviews.php3")
-        for entry in feed.entries:
-            if entry.title not in history:
-                results.append({"title": entry.title, "link": entry.link, "source": "GSMArena"})
-                history.append(entry.title)
+        response = requests.get(url, headers=HEADERS, timeout=15)
+        soup = BeautifulSoup(response.text, 'html.parser')
+        items = soup.find_all('div', class_='news-item')
+        
+        for item in items:
+            title_tag = item.find('h3')
+            link_tag = item.find('a')
+            
+            if title_tag and link_tag:
+                title = title_tag.text.strip()
+                link = "https://www.gsmarena.com/" + link_tag['href']
+                
+                is_relevant_keyword = any(kw.lower() in title.lower() for kw in keywords)
+                is_relevant_brand = any(brand.lower() in title.lower() for brand in brand_filter)
+                
+                if is_relevant_keyword and is_relevant_brand:
+                    results.append({
+                        "title": title,
+                        "link": link,
+                        "source": "GSMArena",
+                        "image": None # Gambar dihapus
+                    })
                 if len(results) >= 5: break
-    except: pass
+    except Exception as e:
+        print(f"Error scraping GSMArena: {e}")
+        
     return results
 
-def get_trending_indo(history):
-    print("Scraping Indo...")
+def get_youtube_monitor():
+    print("Monitoring YouTube Competitors via RSS...")
+    YOUTUBE_RSS = {
+        "GadgetIn": "https://www.youtube.com/feeds/videos.xml?channel_id=UCo2Wz_pI_I_Lz5t7i6sCqNw",
+        "Jagat Review": "https://www.youtube.com/feeds/videos.xml?channel_id=UCbyVnlQdFIcdViuoPIPK68A",
+        "DroidLime": "https://www.youtube.com/feeds/videos.xml?user=droidlime"
+    }
+    all_videos = []
+    for channel_name, url in YOUTUBE_RSS.items():
+        try:
+            feed = feedparser.parse(url)
+            count = 0
+            for entry in feed.entries:
+                # thumbnail_url = entry.media_thumbnail[0]['url'] if 'media_thumbnail' in entry and entry.media_thumbnail else None
+                
+                all_videos.append({
+                    "title": entry.title,
+                    "link": entry.link,
+                    "source": channel_name,
+                    "image": None # Gambar dihapus
+                })
+                count += 1
+                if count >= 2: break
+        except Exception as e:
+            print(f"Error monitoring {channel_name}: {e}")
+            
+    return all_videos
+
+def get_reddit_deals():
+    print("Scraping Reddit r/coupons via RSS...")
+    url = "https://www.reddit.com/r/coupons/.rss"
     try:
-        feed = feedparser.parse("https://news.google.com/rss?ceid=ID:id&hl=id&gl=ID")
+        response = requests.get(url, headers=HEADERS, timeout=15)
+        feed = feedparser.parse(response.content)
+        deals = []
+        keywords = ['100% off', 'free', 'coupon', 'deal', 'promo']
         for entry in feed.entries:
-            if entry.title not in history:
-                history.append(entry.title)
-                return entry.title, entry.link
-    except: pass
-    return None, None
+            if any(kw.lower() in entry.title.lower() for kw in keywords):
+                deals.append(f"- {entry.title} ([Link]({entry.link}))")
+            if len(deals) >= 5: break
+        return "\n".join(deals) if deals else "Tidak ada penawaran ditemukan."
+    except Exception as e:
+        return f"Error Reddit: {str(e)}"
 
-# --- 6. DISCORD SENDERS ---
-def send_discord_text(webhook_url, title, content, color):
-    if not content: return
-    chunks = [content[i:i+4000] for i in range(0, len(content), 4000)]
-    for i, chunk in enumerate(chunks):
-        t = title if i == 0 else f"{title} (Part {i+1})"
-        requests.post(webhook_url, json={"username": "AI Assistant", "embeds": [{"title": t, "description": chunk, "color": color}]})
-        time.sleep(1)
+def get_ai_security_news():
+    print("Scraping AI Security & LLM Jailbreak Research via Google News RSS...")
+    query = "LLM Jailbreak OR Prompt Injection OR AI Adversarial Attack OR Red Teaming AI"
+    url = f"https://news.google.com/rss/search?q={requests.utils.quote(query)}&hl=en-US&gl=US&ceid=US:en"
+    results = []
+    try:
+        response = requests.get(url, headers=HEADERS, timeout=15)
+        feed = feedparser.parse(response.content)
+        for entry in feed.entries:
+            results.append({
+                "title": entry.title,
+                "link": entry.link,
+                "source": "Google News (AI Security)",
+                "image": None # Gambar dihapus
+            })
+            if len(results) >= 5: break
+    except Exception as e:
+        print(f"Error scraping AI Security News: {e}")
+    return results
 
-def send_discord_list(webhook_url, title, items, color):
+# --- Discord Sender Functions ---
+
+def send_discord_embeds(webhook_url, title, items, color=3447003):
     if not items: return
-    embeds = [{"title": i['title'], "url": i['link'], "description": f"Sumber: {i['source']}", "color": color} for i in items[:10]]
-    requests.post(webhook_url, json={"username": "News Feed", "content": f"**{title}**", "embeds": embeds})
-
-# --- MAIN LOGIC ---
-def main():
-    print("🚀 Bot Started...")
-    history = load_history()
-    discord_url = os.getenv("DISCORD_WEBHOOK")
-    
-    # --- 1. AMBIL TOPIC ---
-    tech_list = get_tech_list(history)
-    indo_title, indo_link = get_trending_indo(history)
-    mlbb_title, mlbb_link = get_mlbb_news(history) # <-- New Feature
-    
-    # Kirim Tech List ke Discord
-    if discord_url and tech_list: 
-        send_discord_list(discord_url, "📱 Tech News Feed", tech_list, 3447003)
-
-    # --- 2. PROSES AI (BERURUTAN DENGAN JEDA) ---
-
-    # A. MLBB LEAKS (Priority Gaming)
-    if mlbb_title:
-        print(f"🎮 AI Gaming: {mlbb_title}")
-        ai_gaming = generate_content_strategy(mlbb_title, 'GAMING')
-        if ai_gaming:
-            if discord_url: send_discord_text(discord_url, f"🎮 MLBB Leaks: {mlbb_title}", ai_gaming, 10181046) # Ungu
-            save_to_notion(mlbb_title, ai_gaming, "Gaming MLBB", mlbb_link)
+    embeds = []
+    for item in items:
+        hooked_title = generate_hook(item['title'])
+        embed = {
+            "title": hooked_title,
+            "url": item['link'],
+            "description": f"Sumber: {item['source']}",
+            "color": color,
+            "timestamp": datetime.datetime.utcnow().isoformat(),
+            "footer": {"text": "Daily Notifier Bot"},
+        }
+        # Baris untuk 'image' dihapus sesuai permintaan
+        embeds.append(embed)
         
-        print("⏳ Jeda 60 detik (Safety)...")
-        time.sleep(60)
+    payload = {
+        "username": "Daily Notifier Bot",
+        "content": f"**{title}**",
+        "embeds": embeds[:10]
+    }
+    try:
+        response = requests.post(webhook_url, json=payload, timeout=15)
+        response.raise_for_status()
+        print(f"Successfully sent {title} to Discord.")
+    except Exception as e:
+        print(f"Failed to send {title} to Discord: {e}")
 
-    # B. TECH NEWS
-    if tech_list:
-        tech_topic = tech_list[0]['title']
-        tech_link_url = tech_list[0]['link']
-        print(f"📱 AI Tech: {tech_topic}")
-        ai_tech = generate_content_strategy(tech_topic, 'TECH')
-        if ai_tech:
-            if discord_url: send_discord_text(discord_url, f"📱 Tech Kit: {tech_topic}", ai_tech, 5763719)
-            save_to_notion(tech_topic, ai_tech, "Tech Gadget", tech_link_url)
+def send_discord_text(webhook_url, title, content):
+    if not content: return
+    payload = {
+        "username": "Daily Notifier Bot",
+        "content": f"**{title}**\n{content}"
+    }
+    try:
+        response = requests.post(webhook_url, json=payload, timeout=15)
+        response.raise_for_status()
+        print(f"Successfully sent {title} (Text) to Discord.")
+    except Exception as e:
+        print(f"Failed to send {title} (Text) to Discord: {e}")
 
-        print("⏳ Jeda 60 detik (Safety)...")
-        time.sleep(60)
+def send_to_telegram(token, chat_id, content):
+    print("Sending to Telegram...")
+    url = f"https://api.telegram.org/bot{token}/sendMessage"
+    payload = {"chat_id": chat_id, "text": content, "parse_mode": "Markdown"}
+    try:
+        response = requests.post(url, json=payload, timeout=15)
+        response.raise_for_status()
+        print("Successfully sent to Telegram.")
+    except Exception as e:
+        print(f"Failed to send to Telegram: {e}")
 
-    # C. GENERAL NEWS
-    if indo_title:
-        print(f"📺 AI News: {indo_title}")
-        ai_news = generate_content_strategy(indo_title, 'GENERAL')
-        if ai_news:
-            if discord_url: send_discord_text(discord_url, f"📺 News Kit: {indo_title}", ai_news, 16776960)
-            save_to_notion(indo_title, ai_news, "General News", indo_link)
+# --- Main Logic ---
 
-    save_history(history)
-    print("✅ Done!")
+def main():
+    now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    
+    # 1. Ambil Data
+    google_news_id_text, top_topic_id = get_google_news_id()
+    geopolitics = get_geopolitics_news()
+    tech = get_tech_news()
+    ai_security = get_ai_security_news() # Fitur baru
+    youtube = get_youtube_monitor()
+    deals = get_reddit_deals()
+    
+    # 2. Tentukan Topik Utama untuk AI Writer (Safety Net)
+    ai_topic = top_topic_id
+    ai_persona = "default"
+    if not ai_topic and ai_security: # Prioritaskan AI Security jika ada
+        ai_topic = ai_security[0]['title']
+        ai_persona = "AI_SEC"
+    elif not ai_topic and geopolitics:
+        ai_topic = geopolitics[0]['title']
+    elif not ai_topic and tech:
+        ai_topic = tech[0]['title']
+    
+    # 3. AI Writer
+    ai_idea = "Tidak ada topik trending untuk diolah AI."
+    if ai_topic:
+        ai_idea = get_ai_content_idea(ai_topic, ai_persona)
+    
+    # 4. Format Laporan Teks (untuk file lokal dan Telegram)
+    geo_text = "\n".join([f"- {item['title']} ([Link]({item['link']}))" for item in geopolitics])
+    tech_text = "\n".join([f"- {item['title']} ([Link]({item['link']}))" for item in tech])
+    ai_sec_text = "\n".join([f"- {item['title']} ([Link]({item['link']}))" for item in ai_security])
+    yt_text = "\n".join([f"- {item['source']}: {item['title']} ([Link]({item['link']}))" for item in youtube])
+    
+    report = f"""
+# 🤖 Daily Notification Bot Report
+Generated at: {now}
+
+## 🧠 AI Content Idea (Top Topic: {ai_topic or 'N/A'})
+{ai_idea}
+
+## 🔥 Sedang Trending di Indonesia
+{google_news_id_text}
+
+## 🌍 Geopolitics (Multi-Source)
+{geo_text}
+
+## 📱 Tech News (GSMArena Latest Devices - Filtered)
+{tech_text}
+
+## 🔒 AI Security & LLM Jailbreak Research
+{ai_sec_text}
+
+## 📺 YouTube Monitor
+{yt_text}
+
+## 💸 Deals (Reddit r/coupons via RSS)
+{deals}
+
+---
+*Automated by GitHub Actions*
+"""
+    
+    # Simpan ke file lokal
+    with open("latest_report.md", "w") as f:
+        f.write(report)
+    
+    # 5. Kirim Notifikasi
+    discord_webhook = os.getenv("DISCORD_WEBHOOK")
+    telegram_token = os.getenv("TELEGRAM_TOKEN")
+    telegram_chat_id = os.getenv("TELEGRAM_CHAT_ID")
+    
+    if discord_webhook:
+        # AI Writer (Paling Atas)
+        send_discord_text(discord_webhook, "🧠 AI Content Idea", f"**Topik Utama:** {ai_topic or 'N/A'}\n\n{ai_idea}")
+        time.sleep(1) # Safety Delay
+        
+        # Kirim Embeds (Visual)
+        send_discord_embeds(discord_webhook, "🌍 Geopolitics News", geopolitics, color=16711680)
+        time.sleep(1) # Safety Delay
+        send_discord_embeds(discord_webhook, "📱 Tech News & Rumors", tech, color=3447003)
+        time.sleep(1) # Safety Delay
+        send_discord_embeds(discord_webhook, "🔒 AI Security & LLM Jailbreak Research", ai_security, color=5793266) # Warna ungu kebiruan
+        time.sleep(1) # Safety Delay
+        send_discord_embeds(discord_webhook, "📺 YouTube Competitor Monitor", youtube, color=16711935)
+        time.sleep(1) # Safety Delay
+        
+        # Kirim Teks (Non-Visual)
+        send_discord_text(discord_webhook, "🔥 Sedang Trending di Indonesia", google_news_id_text)
+        time.sleep(1) # Safety Delay
+        send_discord_text(discord_webhook, "💸 Deals & Coupons", deals)
+        
+    if telegram_token and telegram_chat_id:
+        telegram_content = report
+        if len(telegram_content) > 4096:
+            telegram_content = telegram_content[:4000] + "\n\n... (Konten terpotong)"
+        send_to_telegram(telegram_token, telegram_chat_id, telegram_content)
 
 if __name__ == "__main__":
     main()
