@@ -36,7 +36,7 @@ def research_with_perplexity(topic):
     payload = {
         "model": "sonar-pro",
         "messages": [
-            {"role": "system", "content": "Kamu Data Scraper. Cari fakta valid, angka, spesifikasi, dan kontroversi. JANGAN BEROPINI."},
+            {"role": "system", "content": "Kamu Data Scraper. Cari fakta valid, angka, spesifikasi, tanggal, dan kutipan penting. JANGAN BEROPINI."},
             {"role": "user", "content": f"Cari data lengkap tentang: {topic}"}
         ]
     }
@@ -48,7 +48,7 @@ def research_with_perplexity(topic):
         print(f"Perplexity Error: {e}")
     return None
 
-# --- 3. GROQ WRITER ---
+# --- 3. GROQ WRITER (MULTI-PLATFORM) ---
 def generate_content_strategy(topic, category='GENERAL'):
     research_data = research_with_perplexity(topic)
     context = research_data if research_data else f"Judul: {topic} (Data minim, kembangkan dari judul)."
@@ -58,39 +58,56 @@ def generate_content_strategy(topic, category='GENERAL'):
     
     client = Groq(api_key=groq_key)
 
+    # --- PROMPT BARU: WAJIB 3 PLATFORM ---
     if category == 'TECH':
         sys_prompt = f"""
-        Kamu Content Creator Tech (Ala GadgetIn).
-        Data: {context}
-        Tugas: TULIS NASKAH JADI (Siap Baca). To the point.
+        Kamu Content Creator Tech (Ala GadgetIn/David).
+        Data Riset: {context}
         
-        OUTPUT (Markdown):
-        ### 📱 NASKAH TIKTOK (Tech)
-        * **Opening:** (Hook ngegas).
-        * **Isi:** (3 Poin Spesifikasi/Fakta).
-        * **Closing:** (Kesimpulan: Worth it/Skip?).
+        Tugas: Buat konten media sosial lengkap.
         
-        ### 💰 ANALISA CUAN
-        * **Status:** (BELI / TAHAN / SKIP)
-        * **Alasan:** (1 Kalimat).
+        OUTPUT WAJIB (Markdown):
+        
+        ### 📱 TIKTOK / REELS (Naskah)
+        * **Visual:** (Saran visual, misal: Zoom ke kamera).
+        * **Audio:** (Saran musik/sfx).
+        * **Script:** (Dialog lengkap: Opening Hook -> Spesifikasi -> Kelebihan/Kekurangan -> Closing).
+        
+        ### 📸 INSTAGRAM (Feed/Carousel)
+        * **Caption:** (Gaya review santai, estetik).
+        * **Slide 1-3:** (Ide isi gambar slide).
+        * **Hashtags:** (10 hashtag relevan).
+        
+        ### 🐦 X / TWITTER (Post)
+        * **Tweet:** (Pendapat singkat, padat, dan "Savage" tentang produk ini).
+        
+        ### 💰 MARKET INSIGHT
+        * **Verdict:** (BELI / TAHAN / SKIP).
+        * **Alasan:** (Singkat).
         """
     else:
         sys_prompt = f"""
-        Kamu News Anchor Senior.
-        Data: {context}
-        Tugas: TULIS TEKS BERITA JADI. Investigatif.
+        Kamu Social Media Strategist untuk Portal Berita.
+        Data Riset: {context}
         
-        OUTPUT (Markdown):
-        ### 📺 NASKAH BERITA (News)
-        * **Headline:** (Judul Bombastis).
-        * **Lead:** (1 Kalimat pembuka).
-        * **Fakta:** (Poin-poin 5W+1H).
-        * **Closing:** (Pertanyaan ke penonton).
+        Tugas: Buat paket konten berita untuk 3 platform.
         
-        ### 🐦 THREAD X
-        * Tweet 1: (Fakta Utama).
-        * Tweet 2: (Data).
-        * Tweet 3: (Kesimpulan).
+        OUTPUT WAJIB (Markdown):
+        
+        ### 📱 TIKTOK / REELS (Breaking News)
+        * **Headline Video:** (Teks di layar).
+        * **Script:** (Naskah 60 detik gaya News Anchor: Lead -> Fakta 1 -> Fakta 2 -> Closing).
+        
+        ### 📸 INSTAGRAM (Postingan)
+        * **Headline Image:** (Teks untuk di gambar).
+        * **Caption:** (Gaya editorial, deep dive, analitis, paragraf rapi).
+        * **Hashtags:** (10 hashtag berita).
+        
+        ### 🐦 X / TWITTER (Thread Investigasi)
+        * **Tweet 1:** (Hook Fakta Mengejutkan).
+        * **Tweet 2:** (Data/Angka Pendukung).
+        * **Tweet 3:** (Konteks/Kronologi).
+        * **Tweet 4:** (Kesimpulan/Pertanyaan).
         """
 
     try:
@@ -98,10 +115,10 @@ def generate_content_strategy(topic, category='GENERAL'):
             model="llama-3.3-70b-versatile",
             messages=[
                 {"role": "system", "content": sys_prompt},
-                {"role": "user", "content": f"Buat konten: {topic}"}
+                {"role": "user", "content": f"Buatkan konten: {topic}"}
             ],
             temperature=0.6,
-            max_tokens=4096 # <-- DIUPDATE: Batas token dimaksimalkan agar tidak kepotong
+            max_tokens=4096 # Token maksimal
         )
         return completion.choices[0].message.content
     except Exception as e:
@@ -155,18 +172,16 @@ def get_trending_indo(history):
     except: pass
     return None, None
 
-# --- 5. DISCORD SENDERS (DENGAN FITUR ANTI-POTONG) ---
+# --- 5. DISCORD SENDERS ---
 def send_discord_text(webhook_url, title, content, color):
     if not content: return
-    
-    # Fitur Chunking: Pecah pesan jika > 4000 karakter
+    # Chunking pesan panjang
     chunks = [content[i:i+4000] for i in range(0, len(content), 4000)]
-    
     for i, chunk in enumerate(chunks):
         title_part = title if i == 0 else f"{title} (Part {i+1})"
         embed = {"title": title_part, "description": chunk, "color": color}
         requests.post(webhook_url, json={"username": "AI Assistant", "embeds": [embed]})
-        time.sleep(1) # Jeda dikit biar Discord gak marah
+        time.sleep(1)
 
 def send_discord_list(webhook_url, title, items, color):
     if not items: return
@@ -192,21 +207,18 @@ def main():
     tech_list = get_tech_list(history)
     indo_title, indo_link = get_trending_indo(history)
     
-    # 2. KIRIM LIST BERITA (News Feed)
+    # 2. KIRIM LIST BERITA
     if discord_url:
-        if geo_list: 
-            send_discord_list(discord_url, "🌍 Geopolitics News", geo_list, 15158332)
-        if tech_list: 
-            send_discord_list(discord_url, "📱 Tech News Feed", tech_list, 3447003)
+        if geo_list: send_discord_list(discord_url, "🌍 Geopolitics News", geo_list, 15158332)
+        if tech_list: send_discord_list(discord_url, "📱 Tech News Feed", tech_list, 3447003)
 
-    # 3. AI SECTION
-    
-    # A. AI GENERAL NEWS
+    # 3. AI SECTION (DUAL ENGINE)
+    # A. AI GENERAL
     if indo_title:
         print(f"🧠 AI General: {indo_title}")
         ai_news = generate_content_strategy(indo_title, 'GENERAL')
         if discord_url:
-            send_discord_text(discord_url, f"📺 AI News Script: {indo_title}", ai_news, 16776960)
+            send_discord_text(discord_url, f"📺 News Content Kit: {indo_title}", ai_news, 16776960)
 
     # B. AI TECH
     if tech_list:
@@ -214,7 +226,7 @@ def main():
         print(f"🧠 AI Tech: {tech_topic}")
         ai_tech = generate_content_strategy(tech_topic, 'TECH')
         if discord_url:
-            send_discord_text(discord_url, f"📱 AI Tech Script: {tech_topic}", ai_tech, 5763719)
+            send_discord_text(discord_url, f"📱 Tech Content Kit: {tech_topic}", ai_tech, 5763719)
 
     # 4. SIMPAN
     save_history(history)
