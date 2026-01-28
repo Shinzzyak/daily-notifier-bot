@@ -1,5 +1,5 @@
 requests
 beautifulsoup4
 feedparser
-google-generativeai>=0.8.3
 lxml
+groq
