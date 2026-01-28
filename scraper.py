@@ -8,14 +8,13 @@ import time
 import json
 from groq import Groq
 
-# Header User-Agent palsu untuk menghindari pemblokiran
+# --- KONFIGURASI ---
 HEADERS = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
 }
-
 HISTORY_FILE = 'history.json'
 
-# --- Memory Functions ---
+# --- 1. MEMORY SYSTEM (Agar tidak bahas berita basi) ---
 def load_history():
     if os.path.exists(HISTORY_FILE):
         try:
@@ -26,254 +25,188 @@ def load_history():
     return []
 
 def save_history(history):
-    # Batasi hanya 50 judul terakhir
+    # Simpan 50 berita terakhir saja agar file tidak bengkak
     with open(HISTORY_FILE, 'w') as f:
         json.dump(history[-50:], f, indent=4)
 
-# --- Helper Functions ---
-EMOTIONAL_PREFIXES = [
-    '🔥 BREAKING:', '🤯 GILA:', '⚠️ WAJIB TAU:', 
-    '📱 UPDATE PENTING:', '💸 DISKON GEDE:', '🤔 MENDING MANA?'
-]
-
-def generate_hook(original_title):
-    prefix = random.choice(EMOTIONAL_PREFIXES)
-    return f"{prefix} {original_title}"
-
-# --- AI Writer Function (Groq) ---
-def get_ai_content_idea(trending_topic, category='GENERAL'):
-    """Menggunakan Groq (Llama 3.3) dengan persona yang disesuaikan kategori."""
-    api_key = os.getenv('GROQ_API_KEY')
+# --- 2. PERPLEXITY RESEARCHER (Otak Kiri/Pencari Fakta) ---
+def research_with_perplexity(topic):
+    """Mencari fakta mendalam tentang topik menggunakan Perplexity."""
+    api_key = os.getenv('PERPLEXITY_API_KEY')
     if not api_key:
-        return "Error: GROQ_API_KEY tidak ditemukan."
+        return None # Lanjut tanpa riset jika key tidak ada
+
+    url = "https://api.perplexity.ai/chat/completions"
+    headers = {
+        "Authorization": f"Bearer {api_key}",
+        "Content-Type": "application/json"
+    }
+    
+    # Prompt Riset
+    payload = {
+        "model": "sonar-pro", # Model Online yang hemat & pintar
+        "messages": [
+            {
+                "role": "system",
+                "content": "Kamu adalah Jurnalis Investigasi. Cari fakta valid, angka spesifik, kronologi, dan kontroversi dari topik ini. JANGAN berikan saran. Fokus ke data mentah."
+            },
+            {
+                "role": "user",
+                "content": f"Riset topik ini: {topic}"
+            }
+        ]
+    }
     
     try:
-        client = Groq(api_key=api_key)
-        time.sleep(1) # Safety delay
-        
-        if category == 'TECH':
-            system_prompt = """
-            Persona: Tech Reviewer Profesional (Gaya ala GadgetIn/MKBHD).
-            Tugas: Buat ide konten TikTok tentang gadget/HP terbaru.
-            Fokus: Spesifikasi Inti, Harga, Kelebihan/Kekurangan.
-            Market Insight: Bahas Resale Value atau bandingkan dengan kompetitor (Mending beli ini atau X?).
-            Netizen Check: Prediksi keluhan netizen (Misal: 'Baterai boros', 'Mahal banget').
-            Bahasa: Gaul Indonesia, santai tapi informatif.
-            """
+        response = requests.post(url, json=payload, headers=headers, timeout=30)
+        if response.status_code == 200:
+            return response.json()['choices'][0]['message']['content']
         else:
-            system_prompt = """
-            Persona: Senior News Anchor (Gaya Berwibawa & Investigatif).
-            Tugas: Buat ringkasan berita viral dengan format 5W+1H.
-            Fokus: Fakta utama, dampak kejadian, dan investigasi singkat.
-            Bahasa: Formal tapi tetap menarik untuk audiens media sosial.
-            """
+            print(f"Perplexity Error: {response.text}")
+            return None
+    except Exception as e:
+        print(f"Perplexity Exception: {e}")
+        return None
 
-        prompt = f"""
-        Topik: "{trending_topic}"
+# --- 3. GROQ WRITER (Otak Kanan/Penulis Kreatif) ---
+def generate_content_strategy(topic, category='GENERAL'):
+    """Menulis strategi konten berdasarkan hasil riset Perplexity."""
+    
+    # A. Lakukan Riset Dulu
+    print(f"🕵️ Sedang meriset: {topic}...")
+    research_data = research_with_perplexity(topic)
+    
+    # Jika Perplexity gagal/habis kuota, pakai data judul saja
+    context_data = research_data if research_data else f"Judul Berita: {topic} (Maaf, riset mendalam gagal, kembangkan dari judul ini)."
+
+    # B. Siapkan Groq
+    groq_api_key = os.getenv('GROQ_API_KEY')
+    if not groq_api_key:
+        return "Error: GROQ_API_KEY missing."
+
+    client = Groq(api_key=groq_api_key)
+
+    # C. Tentukan Persona (Tech vs General)
+    if category == 'TECH':
+        system_prompt = f"""
+        Kamu adalah Tech Reviewer 'Savage' (Ala GadgetIn/MKBHD).
+        Data Riset: {context_data}
         
-        Buatkan ide konten TikTok yang viral. Format output:
-        *Hook:* [Kalimat pembuka yang sangat menarik]
-        *Pembahasan 1:* [Poin utama 1]
-        *Pembahasan 2:* [Poin utama 2]
-        *Pembahasan 3:* [Poin utama 3]
+        Tugas: Buat konten review gadget/teknologi.
+        Gaya Bahasa: Santai, teknis tapi mudah dimengerti, objektif.
+        
+        OUTPUT WAJIB (Markdown):
+        1. 📱 TIKTOK (60s): Hook (Masalah/Kelebihan utama) -> Spesifikasi Dewa vs Sunat -> Kesimpulan (Worth it/Gak?).
+        2. 🐦 TWITTER/X: Utas pendek membandingkan dengan kompetitor.
+        3. 💰 MARKET INSIGHT: Prediksi harga jual kembali (resale value) & saran beli (Tunggu turun harga atau beli sekarang?).
         """
+    else:
+        system_prompt = f"""
+        Kamu adalah Senior News Anchor & Analis Media Sosial.
+        Data Riset: {context_data}
         
+        Tugas: Buat paket berita lengkap.
+        Gaya Bahasa: Berwibawa, Tajam, Investigatif (Ala Breaking News).
+        
+        OUTPUT WAJIB (Markdown):
+        1. 📺 TIKTOK (News Style): Headline -> Kronologi Fakta (3 Poin) -> Pertanyaan Kritis untuk Audiens.
+        2. 🐦 TWITTER/X (Jurnalistik): Thread investigasi 3-5 tweet (Data & Angka).
+        3. 📰 INSTAGRAM (Editorial): Caption mendalam + Analisa Hukum/Sosial singkat + 10 Hashtag.
+        4. 🗣️ NETIZEN SIMULATOR: Prediksi komentar Pro vs Kontra.
+        """
+
+    try:
         completion = client.chat.completions.create(
             model="llama-3.3-70b-versatile",
             messages=[
                 {"role": "system", "content": system_prompt},
-                {"role": "user", "content": prompt}
+                {"role": "user", "content": "Buatkan strategi konten sekarang."}
             ],
             temperature=0.7,
-            max_tokens=600
+            max_tokens=2048 # Token diperbesar agar output tidak terpotong
         )
-        return completion.choices[0].message.content.strip()
-        
+        return completion.choices[0].message.content
     except Exception as e:
-        return f"Error AI Writer (Groq): {e}"
+        return f"Error Groq: {e}"
 
-# --- Scraping Functions ---
-def get_google_news_id(history):
-    print("Scraping Google News Indonesia...")
+# --- 4. SCRAPERS (Pengumpul Data) ---
+def get_trending_indo(history):
+    # Menggunakan Google News RSS (Lebih stabil dari Pytrends)
     url = "https://news.google.com/rss?ceid=ID:id&hl=id&gl=ID"
     try:
-        response = requests.get(url, headers=HEADERS, timeout=15)
-        feed = feedparser.parse(response.content)
-        news_list = []
-        new_top_topic = None
-        
+        feed = feedparser.parse(url)
         for entry in feed.entries:
             if entry.title not in history:
-                if not new_top_topic: new_top_topic = entry.title
-                news_list.append(f"- {entry.title} ([Link]({entry.link}))")
-                history.append(entry.title)
-            if len(news_list) >= 5: break
-            
-        return "\n".join(news_list) if news_list else "Tidak ada berita baru.", new_top_topic
-    except Exception as e:
-        return f"Error Google News ID: {str(e)}", None
-
-def get_geopolitics_news(history):
-    print("Scraping Geopolitics news...")
-    RSS_SOURCES = {
-        "Al Jazeera": "https://www.aljazeera.com/xml/rss/all.xml",
-        "BBC World": "http://feeds.bbci.co.uk/news/world/rss.xml"
-    }
-    all_news = []
-    keywords = ['war', 'conflict', 'military', 'battle', 'army', 'attack', 'strike', 'geopolitics']
-    
-    for source_name, url in RSS_SOURCES.items():
-        try:
-            response = requests.get(url, headers=HEADERS, timeout=15)
-            feed = feedparser.parse(response.content)
-            count = 0
-            for entry in feed.entries:
-                if entry.title not in history and any(keyword.lower() in entry.title.lower() for keyword in keywords):
-                    all_news.append({
-                        "title": entry.title,
-                        "link": entry.link,
-                        "source": source_name
-                    })
-                    history.append(entry.title)
-                    count += 1
-                if count >= 3: break
-        except Exception as e:
-            print(f"Error scraping {source_name}: {e}")
-            
-    return all_news
+                history.append(entry.title) # Tandai sudah dibahas
+                return entry.title, entry.link
+        return None, None
+    except:
+        return None, None
 
 def get_tech_news(history):
-    print("Scraping GSMArena...")
-    url = "https://www.gsmarena.com/news.php3"
-    results = []
-    brand_filter = ['Samsung', 'Apple', 'iPhone', 'Xiaomi', 'Redmi', 'Poco', 'Infinix', 'iQOO', 'Realme', 'Pixel']
-    
+    # Ambil dari GSMArena / TechCrunch RSS
+    url = "https://www.gsmarena.com/rss-news-reviews.php3"
     try:
-        response = requests.get(url, headers=HEADERS, timeout=15)
-        soup = BeautifulSoup(response.text, 'html.parser')
-        items = soup.find_all('div', class_='news-item')
-        
-        for item in items:
-            title_tag = item.find('h3')
-            link_tag = item.find('a')
-            if title_tag and link_tag:
-                title = title_tag.text.strip()
-                if title not in history and any(brand.lower() in title.lower() for brand in brand_filter):
-                    results.append({
-                        "title": title,
-                        "link": "https://www.gsmarena.com/" + link_tag['href'],
-                        "source": "GSMArena"
-                    })
-                    history.append(title)
-                if len(results) >= 5: break
-        return results
-    except Exception as e:
-        print(f"Error GSMArena: {e}")
-        return []
-
-def get_reddit_deals(history):
-    print("Scraping Reddit r/coupons via RSS...")
-    url = "https://www.reddit.com/r/coupons/new/.rss"
-    try:
-        response = requests.get(url, headers=HEADERS, timeout=15)
-        feed = feedparser.parse(response.content)
-        deals = []
-        keywords = ['100% off', 'free', 'coupon', 'deal', 'promo']
-        
+        feed = feedparser.parse(url)
         for entry in feed.entries:
-            if entry.title not in history and any(kw.lower() in title.lower() for kw in keywords):
-                deals.append(f"- {entry.title} ([Link]({entry.link}))")
-                history.append(entry.title)
-            if len(deals) >= 5: break
-            
-        return "\n".join(deals) if deals else "Tidak ada penawaran baru."
-    except Exception as e:
-        return f"Error Reddit (RSS): {str(e)}"
+            if entry.title not in history:
+                # Filter keyword HP populer
+                if any(x in entry.title.lower() for x in ['samsung', 'apple', 'xiaomi', 'pixel', 'infinix']):
+                    history.append(entry.title)
+                    return entry.title, entry.link
+        return None, None
+    except:
+        return None, None
 
-# --- Discord Sender Functions ---
-def send_discord_text(webhook_url, title, content):
+# --- 5. UTILITY DISCORD ---
+def send_discord(webhook_url, title, content, color=3447003):
     if not content: return
-    payload = {"username": "Daily Notifier Bot", "content": f"**{title}**\n{content}"}
-    requests.post(webhook_url, json=payload, timeout=15)
+    # Potong content jika terlalu panjang (Discord limit 4096 chars)
+    if len(content) > 4000: content = content[:4000] + "..."
+    
+    embed = {
+        "title": title,
+        "description": content,
+        "color": color,
+        "footer": {"text": "Powered by Perplexity & Groq Llama 3"}
+    }
+    payload = {"username": "News AI Bot", "embeds": [embed]}
+    requests.post(webhook_url, json=payload)
 
-def send_discord_embeds(webhook_url, title, items, color=3447003):
-    if not items: return
-    embeds = [{"title": generate_hook(item['title']), "url": item['link'], "description": f"Sumber: {item['source']}", "color": color} for item in items]
-    payload = {"username": "Daily Notifier Bot", "content": f"**{title}**", "embeds": embeds[:10]}
-    requests.post(webhook_url, json=payload, timeout=15)
-
-def send_to_telegram(token, chat_id, content):
-    url = f"https://api.telegram.org/bot{token}/sendMessage"
-    payload = {"chat_id": chat_id, "text": content, "parse_mode": "Markdown"}
-    requests.post(url, json=payload, timeout=15)
-
-# --- Main Logic ---
+# --- MAIN LOGIC ---
 def main():
-    now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    print("🤖 Bot Starting...")
     history = load_history()
+    discord_url = os.getenv("DISCORD_WEBHOOK")
     
-    # 1. Ambil Data
-    google_news_text, top_news_topic = get_google_news_id(history)
-    geopolitics = get_geopolitics_news(history)
-    tech = get_tech_news(history)
-    deals = get_reddit_deals(history)
+    reports = []
     
-    # 2. AI Writer (Smart Category)
-    ai_reports = []
-    if top_news_topic:
-        ai_reports.append(f"**[NEWS]** {top_news_topic}\n{get_ai_content_idea(top_news_topic, 'GENERAL')}")
-    if tech:
-        top_tech = tech[0]['title']
-        ai_reports.append(f"**[TECH]** {top_tech}\n{get_ai_content_idea(top_tech, 'TECH')}")
-    
-    ai_final_text = "\n\n---\n\n".join(ai_reports) if ai_reports else "Tidak ada berita baru untuk diolah AI."
-    
-    # 3. Format Laporan
-    geo_text = "\n".join([f"- {item['title']} ([Link]({item['link']}))" for item in geopolitics])
-    tech_text = "\n".join([f"- {item['title']} ([Link]({item['link']}))" for item in tech])
-    
-    report = f"""
-# 🤖 Daily Notification Bot Report
-Generated at: {now}
+    # A. Cek Berita Umum (Trending Indo)
+    topic_indo, link_indo = get_trending_indo(history)
+    if topic_indo:
+        print(f"Found News: {topic_indo}")
+        content = generate_content_strategy(topic_indo, category='GENERAL')
+        reports.append(("🇮🇩 Trending Indonesia", f"**Topik:** {topic_indo}\n[Baca Sumber]({link_indo})\n\n{content}", 16711680))
+    else:
+        print("No new General News.")
 
-## 🧠 AI Content Ideas
-{ai_final_text}
+    # B. Cek Berita Tech
+    topic_tech, link_tech = get_tech_news(history)
+    if topic_tech:
+        print(f"Found Tech: {topic_tech}")
+        content = generate_content_strategy(topic_tech, category='TECH')
+        reports.append(("📱 Tech Update", f"**Topik:** {topic_tech}\n[Baca Sumber]({link_tech})\n\n{content}", 3447003))
+    else:
+        print("No new Tech News.")
 
-## 🔥 Trending Indonesia
-{google_news_text}
-
-## 🌍 Geopolitics
-{geo_text}
-
-## 📱 Tech News
-{tech_text}
-
-## 💸 Deals
-{deals}
-
----
-*Automated by GitHub Actions*
-"""
-    
-    with open("latest_report.md", "w") as f:
-        f.write(report)
-    
-    save_history(history)
-    
-    # 4. Kirim Notifikasi
-    discord_webhook = os.getenv("DISCORD_WEBHOOK")
-    telegram_token = os.getenv("TELEGRAM_TOKEN")
-    telegram_chat_id = os.getenv("TELEGRAM_CHAT_ID")
-    
-    if discord_webhook:
-        if ai_reports: send_discord_text(discord_webhook, "🧠 AI Content Ideas", ai_final_text)
-        if geopolitics: send_discord_embeds(discord_webhook, "🌍 Geopolitics", geopolitics, color=16711680)
-        if tech: send_discord_embeds(discord_webhook, "📱 Tech News", tech, color=3447003)
-        if google_news_text != "Tidak ada berita baru.": send_discord_text(discord_webhook, "🔥 Trending Indonesia", google_news_text)
-        if deals != "Tidak ada penawaran baru.": send_discord_text(discord_webhook, "💸 Deals", deals)
-        
-    if telegram_token and telegram_chat_id:
-        send_to_telegram(telegram_token, telegram_chat_id, report[:4000])
+    # C. Kirim & Simpan
+    if reports:
+        for title, text, color in reports:
+            if discord_url: send_discord(discord_url, title, text, color)
+        save_history(history)
+        print("✅ Done! Laporan terkirim & History disimpan.")
+    else:
+        print("💤 Tidak ada berita baru yang belum dibahas.")
 
 if __name__ == "__main__":
     main()
