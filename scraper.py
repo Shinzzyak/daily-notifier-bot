@@ -90,6 +90,7 @@ def generate_content_strategy(topic, category='GENERAL'):
         ### 🐦 THREAD X
         * Tweet 1: (Fakta Utama).
         * Tweet 2: (Data).
+        * Tweet 3: (Kesimpulan).
         """
 
     try:
@@ -100,7 +101,7 @@ def generate_content_strategy(topic, category='GENERAL'):
                 {"role": "user", "content": f"Buat konten: {topic}"}
             ],
             temperature=0.6,
-            max_tokens=1500
+            max_tokens=4096 # <-- DIUPDATE: Batas token dimaksimalkan agar tidak kepotong
         )
         return completion.choices[0].message.content
     except Exception as e:
@@ -154,12 +155,18 @@ def get_trending_indo(history):
     except: pass
     return None, None
 
-# --- 5. DISCORD SENDERS ---
+# --- 5. DISCORD SENDERS (DENGAN FITUR ANTI-POTONG) ---
 def send_discord_text(webhook_url, title, content, color):
     if not content: return
-    if len(content) > 4000: content = content[:4000] + "..."
-    embed = {"title": title, "description": content, "color": color}
-    requests.post(webhook_url, json={"username": "AI Assistant", "embeds": [embed]})
+    
+    # Fitur Chunking: Pecah pesan jika > 4000 karakter
+    chunks = [content[i:i+4000] for i in range(0, len(content), 4000)]
+    
+    for i, chunk in enumerate(chunks):
+        title_part = title if i == 0 else f"{title} (Part {i+1})"
+        embed = {"title": title_part, "description": chunk, "color": color}
+        requests.post(webhook_url, json={"username": "AI Assistant", "embeds": [embed]})
+        time.sleep(1) # Jeda dikit biar Discord gak marah
 
 def send_discord_list(webhook_url, title, items, color):
     if not items: return
@@ -171,7 +178,6 @@ def send_discord_list(webhook_url, title, items, color):
             "description": f"Sumber: {item['source']}",
             "color": color
         })
-    # Kirim list berita (Max 10 per pesan)
     payload = {"username": "News Feed", "content": f"**{title}**", "embeds": embeds[:10]}
     requests.post(webhook_url, json=payload)
 
@@ -181,37 +187,36 @@ def main():
     history = load_history()
     discord_url = os.getenv("DISCORD_WEBHOOK")
     
-    # --- 1. AMBIL DATA ---
+    # 1. AMBIL DATA
     geo_list = get_geopolitics_list(history)
     tech_list = get_tech_list(history)
     indo_title, indo_link = get_trending_indo(history)
     
-    # --- 2. KIRIM LIST BERITA DULU (Agar tidak hilang) ---
+    # 2. KIRIM LIST BERITA (News Feed)
     if discord_url:
         if geo_list: 
-            send_discord_list(discord_url, "🌍 Geopolitics News", geo_list, 15158332) # Merah
+            send_discord_list(discord_url, "🌍 Geopolitics News", geo_list, 15158332)
         if tech_list: 
-            send_discord_list(discord_url, "📱 Tech News Feed", tech_list, 3447003) # Biru
+            send_discord_list(discord_url, "📱 Tech News Feed", tech_list, 3447003)
 
-    # --- 3. AI SECTION (JALANKAN KEDUANYA) ---
+    # 3. AI SECTION
     
-    # A. AI GENERAL NEWS (Indo/Politik)
+    # A. AI GENERAL NEWS
     if indo_title:
-        print(f"🧠 AI General Processing: {indo_title}")
+        print(f"🧠 AI General: {indo_title}")
         ai_news = generate_content_strategy(indo_title, 'GENERAL')
         if discord_url:
-            send_discord_text(discord_url, f"📺 AI News Script: {indo_title}", ai_news, 16776960) # Kuning
+            send_discord_text(discord_url, f"📺 AI News Script: {indo_title}", ai_news, 16776960)
 
-    # B. AI TECH (Gadget)
-    # Ambil topik tech dari list tech yang baru discrape (jika ada)
+    # B. AI TECH
     if tech_list:
         tech_topic = tech_list[0]['title']
-        print(f"🧠 AI Tech Processing: {tech_topic}")
+        print(f"🧠 AI Tech: {tech_topic}")
         ai_tech = generate_content_strategy(tech_topic, 'TECH')
         if discord_url:
-            send_discord_text(discord_url, f"📱 AI Tech Script: {tech_topic}", ai_tech, 5763719) # Hijau Teal
+            send_discord_text(discord_url, f"📱 AI Tech Script: {tech_topic}", ai_tech, 5763719)
 
-    # --- 4. SIMPAN ---
+    # 4. SIMPAN
     save_history(history)
     print("✅ Done!")
 
