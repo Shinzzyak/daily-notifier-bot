@@ -131,24 +131,26 @@ def get_tech_news():
         return []
 
 def get_reddit_deals():
-    print("Scraping Reddit r/coupons...")
-    url = "https://www.reddit.com/r/coupons/new/.json?limit=25"
+    print("Scraping Reddit r/coupons via RSS...")
+    # Menggunakan RSS feed karena lebih stabil dan jarang diblokir dibanding JSON API
+    url = "https://www.reddit.com/r/coupons/new/.rss"
     try:
         response = requests.get(url, headers=HEADERS, timeout=15)
-        data = response.json()
-        posts = data['data']['children']
-        deals = []
-        keywords = ['100% off', 'free', 'coupon', 'deal']
+        feed = feedparser.parse(response.content)
         
-        for post in posts:
-            title = post['data']['title']
-            link = "https://www.reddit.com" + post['data']['permalink']
+        deals = []
+        keywords = ['100% off', 'free', 'coupon', 'deal', 'promo']
+        
+        for entry in feed.entries:
+            title = entry.title
+            link = entry.link
             if any(kw.lower() in title.lower() for kw in keywords):
                 deals.append(f"- {title} ([Link]({link}))")
             if len(deals) >= 5: break
-        return "\n".join(deals) if deals else "Tidak ada penawaran ditemukan."
+            
+        return "\n".join(deals) if deals else "Tidak ada penawaran ditemukan saat ini."
     except Exception as e:
-        return f"Error Reddit: {str(e)}"
+        return f"Error Reddit (RSS): {str(e)}"
 
 # --- Discord Sender Functions ---
 def send_discord_embeds(webhook_url, title, items, color=3447003):
