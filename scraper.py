@@ -3,8 +3,9 @@ import requests
 import feedparser
 import json
 import time
+from bs4 import BeautifulSoup # Wajib ada buat Deep Scraper
 from groq import Groq
-from duckduckgo_search import DDGS # Library pencari gratis
+from duckduckgo_search import DDGS
 
 # --- KONFIGURASI ---
 HEADERS = {
@@ -26,37 +27,64 @@ def save_history(history):
     with open(HISTORY_FILE, 'w') as f:
         json.dump(history[-60:], f, indent=4)
 
-# --- 2. RISET SYSTEM (HYBRID: PERPLEXITY -> FALLBACK GROQ) ---
+# --- 2. DEEP RESEARCH SYSTEM (PERPLEXITY -> FALLBACK DEEP) ---
 
-def research_fallback_free(topic):
+def scrape_url_content(url):
     """
-    Alternatif Gratis: Mencari data pakai DuckDuckGo, lalu diringkas.
-    Dipanggil kalau Perplexity mati/habis kuota.
+    Fungsi 'Mata-Mata': Masuk ke link website dan sedot teks paragrafnya.
+    Ini menggantikan peran 'Browsing' di Perplexity.
     """
-    print(f"⚠️ Perplexity Error/Habis. Beralih ke Mode Gratis (DuckDuckGo)...")
+    print(f"📖 Membaca isi artikel: {url}...")
     try:
-        results = DDGS().text(topic, max_results=4) # Ambil 4 artikel teratas
+        response = requests.get(url, headers=HEADERS, timeout=10)
+        soup = BeautifulSoup(response.content, 'html.parser')
+        
+        # Ambil semua tag <p> (paragraf)
+        paragraphs = soup.find_all('p')
+        full_text = " ".join([p.get_text() for p in paragraphs])
+        
+        # Potong jika kepanjangan (Biar Groq gak mabok, max 6000 karakter)
+        return full_text[:6000] 
+    except Exception as e:
+        print(f"Gagal baca artikel: {e}")
+        return None
+
+def research_fallback_deep(topic):
+    """
+    Mode Gratis tapi CANGGIH:
+    1. Cari link di DuckDuckGo.
+    2. Buka Link teratas.
+    3. Baca isinya sampai habis.
+    """
+    print(f"⚠️ Mode Fallback: Melakukan Deep Scraping Manual...")
+    try:
+        # 1. Cari Link
+        results = DDGS().text(topic, max_results=2)
         if not results: return None
         
-        # Gabungkan hasil pencarian jadi satu teks panjang
-        raw_data = ""
-        for r in results:
-            raw_data += f"- {r['title']}: {r['body']}\n"
+        # 2. Ambil Link Pertama
+        top_url = results[0]['href']
+        top_snippet = results[0]['body']
+        
+        # 3. Baca Isi Full Artikel (Deep Dive)
+        full_content = scrape_url_content(top_url)
+        
+        if full_content and len(full_content) > 500:
+            return f"[SUMBER: {top_url}]\nDATA ARTIKEL LENGKAP:\n{full_content}"
+        else:
+            # Kalau gagal baca full, pakai snippet aja
+            return f"[SUMBER: DuckDuckGo]\nDATA RINGKAS:\n{top_snippet}"
             
-        return f"[MODE GRATIS] Data dari Web:\n{raw_data}"
     except Exception as e:
-        print(f"Fallback Error: {e}")
+        print(f"Fallback Deep Error: {e}")
         return None
 
 def research_with_perplexity(topic):
-    """
-    Mencoba riset pakai Perplexity dulu. Kalau gagal, lempar ke Fallback.
-    """
     api_key = os.getenv('PERPLEXITY_API_KEY')
     
-    # Jika API Key tidak ada, langsung pakai Fallback
+    # Kalau API Key kosong, langsung Deep Search Gratis
     if not api_key: 
-        return research_fallback_free(topic)
+        return research_fallback_deep(topic)
 
     print(f"🕵️ Riset Premium (Perplexity): {topic}...")
     url = "https://api.perplexity.ai/chat/completions"
@@ -74,17 +102,16 @@ def research_with_perplexity(topic):
         if response.status_code == 200:
             return response.json()['choices'][0]['message']['content']
         else:
-            # Jika API Error (misal kuota habis), panggil Fallback
-            print(f"Perplexity Status {response.status_code}. Switch ke Fallback.")
-            return research_fallback_free(topic)
+            print(f"Perplexity Limit/Error. Switch ke Deep Fallback.")
+            return research_fallback_deep(topic)
             
     except Exception as e:
-        print(f"Perplexity Connection Error: {e}. Switch ke Fallback.")
-        return research_fallback_free(topic)
+        print(f"Perplexity Connection Error. Switch ke Deep Fallback.")
+        return research_fallback_deep(topic)
 
 # --- 3. GROQ WRITER (MULTI-PLATFORM) ---
 def generate_content_strategy(topic, category='GENERAL'):
-    # Step A: Riset (Otomatis pilih Premium atau Gratis)
+    # Step A: Riset (Otomatis pilih Premium atau Deep Fallback)
     research_data = research_with_perplexity(topic)
     context = research_data if research_data else f"Judul: {topic} (Data minim, kembangkan dari judul)."
 
@@ -99,7 +126,8 @@ def generate_content_strategy(topic, category='GENERAL'):
         Kamu Content Creator Tech (Ala GadgetIn/David).
         Data Riset: {context}
         
-        Tugas: Buat konten media sosial lengkap.
+        Tugas: Buat konten media sosial lengkap 3 Platform.
+        Gunakan data spesifikasi/harga dari Data Riset dengan akurat.
         
         OUTPUT WAJIB (Markdown):
         
@@ -125,6 +153,7 @@ def generate_content_strategy(topic, category='GENERAL'):
         Data Riset: {context}
         
         Tugas: Buat paket konten berita 3 platform.
+        Gunakan fakta 5W+1H dari Data Riset.
         
         OUTPUT WAJIB (Markdown):
         
