@@ -35,7 +35,7 @@ def scrape_url_content(url):
         soup = BeautifulSoup(response.content, 'html.parser')
         paragraphs = soup.find_all('p')
         full_text = " ".join([p.get_text() for p in paragraphs])
-        return full_text[:6000] # Limit karakter biar token aman
+        return full_text[:6000]
     except Exception as e:
         print(f"Gagal baca artikel: {e}")
         return None
@@ -78,72 +78,67 @@ def research_with_perplexity(topic):
     except:
         return research_fallback_deep(topic)
 
-# --- 3. GROQ WRITER (HOOK + IMAGE PROMPT) ---
+# --- 3. GROQ WRITER ---
 def generate_content_strategy(topic, category='GENERAL'):
     research_data = research_with_perplexity(topic)
     context = research_data if research_data else f"Judul: {topic}"
 
     groq_key = os.getenv('GROQ_API_KEY')
-    if not groq_key: return "Error: GROQ_API_KEY missing."
+    if not groq_key: return None # Return None biar ketahuan error
     
     client = Groq(api_key=groq_key)
 
-    # --- PROMPT DIUPDATE DENGAN FITUR BARU ---
     if category == 'TECH':
         sys_prompt = f"""
         Kamu Content Creator Tech (Ala GadgetIn).
         Data Riset: {context}
-        
-        Tugas: Buat konten lengkap dengan Variasi Hook & Prompt Gambar.
+        Tugas: Buat konten lengkap + Variasi Hook.
         
         OUTPUT WAJIB (Markdown):
+        ### 🎣 5 HOOK VIRAL
+        1. Fear: ...
+        2. Curiosity: ...
+        3. Price: ...
+        4. Versus: ...
+        5. Savage: ...
         
-        ### 🎣 5 PILIHAN HOOK VIRAL (Pilih Satu)
-        1. **Fear:** (Contoh: "Jangan beli HP ini sebelum...")
-        2. **Curiosity:** (Contoh: "Fitur rahasia yang disembunyikan...")
-        3. **Price Drop:** (Fokus ke harga).
-        4. **Comparison:** (Bandingkan dgn kompetitor).
-        5. **Savage:** (Pendapat jujur/pedas).
-        
-        ### 📱 NASKAH TIKTOK (Isi)
-        * **Pilihan Hook:** (Pilih yang terbaik dari atas).
-        * **Isi:** (3 Poin Spesifikasi/Fakta Utama).
-        * **Closing:** (Kesimpulan: Worth it/Skip?).
+        ### 📱 NASKAH TIKTOK
+        * Hook Pilihan: ...
+        * Isi: (3 Poin Spesifikasi).
+        * Closing: ...
 
-        ### 🎨 AI IMAGE PROMPT (Untuk Thumbnail)
-        * **Prompt:** (Tulis prompt bahasa Inggris detail untuk Bing Image Creator. Contoh: "A close up shot of [Product], cyberpunk lighting, youtube thumbnail style...").
+        ### 🎨 IMAGE PROMPT
+        * Prompt: (Bahasa Inggris untuk Thumbnail).
         
         ### 📸 INSTAGRAM & X
-        * **Caption IG:** (Review santai + Hashtags).
-        * **Tweet Savage:** (1 Tweet opini tajam).
+        * Caption IG: ...
+        * Tweet: ...
         """
     else:
         sys_prompt = f"""
         Kamu News Anchor Senior.
         Data Riset: {context}
-        
-        Tugas: Buat konten berita lengkap dengan Variasi Angle.
+        Tugas: Buat konten berita lengkap.
         
         OUTPUT WAJIB (Markdown):
+        ### 🎣 5 LEAD BERITA
+        1. Breaking: ...
+        2. Emosional: ...
+        3. Data: ...
+        4. Quote: ...
+        5. Kontroversi: ...
         
-        ### 🎣 5 PILIHAN LEAD BERITA (Hook)
-        1. **Breaking:** (Gaya berita terkini).
-        2. **Pertanyaan:** (Pancingan emosi audiens).
-        3. **Data:** (Fokus ke angka mengejutkan).
-        4. **Kutipan:** (Ambil quote tokoh jika ada).
-        5. **Kontroversial:** (Sudut pandang debat).
-        
-        ### 📺 NASKAH BERITA (60 Detik)
-        * **Lead:** (Pilih lead terbaik).
-        * **Kronologi:** (Fakta 5W+1H).
-        * **Closing:** (Pertanyaan interaktif).
+        ### 📺 NASKAH BERITA
+        * Lead: ...
+        * Kronologi: ...
+        * Closing: ...
 
-        ### 🎨 AI IMAGE PROMPT (Ilustrasi Berita)
-        * **Prompt:** (Tulis prompt bahasa Inggris untuk ilustrasi berita. Hindari nama tokoh spesifik jika melanggar policy, gunakan deskripsi jabatan/situasi. Contoh: "A dramatic meeting in a parliament hall, cinematic lighting...").
+        ### 🎨 IMAGE PROMPT
+        * Prompt: (Bahasa Inggris untuk Ilustrasi).
         
         ### 📸 INSTAGRAM & X
-        * **Caption IG:** (Editorial deep dive + Hashtags).
-        * **Thread X:** (3 Tweet Investigasi).
+        * Caption IG: ...
+        * Thread X: ...
         """
 
     try:
@@ -158,9 +153,77 @@ def generate_content_strategy(topic, category='GENERAL'):
         )
         return completion.choices[0].message.content
     except Exception as e:
-        return f"Error Groq: {e}"
+        print(f"Groq Error: {e}")
+        return None
 
-# --- 4. SCRAPERS ---
+# --- 4. NOTION INTEGRATION (FITUR BARU) ---
+def save_to_notion(title, content, category, link):
+    token = os.getenv('NOTION_API_KEY')
+    db_id = os.getenv('NOTION_DATABASE_ID')
+    
+    if not token or not db_id:
+        print("⚠️ Notion Skip: API Key atau DB ID belum disetting.")
+        return
+
+    print(f"📝 Menyimpan ke Notion: {title}...")
+    url = "https://api.notion.com/v1/pages"
+    headers = {
+        "Authorization": f"Bearer {token}",
+        "Content-Type": "application/json",
+        "Notion-Version": "2022-06-28"
+    }
+    
+    # Potong konten jadi chunk 2000 char (Notion Limit per block)
+    chunks = [content[i:i+2000] for i in range(0, len(content), 2000)]
+    children_blocks = []
+    
+    # Tambahkan Link Sumber di paling atas
+    if link:
+        children_blocks.append({
+            "object": "block",
+            "type": "paragraph",
+            "paragraph": {
+                "rich_text": [{"type": "text", "text": {"content": f"🔗 Sumber Berita: {link}", "link": {"url": link}}}]
+            }
+        })
+    
+    # Masukkan Naskah AI
+    for chunk in chunks:
+        children_blocks.append({
+            "object": "block",
+            "type": "paragraph",
+            "paragraph": {
+                "rich_text": [{"type": "text", "text": {"content": chunk}}]
+            }
+        })
+
+    payload = {
+        "parent": {"database_id": db_id},
+        "properties": {
+            "Name": {"title": [{"text": {"content": title}}]},
+            # Opsional: Jika kolom 'Category' ada di Notion, ini akan terisi
+            "Category": {"select": {"name": category}} 
+        },
+        "children": children_blocks
+    }
+
+    try:
+        # Coba kirim dengan properti lengkap
+        res = requests.post(url, json=payload, headers=headers)
+        if res.status_code != 200:
+            # Jika gagal (mungkin kolom Category gak ada), coba kirim Title & Body saja
+            print(f"Notion Retry (Simple Mode)... Error: {res.text}")
+            del payload["properties"]["Category"]
+            res = requests.post(url, json=payload, headers=headers)
+            
+        if res.status_code == 200:
+            print("✅ Sukses simpan ke Notion!")
+        else:
+            print(f"❌ Gagal simpan ke Notion: {res.text}")
+    except Exception as e:
+        print(f"Notion Error: {e}")
+
+# --- 5. SCRAPERS ---
 def get_geopolitics_list(history):
     print("Scraping Geopolitics...")
     sources = [("Al Jazeera", "https://www.aljazeera.com/xml/rss/all.xml"), ("BBC", "http://feeds.bbci.co.uk/news/world/rss.xml")]
@@ -201,7 +264,7 @@ def get_trending_indo(history):
     except: pass
     return None, None
 
-# --- 5. DISCORD SENDERS ---
+# --- 6. DISCORD SENDERS ---
 def send_discord_text(webhook_url, title, content, color):
     if not content: return
     chunks = [content[i:i+4000] for i in range(0, len(content), 4000)]
@@ -223,7 +286,7 @@ def main():
     
     geo_list = get_geopolitics_list(history)
     tech_list = get_tech_list(history)
-    indo_title, _ = get_trending_indo(history)
+    indo_title, indo_link = get_trending_indo(history)
     
     if discord_url:
         if geo_list: send_discord_list(discord_url, "🌍 Geopolitics News", geo_list, 15158332)
@@ -233,20 +296,24 @@ def main():
     if indo_title:
         print(f"🧠 AI General: {indo_title}")
         ai_news = generate_content_strategy(indo_title, 'GENERAL')
-        if discord_url: send_discord_text(discord_url, f"📺 News Kit: {indo_title}", ai_news, 16776960)
+        if ai_news:
+            if discord_url: send_discord_text(discord_url, f"📺 News Kit: {indo_title}", ai_news, 16776960)
+            save_to_notion(indo_title, ai_news, "General News", indo_link) # <-- KIRIM NOTION
 
-    # --- SAFETY DELAY (PENTING BIAR GAK KENA LIMIT) ---
+    # SAFETY DELAY
     if indo_title and tech_list:
-        print("⏳ Menunggu 60 detik sebelum proses Tech (Safety Limit)...")
+        print("⏳ Menunggu 60 detik (Safety Limit)...")
         time.sleep(60) 
-    # --------------------------------------------------
 
     # B. AI TECH
     if tech_list:
         tech_topic = tech_list[0]['title']
+        tech_link = tech_list[0]['link']
         print(f"🧠 AI Tech: {tech_topic}")
         ai_tech = generate_content_strategy(tech_topic, 'TECH')
-        if discord_url: send_discord_text(discord_url, f"📱 Tech Kit: {tech_topic}", ai_tech, 5763719)
+        if ai_tech:
+            if discord_url: send_discord_text(discord_url, f"📱 Tech Kit: {tech_topic}", ai_tech, 5763719)
+            save_to_notion(tech_topic, ai_tech, "Tech", tech_link) # <-- KIRIM NOTION
 
     save_history(history)
     print("✅ Done!")
