@@ -4,6 +4,7 @@ import feedparser
 import json
 import time
 from groq import Groq
+from duckduckgo_search import DDGS # Library pencari gratis
 
 # --- KONFIGURASI ---
 HEADERS = {
@@ -25,40 +26,74 @@ def save_history(history):
     with open(HISTORY_FILE, 'w') as f:
         json.dump(history[-60:], f, indent=4)
 
-# --- 2. PERPLEXITY RESEARCHER ---
-def research_with_perplexity(topic):
-    api_key = os.getenv('PERPLEXITY_API_KEY')
-    if not api_key: return None
+# --- 2. RISET SYSTEM (HYBRID: PERPLEXITY -> FALLBACK GROQ) ---
 
-    print(f"🕵️ Riset Perplexity: {topic}...")
+def research_fallback_free(topic):
+    """
+    Alternatif Gratis: Mencari data pakai DuckDuckGo, lalu diringkas.
+    Dipanggil kalau Perplexity mati/habis kuota.
+    """
+    print(f"⚠️ Perplexity Error/Habis. Beralih ke Mode Gratis (DuckDuckGo)...")
+    try:
+        results = DDGS().text(topic, max_results=4) # Ambil 4 artikel teratas
+        if not results: return None
+        
+        # Gabungkan hasil pencarian jadi satu teks panjang
+        raw_data = ""
+        for r in results:
+            raw_data += f"- {r['title']}: {r['body']}\n"
+            
+        return f"[MODE GRATIS] Data dari Web:\n{raw_data}"
+    except Exception as e:
+        print(f"Fallback Error: {e}")
+        return None
+
+def research_with_perplexity(topic):
+    """
+    Mencoba riset pakai Perplexity dulu. Kalau gagal, lempar ke Fallback.
+    """
+    api_key = os.getenv('PERPLEXITY_API_KEY')
+    
+    # Jika API Key tidak ada, langsung pakai Fallback
+    if not api_key: 
+        return research_fallback_free(topic)
+
+    print(f"🕵️ Riset Premium (Perplexity): {topic}...")
     url = "https://api.perplexity.ai/chat/completions"
     headers = {"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"}
     payload = {
         "model": "sonar-pro",
         "messages": [
-            {"role": "system", "content": "Kamu Data Scraper. Cari fakta valid, angka, spesifikasi, tanggal, dan kutipan penting. JANGAN BEROPINI."},
+            {"role": "system", "content": "Kamu Data Scraper. Cari fakta valid, angka, spesifikasi, dan tanggal. JANGAN BEROPINI."},
             {"role": "user", "content": f"Cari data lengkap tentang: {topic}"}
         ]
     }
+    
     try:
-        response = requests.post(url, json=payload, headers=headers, timeout=30)
+        response = requests.post(url, json=payload, headers=headers, timeout=20)
         if response.status_code == 200:
             return response.json()['choices'][0]['message']['content']
+        else:
+            # Jika API Error (misal kuota habis), panggil Fallback
+            print(f"Perplexity Status {response.status_code}. Switch ke Fallback.")
+            return research_fallback_free(topic)
+            
     except Exception as e:
-        print(f"Perplexity Error: {e}")
-    return None
+        print(f"Perplexity Connection Error: {e}. Switch ke Fallback.")
+        return research_fallback_free(topic)
 
 # --- 3. GROQ WRITER (MULTI-PLATFORM) ---
 def generate_content_strategy(topic, category='GENERAL'):
+    # Step A: Riset (Otomatis pilih Premium atau Gratis)
     research_data = research_with_perplexity(topic)
     context = research_data if research_data else f"Judul: {topic} (Data minim, kembangkan dari judul)."
 
+    # Step B: Tulis Naskah
     groq_key = os.getenv('GROQ_API_KEY')
     if not groq_key: return "Error: GROQ_API_KEY missing."
     
     client = Groq(api_key=groq_key)
 
-    # --- PROMPT BARU: WAJIB 3 PLATFORM ---
     if category == 'TECH':
         sys_prompt = f"""
         Kamu Content Creator Tech (Ala GadgetIn/David).
@@ -69,17 +104,16 @@ def generate_content_strategy(topic, category='GENERAL'):
         OUTPUT WAJIB (Markdown):
         
         ### 📱 TIKTOK / REELS (Naskah)
-        * **Visual:** (Saran visual, misal: Zoom ke kamera).
-        * **Audio:** (Saran musik/sfx).
+        * **Visual:** (Saran visual).
         * **Script:** (Dialog lengkap: Opening Hook -> Spesifikasi -> Kelebihan/Kekurangan -> Closing).
         
-        ### 📸 INSTAGRAM (Feed/Carousel)
-        * **Caption:** (Gaya review santai, estetik).
-        * **Slide 1-3:** (Ide isi gambar slide).
-        * **Hashtags:** (10 hashtag relevan).
+        ### 📸 INSTAGRAM (Feed)
+        * **Caption:** (Gaya review santai).
+        * **Slide Idea:** (Ide gambar 1-3).
+        * **Hashtags:** (10 hashtag).
         
         ### 🐦 X / TWITTER (Post)
-        * **Tweet:** (Pendapat singkat, padat, dan "Savage" tentang produk ini).
+        * **Tweet:** (Pendapat singkat & savage).
         
         ### 💰 MARKET INSIGHT
         * **Verdict:** (BELI / TAHAN / SKIP).
@@ -87,27 +121,26 @@ def generate_content_strategy(topic, category='GENERAL'):
         """
     else:
         sys_prompt = f"""
-        Kamu Social Media Strategist untuk Portal Berita.
+        Kamu Social Media Strategist Portal Berita.
         Data Riset: {context}
         
-        Tugas: Buat paket konten berita untuk 3 platform.
+        Tugas: Buat paket konten berita 3 platform.
         
         OUTPUT WAJIB (Markdown):
         
         ### 📱 TIKTOK / REELS (Breaking News)
-        * **Headline Video:** (Teks di layar).
-        * **Script:** (Naskah 60 detik gaya News Anchor: Lead -> Fakta 1 -> Fakta 2 -> Closing).
+        * **Headline:** (Teks layar).
+        * **Script:** (Naskah 60 detik News Anchor: Lead -> Fakta -> Closing).
         
-        ### 📸 INSTAGRAM (Postingan)
-        * **Headline Image:** (Teks untuk di gambar).
-        * **Caption:** (Gaya editorial, deep dive, analitis, paragraf rapi).
-        * **Hashtags:** (10 hashtag berita).
+        ### 📸 INSTAGRAM (Post)
+        * **Headline Image:** (Teks gambar).
+        * **Caption:** (Editorial style, deep dive).
+        * **Hashtags:** (10 hashtag).
         
-        ### 🐦 X / TWITTER (Thread Investigasi)
-        * **Tweet 1:** (Hook Fakta Mengejutkan).
-        * **Tweet 2:** (Data/Angka Pendukung).
-        * **Tweet 3:** (Konteks/Kronologi).
-        * **Tweet 4:** (Kesimpulan/Pertanyaan).
+        ### 🐦 X / TWITTER (Thread)
+        * **Tweet 1:** (Hook Fakta).
+        * **Tweet 2:** (Data).
+        * **Tweet 3:** (Kesimpulan).
         """
 
     try:
@@ -118,7 +151,7 @@ def generate_content_strategy(topic, category='GENERAL'):
                 {"role": "user", "content": f"Buatkan konten: {topic}"}
             ],
             temperature=0.6,
-            max_tokens=4096 # Token maksimal
+            max_tokens=4096
         )
         return completion.choices[0].message.content
     except Exception as e:
@@ -175,7 +208,6 @@ def get_trending_indo(history):
 # --- 5. DISCORD SENDERS ---
 def send_discord_text(webhook_url, title, content, color):
     if not content: return
-    # Chunking pesan panjang
     chunks = [content[i:i+4000] for i in range(0, len(content), 4000)]
     for i, chunk in enumerate(chunks):
         title_part = title if i == 0 else f"{title} (Part {i+1})"
