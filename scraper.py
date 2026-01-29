@@ -65,8 +65,8 @@ def research_with_perplexity(topic):
     payload = {
         "model": "sonar-pro",
         "messages": [
-            {"role": "system", "content": "Kamu Data Scraper. Cari fakta valid, angka, spesifikasi. JANGAN BEROPINI."},
-            {"role": "user", "content": f"Cari data lengkap tentang: {topic}"}
+            {"role": "system", "content": "Kamu Gaming & Tech Scraper. Cari bocoran skin/hero, tanggal rilis, harga diamond, buff/nerf, dan reaksi komunitas. Cari juga nama YouTuber yang sudah review jika ada."},
+            {"role": "user", "content": f"Cari info lengkap: {topic}"}
         ]
     }
     try:
@@ -84,15 +84,46 @@ def generate_content_strategy(topic, category='GENERAL'):
     context = research_data if research_data else f"Judul: {topic}"
 
     groq_key = os.getenv('GROQ_API_KEY')
-    if not groq_key: return None # Return None biar ketahuan error
+    if not groq_key: return None
     
     client = Groq(api_key=groq_key)
 
-    if category == 'TECH':
+    # --- SETUP PROMPT BERDASARKAN KATEGORI ---
+    if category == 'GAMING':
+        sys_prompt = f"""
+        Kamu Content Creator Mobile Legends (Ala Leaker Terpercaya/AceUnyil/Dafrixkun).
+        Data Riset: {context}
+        
+        Tugas: Buat konten Bocoran/Update MLBB yang HYPE abis.
+        Gunakan istilah: OP, Buff, Nerf, Revamp, Gacha, Diamond, Pity System.
+        
+        OUTPUT WAJIB (Markdown):
+        ### 🎣 5 HOOK GAMING VIRAL
+        1. Hype: (Misal: "Skin Collector Bulan Ini Gila Banget!")
+        2. Fear/FOMO: (Misal: "Jangan Gacha Dulu Sebelum Nonton Ini!")
+        3. Gameplay: (Fokus ke skill baru).
+        4. Wallet: (Bahas harga diamond).
+        5. Savage: (Pendapat jujur).
+        
+        ### 📱 NASKAH TIKTOK (Gaya Cepat)
+        * Hook: ...
+        * Info Skin/Hero: (Nama, Tier, Tanggal Rilis).
+        * Efek Visual: (Jelaskan partikel skill/ultinya).
+        * Harga: (Perkiraan Diamond).
+        * Closing: (Saran: Tabung atau Skip?).
+        
+        ### 🎨 IMAGE PROMPT (Wajib Keren)
+        * Prompt: (Bahasa Inggris. Deskripsikan Hero/Skin dengan gaya 'Splash Art', cinematic lighting, 4k, mobile legends style).
+        
+        ### 📸 CAPTION IG & X
+        * Caption: (Pendek, padat, hashtag #MLBB #MobileLegendsIndonesia).
+        * Tweet: (Info singkat leak).
+        """
+    elif category == 'TECH':
         sys_prompt = f"""
         Kamu Content Creator Tech (Ala GadgetIn).
         Data Riset: {context}
-        Tugas: Buat konten lengkap + Variasi Hook.
+        Tugas: Review Gadget/HP.
         
         OUTPUT WAJIB (Markdown):
         ### 🎣 5 HOOK VIRAL
@@ -103,22 +134,22 @@ def generate_content_strategy(topic, category='GENERAL'):
         5. Savage: ...
         
         ### 📱 NASKAH TIKTOK
-        * Hook Pilihan: ...
+        * Hook: ...
         * Isi: (3 Poin Spesifikasi).
         * Closing: ...
 
         ### 🎨 IMAGE PROMPT
-        * Prompt: (Bahasa Inggris untuk Thumbnail).
+        * Prompt: (Bahasa Inggris untuk Thumbnail YouTube/Tech).
         
         ### 📸 INSTAGRAM & X
         * Caption IG: ...
         * Tweet: ...
         """
-    else:
+    else: # GENERAL NEWS
         sys_prompt = f"""
         Kamu News Anchor Senior.
         Data Riset: {context}
-        Tugas: Buat konten berita lengkap.
+        Tugas: Berita Terkini.
         
         OUTPUT WAJIB (Markdown):
         ### 🎣 5 LEAD BERITA
@@ -134,7 +165,7 @@ def generate_content_strategy(topic, category='GENERAL'):
         * Closing: ...
 
         ### 🎨 IMAGE PROMPT
-        * Prompt: (Bahasa Inggris untuk Ilustrasi).
+        * Prompt: (Bahasa Inggris untuk Ilustrasi Berita).
         
         ### 📸 INSTAGRAM & X
         * Caption IG: ...
@@ -156,89 +187,58 @@ def generate_content_strategy(topic, category='GENERAL'):
         print(f"Groq Error: {e}")
         return None
 
-# --- 4. NOTION INTEGRATION (FITUR BARU) ---
+# --- 4. NOTION INTEGRATION ---
 def save_to_notion(title, content, category, link):
     token = os.getenv('NOTION_API_KEY')
     db_id = os.getenv('NOTION_DATABASE_ID')
     
-    if not token or not db_id:
-        print("⚠️ Notion Skip: API Key atau DB ID belum disetting.")
-        return
+    if not token or not db_id: return
 
-    print(f"📝 Menyimpan ke Notion: {title}...")
+    print(f"📝 Notion: {title}...")
     url = "https://api.notion.com/v1/pages"
-    headers = {
-        "Authorization": f"Bearer {token}",
-        "Content-Type": "application/json",
-        "Notion-Version": "2022-06-28"
-    }
+    headers = {"Authorization": f"Bearer {token}", "Content-Type": "application/json", "Notion-Version": "2022-06-28"}
     
-    # Potong konten jadi chunk 2000 char (Notion Limit per block)
     chunks = [content[i:i+2000] for i in range(0, len(content), 2000)]
-    children_blocks = []
+    children = []
     
-    # Tambahkan Link Sumber di paling atas
     if link:
-        children_blocks.append({
-            "object": "block",
-            "type": "paragraph",
-            "paragraph": {
-                "rich_text": [{"type": "text", "text": {"content": f"🔗 Sumber Berita: {link}", "link": {"url": link}}}]
-            }
-        })
+        children.append({"object": "block", "type": "paragraph", "paragraph": {"rich_text": [{"type": "text", "text": {"content": f"🔗 Sumber: {link}", "link": {"url": link}}}]}})
     
-    # Masukkan Naskah AI
     for chunk in chunks:
-        children_blocks.append({
-            "object": "block",
-            "type": "paragraph",
-            "paragraph": {
-                "rich_text": [{"type": "text", "text": {"content": chunk}}]
-            }
-        })
+        children.append({"object": "block", "type": "paragraph", "paragraph": {"rich_text": [{"type": "text", "text": {"content": chunk}}]}})
 
     payload = {
         "parent": {"database_id": db_id},
         "properties": {
             "Name": {"title": [{"text": {"content": title}}]},
-            # Opsional: Jika kolom 'Category' ada di Notion, ini akan terisi
             "Category": {"select": {"name": category}} 
         },
-        "children": children_blocks
+        "children": children
     }
 
     try:
-        # Coba kirim dengan properti lengkap
         res = requests.post(url, json=payload, headers=headers)
         if res.status_code != 200:
-            # Jika gagal (mungkin kolom Category gak ada), coba kirim Title & Body saja
-            print(f"Notion Retry (Simple Mode)... Error: {res.text}")
             del payload["properties"]["Category"]
-            res = requests.post(url, json=payload, headers=headers)
-            
-        if res.status_code == 200:
-            print("✅ Sukses simpan ke Notion!")
-        else:
-            print(f"❌ Gagal simpan ke Notion: {res.text}")
-    except Exception as e:
-        print(f"Notion Error: {e}")
+            requests.post(url, json=payload, headers=headers)
+    except: pass
 
 # --- 5. SCRAPERS ---
-def get_geopolitics_list(history):
-    print("Scraping Geopolitics...")
-    sources = [("Al Jazeera", "https://www.aljazeera.com/xml/rss/all.xml"), ("BBC", "http://feeds.bbci.co.uk/news/world/rss.xml")]
-    results = []
-    keywords = ['war', 'conflict', 'military', 'politics', 'crisis', 'government']
-    for src, url in sources:
-        try:
-            feed = feedparser.parse(url)
-            for entry in feed.entries:
-                if entry.title not in history and any(k in entry.title.lower() for k in keywords):
-                    results.append({"title": entry.title, "link": entry.link, "source": src})
+def get_mlbb_news(history):
+    print("Scraping MLBB Leaks...")
+    # Menggunakan Google News Search Query khusus MLBB
+    url = "https://news.google.com/rss/search?q=Mobile+Legends+Bang+Bang+Update+OR+Skin+Leak+OR+Hero+Baru&hl=id&gl=ID&ceid=ID:id"
+    try:
+        feed = feedparser.parse(url)
+        for entry in feed.entries:
+            if entry.title not in history:
+                # Filter tambahan biar gak dapet berita turnamen doang
+                keywords = ['skin', 'hero', 'patch', 'update', 'revamp', 'bocoran', 'leak', 'kolaborasi']
+                if any(k in entry.title.lower() for k in keywords):
                     history.append(entry.title)
-                    if len(results) >= 5: break
-        except: continue
-    return results
+                    return entry.title, entry.link
+    except: pass
+    return None, None
 
 def get_tech_list(history):
     print("Scraping Tech...")
@@ -284,36 +284,48 @@ def main():
     history = load_history()
     discord_url = os.getenv("DISCORD_WEBHOOK")
     
-    geo_list = get_geopolitics_list(history)
+    # --- 1. AMBIL TOPIC ---
     tech_list = get_tech_list(history)
     indo_title, indo_link = get_trending_indo(history)
+    mlbb_title, mlbb_link = get_mlbb_news(history) # <-- New Feature
     
-    if discord_url:
-        if geo_list: send_discord_list(discord_url, "🌍 Geopolitics News", geo_list, 15158332)
-        if tech_list: send_discord_list(discord_url, "📱 Tech News Feed", tech_list, 3447003)
+    # Kirim Tech List ke Discord
+    if discord_url and tech_list: 
+        send_discord_list(discord_url, "📱 Tech News Feed", tech_list, 3447003)
 
-    # A. AI GENERAL
-    if indo_title:
-        print(f"🧠 AI General: {indo_title}")
-        ai_news = generate_content_strategy(indo_title, 'GENERAL')
-        if ai_news:
-            if discord_url: send_discord_text(discord_url, f"📺 News Kit: {indo_title}", ai_news, 16776960)
-            save_to_notion(indo_title, ai_news, "General News", indo_link) # <-- KIRIM NOTION
+    # --- 2. PROSES AI (BERURUTAN DENGAN JEDA) ---
 
-    # SAFETY DELAY
-    if indo_title and tech_list:
-        print("⏳ Menunggu 60 detik (Safety Limit)...")
-        time.sleep(60) 
+    # A. MLBB LEAKS (Priority Gaming)
+    if mlbb_title:
+        print(f"🎮 AI Gaming: {mlbb_title}")
+        ai_gaming = generate_content_strategy(mlbb_title, 'GAMING')
+        if ai_gaming:
+            if discord_url: send_discord_text(discord_url, f"🎮 MLBB Leaks: {mlbb_title}", ai_gaming, 10181046) # Ungu
+            save_to_notion(mlbb_title, ai_gaming, "Gaming MLBB", mlbb_link)
+        
+        print("⏳ Jeda 60 detik (Safety)...")
+        time.sleep(60)
 
-    # B. AI TECH
+    # B. TECH NEWS
     if tech_list:
         tech_topic = tech_list[0]['title']
-        tech_link = tech_list[0]['link']
-        print(f"🧠 AI Tech: {tech_topic}")
+        tech_link_url = tech_list[0]['link']
+        print(f"📱 AI Tech: {tech_topic}")
         ai_tech = generate_content_strategy(tech_topic, 'TECH')
         if ai_tech:
             if discord_url: send_discord_text(discord_url, f"📱 Tech Kit: {tech_topic}", ai_tech, 5763719)
-            save_to_notion(tech_topic, ai_tech, "Tech", tech_link) # <-- KIRIM NOTION
+            save_to_notion(tech_topic, ai_tech, "Tech Gadget", tech_link_url)
+
+        print("⏳ Jeda 60 detik (Safety)...")
+        time.sleep(60)
+
+    # C. GENERAL NEWS
+    if indo_title:
+        print(f"📺 AI News: {indo_title}")
+        ai_news = generate_content_strategy(indo_title, 'GENERAL')
+        if ai_news:
+            if discord_url: send_discord_text(discord_url, f"📺 News Kit: {indo_title}", ai_news, 16776960)
+            save_to_notion(indo_title, ai_news, "General News", indo_link)
 
     save_history(history)
     print("✅ Done!")
