@@ -6,8 +6,7 @@ from bs4 import BeautifulSoup
 import feedparser
 import random
 import time
-from groq import Groq # Import Groq
-# from duckduckgo_search import DDGS # DuckDuckGo Search tidak digunakan lagi
+from groq import Groq
 
 # Header User-Agent palsu untuk menghindari pemblokiran
 HEADERS = {
@@ -30,7 +29,17 @@ def generate_hook(original_title):
     prefix = random.choice(EMOTIONAL_PREFIXES)
     return f"{prefix} {original_title}"
 
-# Fungsi get_image dihapus sesuai permintaan
+def get_image(url):
+    """Mencari meta tag og:image dari URL berita."""
+    try:
+        response = requests.get(url, headers=HEADERS, timeout=10)
+        soup = BeautifulSoup(response.text, 'lxml')
+        meta_image = soup.find("meta", property="og:image")
+        if meta_image:
+            return meta_image["content"]
+    except Exception as e:
+        print(f"Gagal mengambil gambar dari {url}: {e}")
+    return None
 
 # --- AI Writer Function (Groq Integration) ---
 
@@ -75,7 +84,7 @@ def get_ai_content_idea(trending_topic, ai_persona="default"):
 
         chat_completion = client.chat.completions.create(
             messages=messages,
-            model="llama-3.3-70b-versatile", # Menggunakan model Llama 3.3 terbaru yang stabil
+            model="llama-3.3-70b-versatile",
         )
         
         return chat_completion.choices[0].message.content.strip()
@@ -86,7 +95,7 @@ def get_ai_content_idea(trending_topic, ai_persona="default"):
 # --- Scraping Functions ---
 
 def get_google_news_id():
-    print("Scraping Google News Indonesia via RSS (Pengganti Pytrends)...")
+    print("Scraping Google News Indonesia via RSS...")
     url = "https://news.google.com/rss?ceid=ID:id&hl=id&gl=ID"
     try:
         response = requests.get(url, headers=HEADERS, timeout=15)
@@ -97,7 +106,6 @@ def get_google_news_id():
             news_list.append(f"- {entry.title} ([Link]({entry.link}))")
             if len(news_list) >= 5: break
             
-        # Ambil judul berita pertama untuk AI Writer
         top_topic = feed.entries[0].title if feed.entries else None
         
         return "\n".join(news_list) if news_list else "Tidak ada berita utama ditemukan saat ini.", top_topic
@@ -125,7 +133,7 @@ def get_geopolitics_news():
                         "title": entry.title,
                         "link": entry.link,
                         "source": source_name,
-                        "image": None # Gambar dihapus
+                        "image": get_image(entry.link)
                     })
                     count += 1
                 if count >= 3: break
@@ -162,7 +170,7 @@ def get_tech_news():
                         "title": title,
                         "link": link,
                         "source": "GSMArena",
-                        "image": None # Gambar dihapus
+                        "image": get_image(link)
                     })
                 if len(results) >= 5: break
     except Exception as e:
@@ -183,13 +191,13 @@ def get_youtube_monitor():
             feed = feedparser.parse(url)
             count = 0
             for entry in feed.entries:
-                # thumbnail_url = entry.media_thumbnail[0]['url'] if 'media_thumbnail' in entry and entry.media_thumbnail else None
+                thumbnail_url = entry.media_thumbnail[0]['url'] if 'media_thumbnail' in entry and entry.media_thumbnail else None
                 
                 all_videos.append({
                     "title": entry.title,
                     "link": entry.link,
                     "source": channel_name,
-                    "image": None # Gambar dihapus
+                    "image": thumbnail_url
                 })
                 count += 1
                 if count >= 2: break
@@ -227,7 +235,7 @@ def get_ai_security_news():
                 "title": entry.title,
                 "link": entry.link,
                 "source": "Google News (AI Security)",
-                "image": None # Gambar dihapus
+                "image": get_image(entry.link)
             })
             if len(results) >= 5: break
     except Exception as e:
@@ -249,7 +257,8 @@ def send_discord_embeds(webhook_url, title, items, color=3447003):
             "timestamp": datetime.datetime.utcnow().isoformat(),
             "footer": {"text": "Daily Notifier Bot"},
         }
-        # Baris untuk 'image' dihapus sesuai permintaan
+        if item.get('image'):
+            embed["image"] = {"url": item['image']}
         embeds.append(embed)
         
     payload = {
@@ -297,14 +306,14 @@ def main():
     google_news_id_text, top_topic_id = get_google_news_id()
     geopolitics = get_geopolitics_news()
     tech = get_tech_news()
-    ai_security = get_ai_security_news() # Fitur baru
+    ai_security = get_ai_security_news()
     youtube = get_youtube_monitor()
     deals = get_reddit_deals()
     
     # 2. Tentukan Topik Utama untuk AI Writer (Safety Net)
     ai_topic = top_topic_id
     ai_persona = "default"
-    if not ai_topic and ai_security: # Prioritaskan AI Security jika ada
+    if not ai_topic and ai_security:
         ai_topic = ai_security[0]['title']
         ai_persona = "AI_SEC"
     elif not ai_topic and geopolitics:
@@ -317,7 +326,7 @@ def main():
     if ai_topic:
         ai_idea = get_ai_content_idea(ai_topic, ai_persona)
     
-    # 4. Format Laporan Teks (untuk file lokal dan Telegram)
+    # 4. Format Laporan Teks
     geo_text = "\n".join([f"- {item['title']} ([Link]({item['link']}))" for item in geopolitics])
     tech_text = "\n".join([f"- {item['title']} ([Link]({item['link']}))" for item in tech])
     ai_sec_text = "\n".join([f"- {item['title']} ([Link]({item['link']}))" for item in ai_security])
@@ -352,7 +361,6 @@ Generated at: {now}
 *Automated by GitHub Actions*
 """
     
-    # Simpan ke file lokal
     with open("latest_report.md", "w") as f:
         f.write(report)
     
@@ -362,23 +370,20 @@ Generated at: {now}
     telegram_chat_id = os.getenv("TELEGRAM_CHAT_ID")
     
     if discord_webhook:
-        # AI Writer (Paling Atas)
         send_discord_text(discord_webhook, "🧠 AI Content Idea", f"**Topik Utama:** {ai_topic or 'N/A'}\n\n{ai_idea}")
-        time.sleep(1) # Safety Delay
+        time.sleep(1)
         
-        # Kirim Embeds (Visual)
         send_discord_embeds(discord_webhook, "🌍 Geopolitics News", geopolitics, color=16711680)
-        time.sleep(1) # Safety Delay
+        time.sleep(1)
         send_discord_embeds(discord_webhook, "📱 Tech News & Rumors", tech, color=3447003)
-        time.sleep(1) # Safety Delay
-        send_discord_embeds(discord_webhook, "🔒 AI Security & LLM Jailbreak Research", ai_security, color=5793266) # Warna ungu kebiruan
-        time.sleep(1) # Safety Delay
+        time.sleep(1)
+        send_discord_embeds(discord_webhook, "🔒 AI Security & LLM Jailbreak Research", ai_security, color=5793266)
+        time.sleep(1)
         send_discord_embeds(discord_webhook, "📺 YouTube Competitor Monitor", youtube, color=16711935)
-        time.sleep(1) # Safety Delay
+        time.sleep(1)
         
-        # Kirim Teks (Non-Visual)
         send_discord_text(discord_webhook, "🔥 Sedang Trending di Indonesia", google_news_id_text)
-        time.sleep(1) # Safety Delay
+        time.sleep(1)
         send_discord_text(discord_webhook, "💸 Deals & Coupons", deals)
         
     if telegram_token and telegram_chat_id:
