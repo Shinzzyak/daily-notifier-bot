@@ -1,32 +1,32 @@
 
 # 🤖 Daily Notification Bot Report
-Generated at: 2026-02-21 01:02:15
+Generated at: 2026-02-21 06:28:24
 
-## 🧠 AI Content Idea (Top Topic: Prabowo Setuju 20 Poin Perdamaian Gaza dari Trump, Apa Isinya? - Kompas.com)
-*Hook:* Ga pernah terduga, Prabowo nelongin setuju sama 20 Poin Perdamaian Gaza dari Trump, apa aja sih isinya?
+## 🧠 AI Content Idea (Top Topic: AS-Iran Mendidih, Kapal Induk Terbesar Dunia Masuki Laut Mediterania - detikNews)
+*Hook:* Gue baru aja dapat kabar, AS dan Iran lagi bikin geger, ada kapal induk terbesar dunia yang masuk ke Laut Mediterania! 
 
-*Pembahasan 1:* Poin utama perdamaian ini mencakup pengakuan kedaulatan Palestina dan pembentukan negara Palestina yang berdaulat, bro! Ini bisa jadi awal dari perdamaian abadi di Timur Tengah, gak sih?
+*Pembahasan 1:* Jadi, kapal induk ini bernama USS Nimitz, dan katanya ini adalah kapal induk terbesar dan tercanggih di dunia, dengan kekuatan tempur yang luar biasa! 
 
-*Pembahasan 2:* Prabowo setuju sama Trump soal penguatan keamanan perbatasan dan penghentian serangan roket dari Gaza, keren abis! Ini bakal bikin warga Gaza dan Israel bisa hidup damai dan aman, kayaknya.
+*Pembahasan 2:* AS memutuskan untuk mengirim kapal ini ke Laut Mediterania karena ketegangan antara AS dan Iran yang semakin meningkat, jadi ini seperti pertarungan besar, bro! 
 
-*Pembahasan 3:* Tapi, ada juga poin yang kontroverse, seperti pembangunan pemukiman Yahudi di wilayah yang disengketakan, wah ini bakal bikin pro kontra nih! Apa kamu setuju sama keputusan Prabowo, atau kamu punya pendapat lain? Beri komentarmu di bawah, bro!
+*Pembahasan 3:* Tapi, pertanyaannya sekarang, apa yang akan terjadi selanjutnya? Apakah akan ada perang besar, atau apakah ini hanya sekedar taktik untuk menakut-nakuti lawan? Kita harus terus pantau perkembangannya, bro!
 
 ## 🔥 Sedang Trending di Indonesia
-- Prabowo Setuju 20 Poin Perdamaian Gaza dari Trump, Apa Isinya? - Kompas.com ([Link](https://news.google.com/rss/articles/CBMivwFBVV95cUxQU1JiMVViekJQbHk2R2lSRkE2eTVtMkktLXBsRk1xWGNrNXR0bjJfUVhCZEZnQkN1T0h1ejN1MXhXeHo2TWxOYkhyd2dGdU9uaWd1Y1BFMkp6Z2FjdkluNjFxZDBQMFZQTTR0OW82VjlhYW5VaW1FeE1zNTgxNDN0WG55RmgwV19Yek1CSGhza2RoUjlTRlROUUs1QjV1UE16eFBaNm9qUmJrcW1tYkt6c2FXcFN6NFhVaVp2WnNfWQ?oc=5))
-- Respons Gugatan Guru Honorer ke MK, Komisi X DPR: MBG Tidak Pakai Anggaran Pendidikan - Kompas.com ([Link](https://news.google.com/rss/articles/CBMiwwFBVV95cUxQQnR4TF9uSWtzZVBkLVFUaVlQS1NjZ0FIOGdNdEtGZ2t6clFVdnluQ1QyMmU3RzctbFZMYW10REpfWHBFOWoyLVdrVEo0MlBnc3VsZjFZSjdZUXhJckNodV9ON3hjaDNkcUswLWtXQnVidm1fV0dZV1ZlcXZQNDZhUklJZnNtOUp1Yy1JbjJUeEhUbDY2eGVwcGpPTEZCaWxFRlBBUy1IUHlNLWNqR2JlVEJkYzNIdkt6RG1WWGQzWFFfdFE?oc=5))
-- BMKG Peringatkan Cuaca Signifikan di 9 Wilayah Jumat 20 Februari, Banten Hujan Lebat - Kompas.tv ([Link](https://news.google.com/rss/articles/CBMivgFBVV95cUxPQzVlZXVBYVVDQnUzSml5U0JxM2cya1prXzZTbEdkNmZVTF9JVkRCeEhzYjRXTWwzUEp6SkQweVdkVGF5YWc2eEh4cTN6LTh6bXpEUXZDLUZENmZKTHk3b3ZZdXFldjNtY05XeU9JUXBqWi1vZGQ1QVZxYTg2ak1jaU1FRUVBMXJ5blhSczdYb1RHT1pTaHNzemxsek92ZjNRaUVTR0IzRHhVaGlSXy1UUUZoYTZ6YVp4UDZvbDdR0gHDAUFVX3lxTE1KODBSdTFyWlE4cTAzazFEVWdSVUJPSG9sOW5vY25FSUh1UGdING0zdFdXYnRmOTBDWHQwY2ZIX1FrRk1wUlFLb2ZGNDR4U1htc1kxVld2SDJ4NkNxMzl6M0pNWTBKWUZVUF9TNkZuV1FKRkh3cldXSmwxcklremNjNGFvRURua1hfYjNOX3dBYTlFN2xVUnJZNlJ0Z2lLcy1BS1ZpTFVTemc4OF9qdklmejZwTF9kamtScC1jd0hsbHpxQQ?oc=5))
-- Sidang Praperadilan, Eks Kajari HSU Minta KPK Ganti Rugi Rp 100 M - detikNews ([Link](https://news.google.com/rss/articles/CBMipwFBVV95cUxQMUlfQ0dkZU1HeFh6ZVVHOGFvWGRySXFtazNoUTJFbkpYSkhGV3hjRjBLTGkyTmVmU1hIOUxYSTJ3MHRMNjhMbURlRlRiQ20yc3VteU85MFk1c3FpNFZMNFZiQmRVUzJUM0ptZmZMOHdkbUFMNmlKV3NJclNEb0JCb3FfM0pkZmlnb2FFMjBrLWV5NWRFU1NhdTRHSm92Sm9Ca2hTSW81Y9IBrAFBVV95cUxQU00yWDktbkhPRDBMTk1qekVRaGdjNldabXhycVowX2M5a1Z4U1ZOUExuY2FiUkZxYUJxVkpCYXM5QlRiTVhWVU8wN1JEMU96aFo4UjNhOWNNU2FQU2pxbHlDd2dNME91OHVpbE9qLVlwZjluU05LN0lhbm9xMElud0xyOG1pWk5HZldHa0FFUm5PYk1hd3c5S3BSQ2V0c29RRmkxM2NoazFqWXB2?oc=5))
-- Anak Riza Chalid Tersakiti, Anak-Istri Dicap Keluarga Mafia Minyak - Kompas.com ([Link](https://news.google.com/rss/articles/CBMiugFBVV95cUxQM2pObjJueHR6U0RzMmlmd0U2dWQ0bzlObHdTdVFKQVc2ZkpvLWdSVUNtclZ0amYwams1MUJxdnJNcWhlZ0tKYS11Y3ZnSE9MdksxbXJKRjBfYk96dm9xRnI0blh3YXVDQUFSem4wcW5mTkxpSk5GWFlWXzJ3bmJ0d3RSUFNiQ0VzWjQzMmNBNkk3TG5rZW1YdDdmcnhJd3BCODdSZmdUb1c5RU1mMnFSV1FxZFl0a2xoZHc?oc=5))
+- AS-Iran Mendidih, Kapal Induk Terbesar Dunia Masuki Laut Mediterania - detikNews ([Link](https://news.google.com/rss/articles/CBMitAFBVV95cUxNTTlETHVVWHpFUTVLSzR6ajlKNHNtZHAwTmF5UHpmNGd6a1Y0Ti02WHFBNUVBQkZuY2VmbUVtYVNiNzVjN29LcjM3d0ZvaWQzeDRCUC1uSDNzVlZoT2MyOVBVZXhIN0tJdXpfbU1fRGhzMER4WUJTczQ5MXRyVXFFcDNIR0tDYTlseEtlRlZUeERWR0EwQVpXNkVXVmlvMlczX09SNDZGNlo0SmFTdEpVWkkyWnPSAboBQVVfeXFMUHRyWFdFQjFRM2RLYjhoRDhiTF9zQVdMVW56alRxVkJvMjNtdWFoM2k2aHg3YWNUdlY1cE1GUExsUXlSYVBhdHFpLWExOTRTTUMydXhRa0VSMFVCMkZIYkhMN2dOWGVTSWpPdVI0OGlxX210OVlwUDh6bE9rR2FnSE9OR2lsTTdmczcwWDVzdVB1MGV2Tjh2akVXR3hHc3BKQVdiQnhUcHV3UmtrRGZDOWxUUE1qNF9vTkdR?oc=5))
+- Detik-Detik Evakuasi Kapal Pesiar Mewah Terbakar, WNI Jadi Korban - CNBC Indonesia ([Link](https://news.google.com/rss/articles/CBMiwAFBVV95cUxNb0xXUE1DMDc1TE9hb1dMZDNVUFA4RUNub2Y2NmhKd0RxZzVYUWItbERHOWZLUVlKUS13cjBDR1YxaEs3T19SUXNjQXhpRlcwTWN4bFJZUmFyZ3pnZ2g0SjdXMkZRSnB4WW0xS1U0ZmxIS3ZBc1owTThyRG9ISHhLQ3JoRU82UXZPV2pCX01KVm5sQkFFemtsTG93YnBmMnBPeVVXN2p0YkhoVEl2bVRrN2puS2JEZUhLYzF0cGJrSkPSAcYBQVVfeXFMTlR3T05OUlRlUUI0aUdwMVpPVHl5RXBBMnBxOGxYaWs0ZlV3RG9NSDk4WERxa0Z3Ny1pM1pkTktWYk9OT0hwbW9KNjFsdVVfdW5vd2tWV3ItV2FuNUxxaEtrblJKOWVhWnM3ck9zX3F6M0ZXUXFsak4xemd3VV9Ld1ZMdWJaS3dkaHR3U2d0NWF4WUdNVVZpTVRjWVJ6cmdhdldIM2R4TDVvNFJiN1lpNnJJT29NcE9QRWdOaVA2bXEwYkt3Vk1n?oc=5))
+- Kronologi Lengkap KA Bandara Soetta Tabrak Truk di Poris Tangerang - news.okezone.com ([Link](https://news.google.com/rss/articles/CBMiuwFBVV95cUxQa0NYSnl1emxzOFROUnRRNm5TV2ROZGdqemhYRXVRZV8zS3BnQUoyc3JFYjhSNDRnV2ZXdVR5WER1ZVFUUlZSMHVZdXVadWlyRENvWTY5Rkd2M1haS2YxY3FTTndzRU54eWxoZVZFV0tmXzZnYTdGWEFodU9YV1lybF9QTnFMR2FINkFCMlRYWnJqckhUeURxNTdHc1RkYlBGVVdtNzl3TkE1LURLeld5SHp5ZHZacEZqeE9R0gG6AUFVX3lxTE8wMExYYWRHc2xDcHJqbGFHM2x4UmplZEZrMGhhZDhlY3UtSndUX3JJTmpnSUhJdGE0UzFNS2dMUjRGSHh0LWQ3OWZuMGVTNnlUNC1ubkNnbi1XX2lBMlAydHZkTXhqbWRuZFF4LTIzUVBQQTdOelg0VGt1N1d2R1RIOGY3OUdPWGU0MVNiNlBhM2l5YVo4blV3ZVdwc0p1LS14V2E2SHpFb2Q3bkRiN0l0NHRaWWYxX2dQZw?oc=5))
+- Harga Emas Antam (ANTM) Hari Ini, Sabtu 21 Februari 2026: Terbang ke Rp 3 Jutaan - investor.id ([Link](https://news.google.com/rss/articles/CBMirwFBVV95cUxNejYxZlQ3UUhDSHFHYWJ2OGVScDE0SzBWU29JQlRZM0NBQWc2ZnVsalpMZGpXRWtHeGl6bkxseHJnd3hhQ2l0VHgweG5EN1RaLU1kdDY5WTlyU1YyMGd0cXdjai1nVUJNaTQxX213VVB5X2pFRURiclRYdDNJRmpYcmh1RHMxMGFEcnZFalcyRmNQN3FCZXVYUmUxVExWWXRrUmtnM0NCaDZ6T2tsMWUw?oc=5))
+- Efek Beli BBM dan LPG AS Rp253 Triliun, Indonesia Kurangi Impor dari Negara Ini - SINDOnews Ekbis ([Link](https://news.google.com/rss/articles/CBMizgFBVV95cUxOUmJRVE5SZ3MzSV9QQkl5cHJINmRnZXVwcFRuMDZpSFJuQkEwV1h5LUdvNVhvNnFMZEdxT1RKVk5POW1Rc0dNWGRaX2hScHNGdlBkc2FISmM5dUFoV1dISFFmSmx2LVNDUEs5aXowNTE0ZGtETGl2dVFaOFRIaDV2R3NWX3o4TWxwbUl2cVB5Y0RWd3FhVVZ1TU5uWUtKVnlEa3lZUXBlZUE1eWV3T2lGSnlFTXNxeHljYi1fSTY2OTk0OTBXbklNdUREXzZMQdIB0wFBVV95cUxPenpzZFNmdnh4QWdrYkxjcEtVTURzY1BfX0Z3QUw5WFg0SmZCQ2UxbUo2VFl5Ti02NXZGXy1aXzA5RkNlRnZPclhvckE0NXRMSWZRZ082ODVHenB5VFBNTHJOR3lBTmF0a2tzNGtvckVuZlBPUVMyejJOZVdJb1NBeWRTOUh6VEt4X2dMQTNDMGx4dFFjcVdvTEROOTFCTzBEVWl4clhrQ08wTVdSMHlHSVEwWWNvM1dFUmdkRkpjcVFtdHFqUDhHRXkzbjFDdFJvcHdF?oc=5))
 
 ## 🌍 Geopolitics (Multi-Source)
+- Russia-Ukraine war: List of key events, day 1,458 ([Link](https://www.aljazeera.com/news/2026/2/21/russia-ukraine-war-list-of-key-events-day-1458?traffic_source=rss))
+- US military says it attacked vessel in Pacific Ocean, killing three people ([Link](https://www.aljazeera.com/news/2026/2/21/us-military-says-it-attacked-vessel-in-pacific-ocean-killing-three-people?traffic_source=rss))
 - How are killer drones reshaping the conflict in Sudan ([Link](https://www.aljazeera.com/video/the-take-2/2026/2/20/aje-onl-aj_tt_sdn_alfashir_av_v1-200226?traffic_source=rss))
-- Tariff refunds could take years amid US Supreme Court ruling, experts warn ([Link](https://www.aljazeera.com/economy/2026/2/20/tariff-refunds-could-take-years-amid-us-supreme-court-ruling-experts-warn?traffic_source=rss))
-- Israeli attacks kill at least 12 people, injure dozens across Lebanon ([Link](https://www.aljazeera.com/news/2026/2/20/one-killed-in-israeli-strike-on-largest-palestinian-refugee-camp-in-lebanon?traffic_source=rss))
 - Trump says he is considering limited military strike on Iran ([Link](https://www.bbc.com/news/articles/cdxzk4gvzp0o?at_medium=RSS&at_campaign=rss))
+- At least 10 killed in Israeli strikes on Lebanon - state media ([Link](https://www.bbc.com/news/articles/cvg8914dkl0o?at_medium=RSS&at_campaign=rss))
 - In the army now: Pictures that show how ordinary Ukrainians have been shaped by war ([Link](https://www.bbc.com/news/articles/cddn2e11zm8o?at_medium=RSS&at_campaign=rss))
-- The Russian village that lost its men to war ([Link](https://www.bbc.com/news/articles/ce8n4l8elpgo?at_medium=RSS&at_campaign=rss))
-- The best trades after geopolitical shocks as possible Iran conflict looms - CNBC ([Link](https://news.google.com/rss/articles/CBMiqAFBVV95cUxOU0x2a1VmMG96Y1UtUS1iRjVPLWZKa19SUjRfQUhYQ25EUndGZG16V0JkSUJLZEpUQU1JRW5ndi04elBQZU1ycV8tNDZZbmQtT2I5SXhzRVVSZzMwYW4wc0xHVGNBbW84Mk5IbkIwdkhKelN0YTZ2NFUyUzVOWWF3eEVXYkIxUzJIOTMyZDRYNXVEcC1YT21OTVFreWZTaHlRM1ZMdVpJOVE?oc=5))
 - Welcome to Cold War Two: historian Niall Ferguson on geopolitics in 2026 - The World Economic Forum ([Link](https://news.google.com/rss/articles/CBMilAFBVV95cUxQMTBDT2R0UlhNZW1Xa1k4cXhsTWdJUUVxcTY1ODVoMENEYnFYbXpNa21kWjRxcFBXeVlfQjZteWpjYWE5ZWNoems0VFBfRE5PNDJHQTRGWkhDTUhMYmxQRjBCUnl5WmhFQTlQa19aZjBHbnIxc181QmI4Z0U3Wi1jWWpUNXF1ZUFKcktJd2pSVU0tZDBT?oc=5))
+- The best trades after geopolitical shocks as possible Iran conflict looms - CNBC ([Link](https://news.google.com/rss/articles/CBMiqAFBVV95cUxOU0x2a1VmMG96Y1UtUS1iRjVPLWZKa19SUjRfQUhYQ25EUndGZG16V0JkSUJLZEpUQU1JRW5ndi04elBQZU1ycV8tNDZZbmQtT2I5SXhzRVVSZzMwYW4wc0xHVGNBbW84Mk5IbkIwdkhKelN0YTZ2NFUyUzVOWWF3eEVXYkIxUzJIOTMyZDRYNXVEcC1YT21OTVFreWZTaHlRM1ZMdVpJOVE?oc=5))
 - Four Years of War in Europe - Foreign Policy ([Link](https://news.google.com/rss/articles/CBMisAFBVV95cUxNb0gtSEtZd1ZFRk1iTzNLM2lOVFJzdDZQOHlubklsaUduVDZjS0Y3Mi1GTHFvYXRlOFBIOWpaZjRORDVDTUVkWWpxbDgxNHpBM3h6YXJBY3ItLXA1SG4tWkROaG5SWjdFb01aLUUyR2w1Vl9OY2ZrQkdMdENJMlEwbFhObExkLUwwLWl4cksxY1d0MmxrcmZJQXRPZnM5blhtblBuY1Iza1MtUGcyb3lQVg?oc=5))
 
 ## 📱 Tech News (GSMArena Latest Devices - Filtered)
@@ -43,10 +43,7 @@ Generated at: 2026-02-21 01:02:15
 - Red teaming LLMs exposes a harsh truth about the AI security arms race - VentureBeat ([Link](https://news.google.com/rss/articles/CBMiiwFBVV95cUxNVThEWklFNm1oeWRoOEJPNzlpTmZmXzJiMlJCQTlLSkdIQ1hYYkhKQnl6X0w1U3Vrd0t6UEdtcmlYaUxOa1VVQ05iaU9qRDNIdndSRm5HV1dPR0UydmIzZGlXVDZYVHJMSXphSVlKdkw3Z3BrRW9wLThfaGw5T0EtUW1ETmFSY3c3SVZv?oc=5))
 
 ## 📺 YouTube Monitor
-- Jagat Review: Sebelum Harga Makin Naik. Ini Rekomendasi Laptop Kami - Edisi Bulan Ramadhan. ([Link](https://www.youtube.com/watch?v=ENixhv9QnLE))
-- Jagat Review: TECNO Camon 50 Series Muncul di Toko Online! ([Link](https://www.youtube.com/shorts/wH2iCAqCrUc))
-- DroidLime: JAM PALING GAGAH & KUAT? | Amazfit T-Rex Ultra 2 Indonesia ([Link](https://www.youtube.com/watch?v=BBfjiI7NVlg))
-- DroidLime: VERSI PRO-NYA BIKIN SUNGKEM 🙏🏾 | Unboxing Infinix Note 60 Pro Indonesia ([Link](https://www.youtube.com/watch?v=EnKGQwFPcF0))
+
 
 ## 💸 Deals (Reddit r/coupons via RSS)
 - HELLO FRESH coupons 2 of them free 11 meals with first purchase (first box is in fact heavily discounted) also free sides for life. DM for code ([Link](https://www.reddit.com/r/coupons/comments/1r2zlom/hello_fresh_coupons_2_of_them_free_11_meals_with/))
