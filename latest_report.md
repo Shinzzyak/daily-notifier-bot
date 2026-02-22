@@ -1,22 +1,22 @@
 
 # 🤖 Daily Notification Bot Report
-Generated at: 2026-02-21 18:19:21
+Generated at: 2026-02-22 01:07:05
 
-## 🧠 AI Content Idea (Top Topic: Kata Hamas soal ISF yang Indonesia Jadi Wakil Komandannya - detikNews)
-*Hook:* Gak nyangka, nih! Indonesia jadi wakil komandannya ISF, dan Hamas punya kata-kata yang bikin kita penasaran!
+## 🧠 AI Content Idea (Top Topic: Gunung Sampah Meledak, Longsor Bak Tsunami Gulung Manusia: 157 Tewas - CNBC Indonesia)
+*Hook:* Bro, kamu tahu nggak kalau baru-baru ini ada bencana alam yang parah banget di daerah pembuangan akhir? Gunung sampah meledak dan longsor kayak tsunami, banyak korban lho!
 
-*Pembahasan 1:* Jadi, ISF itu apa, sih? ISF atau International Security Force adalah pasukan keamanan internasional yang dibentuk untuk menjaga perdamaian dan keamanan di wilayah tertentu. Dan, Indonesia dipilih sebagai wakil komandannya! Keren, kan?
+*Pembahasan 1:* Jadi, kejadian ini terjadi di tempat pembuangan akhir yang sudah overload, sampe sampahnya meluap dan longsor. Bayangin aja, bro, longsorannya kayak tsunami, nggak beda jauh dari bencana alam lainnya, tapi ini disebabkan oleh ulah manusia sendiri.
 
-*Pembahasan 2:* Hamas, kelompok yang sering menjadi sorotan dunia, punya kata-kata yang cukup menarik tentang ISF dan peran Indonesia di dalamnya. Mereka bicara soal bagaimana ISF bisa berdampak pada keamanan dan politik di wilayah tersebut. Penasaran, kan, apa kata mereka?
+*Pembahasan 2:* Korban jiwa sudah mencapai 157 orang, bro. Ini bikin kita sadar bahwa pengelolaan sampah itu nggak bisa diremehin. Kita harus lebih peduli sama lingkungan dan mulai mengurangi, menggunaulang, dan mendaur ulang sampah kita sendiri.
 
-*Pembahasan 3:* Jadi, apa yang bisa kita harapkan dari peran Indonesia di ISF? Apakah ini bisa jadi langkah besar untuk meningkatkan peran Indonesia di kancah internasional? Atau ada yang perlu kita waspadai? Simak terus untuk tahu lebih lanjut tentang ISF dan peran kita di dalamnya!
+*Pembahasan 3:* Jadi, apa yang bisa kita lakukan untuk menghindari kejadian kayak gini terulang lagi? Pertama, kita bisa mulai dari diri sendiri dengan mengurangi penggunaan plastik dan sampah lainnya. Kedua, kita bisa mendukung program daur ulang dan pengelolaan sampah yang lebih baik di daerah kita. Terakhir, kita bisa edukasi orang lain tentang pentingnya menjaga lingkungan kita. Kita bisa jadi bagian dari solusi, bukan bagian dari masalah! #GunungSampah #Lingkungan #BencanaAlam
 
 ## 🔥 Sedang Trending di Indonesia
-- Kata Hamas soal ISF yang Indonesia Jadi Wakil Komandannya - detikNews ([Link](https://news.google.com/rss/articles/CBMipwFBVV95cUxOek9nRTRaRGNleGl1b21lb085MUVXMnhrTmlGUTNyajNkYlFjaXNublNhVmR2QmJKRlJSMURncWg1YkVjNDhJSmFGTkR1b0NiQktuaFo2VFpzak00bE1uTXY1b0xST2dtWkxVdDFFVzFCdjlxNnlxZDhONzlaUEZNQmNXMUFzYkFhLVdiUFBpVmU0QXpVUTlXVXRnMlEtajc0UkVkSTFPONIBrAFBVV95cUxQNXZ6WkpMUmJIZFJNckFrc2R2NzA3ZHdFSW1reER0b1J6NHdtM1BTV1R1Tkk2YWJyd0ZYR3JJTnpSOVMtWnZ6bUhQVGVMRWx6amdpVkc4NlI1Si1HMzB4U3ZLLUhIVkhDYjdxdUdlMVUtSHRIVU9xaXFubXFOQlZDZkNfNDlmaVl2d3NzMmU0QjE0REEtMy1XTWhJOWVRTXJ0eTlZOEVTRmtQWllU?oc=5))
-- Dubes AS Ini Setuju jika Israel Mencaplok Arab Saudi dan Mesir, Ini 3 Alasannya - SINDOnews Internasional ([Link](https://news.google.com/rss/articles/CBMi2AFBVV95cUxQRm5SMkxnUXRRSUFnNHRnN2d6TUlYelRIVlJqeEZZNjdMQWQyLTVHRmZybi1ubTJneGhqWWFxTUMtMDA4NGxON3Juc2VyZ0FNcTM5N3ZJc25GS0trX19DTHdsazZsX095b2FjQTNvblVGaFdGeHoxdFZWM3ZQdDFqd09ubXQ5UXd0ckRWYmF6TUVLUjIwanpnMEJhWm5lNENsa1VOT0pMcXlTN29SVVp5cFBLREhadFZTQ2s3RFFGUUZlRlZ3ZEVJTjJDbXRhVk1Gc2lkd09tUTTSAd4BQVVfeXFMTjk1X3FOQU5uY3gwS3g4eGUzNndkazBRY2dMYjNLWnpTeE85RXRCY0UyRWdMRnppUG9HdV9XVTBzM0ZJOWFSc2hrX1VSZGpKMlhudUZ5VlhqOXN0a3hBWG11eXVhd1J5OXJjaDRwa1c3RHVKdUtoVlFqbWc2YVlycFctbDdjdUR4ZzdkOUV6NUw3c04zdWRudmM4bjlDMDlaeWRSRzB1b3d2WlFhOWl5cTVVMUZYRmVpcTYzR3dQdWQ5Rk5lZW9XS01VbHdpdXhkTnBTUjNabFRBekxubnhR?oc=5))
 - Gunung Sampah Meledak, Longsor Bak Tsunami Gulung Manusia: 157 Tewas - CNBC Indonesia ([Link](https://news.google.com/rss/articles/CBMizwFBVV95cUxObGtYeUNyOGlZdkhac2pMT0ZYd2FXczFvYjg1TjQ2QTg1c2RXYVNxY1FEQWstbmh0YWF2ZFNJTFJJWkJ2R3hlSi1RTElydnJsYXcwYWxfcGpWNGw3Nk1yTjJIQzZoVzZTYlpUQ1o1bUcwSElFZ29CdUVJUG1PR2FFM04taC1sMUgtVUphbTJ6SGVITWEybFdMcWFNdjllaVVzTVd5Wnh6cVRDN3BaeTFITU1jX2l6X0J2TzNaSW5qQ0N3MEhhUENCdi10TGlrdFXSAdQBQVVfeXFMTjlNMXJKb1RHamJmb1FmSFY4bFl4OTVUZGNNMmJIeW1FQU9kVGh6bTN1cVZURC03MWRicUo1UDJIRlNNOEFRdGZsdUR1WkQ1elRvaF9ISFROV3luaUNIX241V3JKQXBRc0xsOEI1SzMtQTMtSHZoUGdJMk80NmdaYnJRNEhaa0w2NVdBMS1ueXJ5YUx4R3AwSTBmZDlpVmcwSUhMNVNuMHRFT0hUNHJ1SXR1OEdESjBiejJjS1RvUUlXNjZfcFNLZ29ZSjJSRlpINXZrN2s?oc=5))
-- Jadwal Super League Malam Ini: Ada Derby Jawa Timur - detiksport ([Link](https://news.google.com/rss/articles/CBMirgFBVV95cUxQUEtlanlSMXU0cWwwdmlDcGIwSURMclZUaVltVDJzTmE0Z0FXM1pUTWxEQl92b0hoZkNhNkZ1QTlvYlNxUDY2TDY1bDNBZXpTV3U1dVNtRTMwSmJ1VUVVcjRReDRJR2Ywb3UxVENBdFUxY0tJY0VCOFRTOV9qSmlrT2tBNk5BSXlpc1ZPQzFmLVptS3FpMHJHM2pNLU9UcU04TUphS0huUTdJaXRraGfSAbMBQVVfeXFMT0ZRSWFFQWlYUUh0YTRlZjExLV9RQTgxMF81RVFyVFA2M19Oa3RzM3BJVkJXVWsyMkFRTFJ2WlVRQnVra2pPdzNfOHBXbG5ldTNXbXNpNEtTOWhkTUNnYk1nTFQ2T0JzSllIOEc4ZUhGczJrUHBES1BYa3BLWWNlV2JsRVduV1NkOFVDVXpidE5xbjFadEw5dlVLZ2luQUZEMFJFeXFpaHoydFR3OHBiNWFMN1k?oc=5))
 - Longsor Raksasa Putus Akses Aceh Tengah - detikNews ([Link](https://news.google.com/rss/articles/CBMiigFBVV95cUxNcmFIc2pBRXlGclpCNjlKNk1zYThjdXRVQVhWemk0ZENWT0Fic1dQcVYtVFRSQzI0WExfUHBDTkxlT3RmM2pJaVVBanpXX3pVZm9lN2VZS3Q5X3lMN1g5SzU5a1JWemI0aUN5dFJzSi00bEhoQl9iejBmM054bGMzUWh3WldzX21yMUHSAY8BQVVfeXFMUEpHMlY1ckhLcFh4ZGFvSVBrbnlZSUJPeUYwU0tnakl6ckM2TFR0a2p0TndCY3VNRHBuNmxLYUlhWFB6Vzd0SjJrMDNIQUh5ZzlYVHBmUnJ2dGRST1VWZUx3dGVxRFI1c0wwNm4zZ2ozY2Vad1ZSZ2laMlc2UG5WTVEyUUhEYkY4UkhTWExfN0U?oc=5))
+- Sergio Castel Kirim Ancaman Nyata Jelang Laga Persib Vs Persita - Bolasport.com ([Link](https://news.google.com/rss/articles/CBMipwFBVV95cUxNWVB6TlE4elNuZlp2T21UZ2RUekN5SS1ZV2RiTndRYnNabjZySE5iZ0dIX2xfUlZ0S1ZLdnhyYng2NzZHTTJoaktoTFplWUNGVkEwR0huUjg4ZVRSakhTU25WZzFJTVhCOF8yU2RkbGNjWEx4SWxKc3RYYXh2azdxb3VqZ2xiV1JSWmtfbDFUUF83Wmo4REctT1hxSXBTeWc3QURQM0oyTdIBrAFBVV95cUxNeDUwTmU1bFpGamQ0R0RTN0VPRGJkN2NKWDNudDdxLXBLS1hHWEVZYnVHZzJfYUtPVUhEa3N5Y1RQOHl1SWNKeG1sRmhPN1cycXR3bHhqRFQ1aGFzMzRlMjRySi1QdkxOYS0zeTBRVVp4MUc0SG1IR21jNFYxQU0yRC0tVkp1aGZsMVpqU0VQM21leXVqY3YwbHJBZk5ONGFYc1djendiMFlrUUtf?oc=5))
+- Reaksi Hamas soal Pertemuan Board of Peace Trump di AS, Tegaskan Ini - CNBC Indonesia ([Link](https://news.google.com/rss/articles/CBMixAFBVV95cUxNUTJrOFZacGdwOTd6VzQ1WUZIOVdGemthMDVoRzBjZ0V5TlJDLURqNnpoSVZDcEVuMHpuV3pCaE10cmc2MGRtV2tKTmJialpxanhuczBPTG96MTdVSjBfQWlDcTFhSTRIRVJvZ1pxTWd2MTVZZzctSWJCS3dGNlRRWmJlX0tYWTF4azlZRVZNUDRwM3lrNjU3U2ZXMER0QVhRbUM1b21OSGN3RWgxcFJXaGxIcnZVUEtrQmZ0aGgwX0JjWEJu0gHKAUFVX3lxTE5VMlBKSWJlOE1RcUxBejc2SFZWY3o1R1Z2cTQwNUhvaGlpOExkUW1zVWxQci1oNFhNaGM3SmhzUURVbTRNNkhFMnR6c29jLVltb2ZWZm5aSkNIR2NqX0lpaFNFXzhwYTdJbzVpVlhDdXNtVFpNRkZzWnJrR01QcmpZb0E4cTRUNFoxTkZlRXFzeDE1YXJlRFo2MnNOZnA1X3dtNTF5ZjNGLTZfcjVfNGRHX0RTV19ldUU2UDBYYkVVYjRqbW1TYlBsdGc?oc=5))
+- Al Nassr Vs Al Hazm: Menang 4-0, Ronaldo Cs ke Puncak - detiksport ([Link](https://news.google.com/rss/articles/CBMiqgFBVV95cUxNWGVxeDU2T2hWTVM1bVdtUFhqcElmVmExS2E1OExsVkFuV3pkTEZTWU5kMmNoQkY3QVJoWkRoOG9KenVlOFpvZkl1d0JLS0ppX0tyVnd1endxZ3IwemxncW50aEl0cjBQNE55akZqUGVwM0pXS1NkbXFzbFhvQk5fZmYxTHVlV3dXbS1GeVhIeHR2b0VyNFd5YlI5MFA2SE9SdFZEaEljSklWQdIBrwFBVV95cUxQdnNNOVVjdE1YcHVpb1ZISWFCLVBqWFJVcmduaGNsVjB5Ukw1Y1FPdl9mekZJcHA4TkVTVE1PU2dKY3VZcmUwcHhLMnk4OHNFVkJhRmw5MlpoV2pTVmNJOGJDMFR6OUEwTUNldUNkTm1FcGQwakRVMnZwaXpDSVJsTUw5QTZwZ3FoWDR2czV1dmpUSm1yd1c5ZVhvbElIYnFWcnB5MFAwOHVUNDNqOXpF?oc=5))
 
 ## 🌍 Geopolitics (Multi-Source)
 - Israeli army kills 2 Palestinians in strikes on Gaza during Ramadan ([Link](https://www.aljazeera.com/news/2026/2/21/israeli-military-kills-two-in-early-ramadan-strikes-in-gaza?traffic_source=rss))
@@ -36,11 +36,11 @@ Generated at: 2026-02-21 18:19:21
 - Poco X8 Pro and X8 Pro Max designs revealed in new leaked renders ([Link](https://www.gsmarena.com/poco_x8_pro_and_x8_pro_max_designs_revealed_in_new_leaked_renders-news-71640.php))
 
 ## 🔒 AI Security & LLM Jailbreak Research
+- GTIG AI Threat Tracker: Advances in Threat Actor Usage of AI Tools - Google Cloud ([Link](https://news.google.com/rss/articles/CBMikAFBVV95cUxPV1NOX1RDLUVWLW1tWjJmTEJIYkQ4QWc3aTdjc0lDU2xDandNNkFkakxhM3dVbHRHVlpySHRTbERJc3JoTFluMmdybV9BeHNCcTBwemJ1Mk51b3JRMGpyT1FpRDdqenlDMXhqY3V0R2pMT0tidzdGNWNHbHNEWTFQdXlXZ2wzQThaQ1dRc0Y5bDU?oc=5))
 - What Is a Prompt Injection Attack? [Examples & Prevention] - Palo Alto Networks ([Link](https://news.google.com/rss/articles/CBMigwFBVV95cUxQZGx0OEpwczEwNjdiU1RJSEJIODZpY0VYNFYxQkZCdFg3OUp6dGNaUEVvUnlwVENfRTEyWVJ2UGZlYzg5M0R1WDZqUlB3UExaMlJxZ0lXQUczT01BQUdnYVFZanV4bzFFdjh0ZVBaZ1dWY0o2VmE5UVNaNUFjdVMxS0pzNA?oc=5))
 - Practical LLM Security Advice from the NVIDIA AI Red Team - NVIDIA Developer ([Link](https://news.google.com/rss/articles/CBMilwFBVV95cUxPLU1TNGl2SlY5d3cxdGZvNGZiZGU4ZnFVeF9mTk9NV2xZbXpsbGo4ZnpJZHRTVVRLRnZuQ0lWMFppWVp1NDVuSEVyVFk5VG5PMmpDdG5rN3E0Zkc1dWFnUW84WGZqaU54TFp1cHZiQ3lZVGxDdUNRcjRna2N5eHQ1VEtsNWNUd2xaWkF2M25JVFpINUpZSEJn?oc=5))
-- GTIG AI Threat Tracker: Advances in Threat Actor Usage of AI Tools - Google Cloud ([Link](https://news.google.com/rss/articles/CBMikAFBVV95cUxPV1NOX1RDLUVWLW1tWjJmTEJIYkQ4QWc3aTdjc0lDU2xDandNNkFkakxhM3dVbHRHVlpySHRTbERJc3JoTFluMmdybV9BeHNCcTBwemJ1Mk51b3JRMGpyT1FpRDdqenlDMXhqY3V0R2pMT0tidzdGNWNHbHNEWTFQdXlXZ2wzQThaQ1dRc0Y5bDU?oc=5))
 - LLM Security for Enterprises: Risks and Best Practices - wiz.io ([Link](https://news.google.com/rss/articles/CBMiYEFVX3lxTE1INGZJTUVtQUxoOHRpZ2VidDBvSVlqVWY1X25CS19IVHFqbmdjSThaSU1yNmdaUlMwU3J6ZjdmYW1NbllfYUZVYUNrdmFTV1pMS3ZmWTZPWlA3a1dGQzAxWQ?oc=5))
-- Red teaming LLMs exposes a harsh truth about the AI security arms race - VentureBeat ([Link](https://news.google.com/rss/articles/CBMiiwFBVV95cUxNVThEWklFNm1oeWRoOEJPNzlpTmZmXzJiMlJCQTlLSkdIQ1hYYkhKQnl6X0w1U3Vrd0t6UEdtcmlYaUxOa1VVQ05iaU9qRDNIdndSRm5HV1dPR0UydmIzZGlXVDZYVHJMSXphSVlKdkw3Z3BrRW9wLThfaGw5T0EtUW1ETmFSY3c3SVZv?oc=5))
+- Red teaming LLMs exposes a harsh truth about the AI security arms race - Venturebeat ([Link](https://news.google.com/rss/articles/CBMiiwFBVV95cUxNVThEWklFNm1oeWRoOEJPNzlpTmZmXzJiMlJCQTlLSkdIQ1hYYkhKQnl6X0w1U3Vrd0t6UEdtcmlYaUxOa1VVQ05iaU9qRDNIdndSRm5HV1dPR0UydmIzZGlXVDZYVHJMSXphSVlKdkw3Z3BrRW9wLThfaGw5T0EtUW1ETmFSY3c3SVZv?oc=5))
 
 ## 📺 YouTube Monitor
 - Jagat Review: MacBook SoC iPhone Bakal Rilis Bulan Depan ([Link](https://www.youtube.com/shorts/Ag4oxY5lH_g))
@@ -49,11 +49,11 @@ Generated at: 2026-02-21 18:19:21
 - DroidLime: VERSI PRO-NYA BIKIN SUNGKEM 🙏🏾 | Unboxing Infinix Note 60 Pro Indonesia ([Link](https://www.youtube.com/watch?v=EnKGQwFPcF0))
 
 ## 💸 Deals (Reddit r/coupons via RSS)
+- (Could be) Free Full Synthetic Oil Change at AAA Service Centers; $74.99 Max Value, up to 5 quarts; exp 2/28 ([Link](https://www.reddit.com/r/coupons/comments/1rb28ov/could_be_free_full_synthetic_oil_change_at_aaa/))
+- Born Scum Clothing Coupon ([Link](https://www.reddit.com/r/coupons/comments/1rb6d5j/born_scum_clothing_coupon/))
 - HELLO FRESH coupons 2 of them free 11 meals with first purchase (first box is in fact heavily discounted) also free sides for life. DM for code ([Link](https://www.reddit.com/r/coupons/comments/1r2zlom/hello_fresh_coupons_2_of_them_free_11_meals_with/))
 - Cat food company coupon ([Link](https://www.reddit.com/r/coupons/comments/1r2a7v0/cat_food_company_coupon/))
 - Green chef coupons ([Link](https://www.reddit.com/r/coupons/comments/1r2af8v/green_chef_coupons/))
-- Converse Coupon $15 off $75 ! ([Link](https://www.reddit.com/r/coupons/comments/1qtbqc4/converse_coupon_15_off_75/))
-- Goldbelly coupon expires tonight ([Link](https://www.reddit.com/r/coupons/comments/1qskuq8/goldbelly_coupon_expires_tonight/))
 
 ---
 *Automated by GitHub Actions*
