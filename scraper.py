@@ -29,17 +29,7 @@ def generate_hook(original_title):
     prefix = random.choice(EMOTIONAL_PREFIXES)
     return f"{prefix} {original_title}"
 
-def get_image(url):
-    """Mencari meta tag og:image dari URL berita."""
-    try:
-        response = requests.get(url, headers=HEADERS, timeout=10)
-        soup = BeautifulSoup(response.text, 'lxml')
-        meta_image = soup.find("meta", property="og:image")
-        if meta_image:
-            return meta_image["content"]
-    except Exception as e:
-        print(f"Gagal mengambil gambar dari {url}: {e}")
-    return None
+# Fungsi get_image dihapus sesuai permintaan untuk visual cleanup
 
 # --- AI Scholarship Advisor (Groq Integration) ---
 
@@ -105,8 +95,7 @@ def get_mext_scholarship():
             "title": "Beasiswa MEXT (Monbukagakusho) - Gakubu (S1)",
             "link": url,
             "source": "Embassy of Japan",
-            "status": status,
-            "image": "https://www.id.emb-japan.go.jp/img/mext_logo.png" # Placeholder logo
+            "status": status
         }
     except Exception as e:
         print(f"Error scraping MEXT: {e}")
@@ -125,8 +114,7 @@ def get_international_scholarships():
             results.append({
                 "title": entry.title,
                 "link": entry.link,
-                "source": "Google News (Scholarships)",
-                "image": get_image(entry.link)
+                "source": "Google News (Scholarships)"
             })
             if len(results) >= 5: break
     except Exception as e:
@@ -153,8 +141,7 @@ def get_scholarship_tab_news():
                 results.append({
                     "title": title,
                     "link": link,
-                    "source": "ScholarshipTab",
-                    "image": None
+                    "source": "ScholarshipTab"
                 })
             if len(results) >= 5: break
     except Exception as e:
@@ -180,8 +167,7 @@ def send_discord_embeds(webhook_url, title, items, color=3066993):
             "timestamp": datetime.datetime.utcnow().isoformat(),
             "footer": {"text": "Scholarship Tracker Bot"},
         }
-        if item.get('image'):
-            embed["image"] = {"url": item['image']}
+        # Bagian image dihapus sesuai permintaan
         embeds.append(embed)
         
     payload = {
