@@ -29,12 +29,10 @@ def generate_hook(original_title):
     prefix = random.choice(EMOTIONAL_PREFIXES)
     return f"{prefix} {original_title}"
 
-# Fungsi get_image dihapus sesuai permintaan untuk visual cleanup
-
 # --- AI Scholarship Advisor (Groq Integration) ---
 
 def get_ai_scholarship_advisor(scholarship_topic):
-    """Menggunakan Groq (Llama 3) untuk memberikan ringkasan dan tips beasiswa."""
+    """Menggunakan Groq (Llama 3) untuk memberikan ringkasan, tips, dan 'celah' beasiswa."""
     groq_api_key = os.getenv('GROQ_API_KEY')
     if not groq_api_key:
         return "Error: GROQ_API_KEY tidak ditemukan."
@@ -42,16 +40,17 @@ def get_ai_scholarship_advisor(scholarship_topic):
     try:
         client = Groq(api_key=groq_api_key)
         
-        system_prompt = "Kamu adalah Konsultan Beasiswa Luar Negeri yang ahli. Gaya bahasamu informatif, memotivasi, dan praktis."
+        system_prompt = "Kamu adalah Konsultan Beasiswa Luar Negeri yang ahli dan 'Insider'. Kamu sangat pintar menemukan celah, syarat tersembunyi, dan strategi khusus agar pendaftar bisa lolos beasiswa full funded."
         prompt_template = f"""
-        Berdasarkan informasi beasiswa berikut: "{scholarship_topic}", buatkan:
+        Berdasarkan informasi beasiswa berikut: "{scholarship_topic}", buatkan analisis mendalam:
         
         🎯 RINGKASAN: (Apa beasiswanya, untuk siapa, dan apa cakupannya).
         📝 SYARAT UTAMA: (Sebutkan 3-4 syarat paling penting).
         ⏳ DEADLINE & JADWAL: (Kapan pendaftaran dibuka/ditutup jika ada).
-        💡 TIPS LOLOS: (Berikan 2 tips khusus agar peluang lolos besar).
+        🔍 CELAH & STRATEGI: (Berikan analisis 'insider' tentang celah sekecil apapun, syarat tersembunyi, atau strategi khusus untuk memenangkan beasiswa ini).
+        💡 TIPS LOLOS: (Berikan 2 tips praktis yang jarang diketahui orang lain).
         
-        Gunakan bahasa Indonesia yang santai tapi profesional.
+        Gunakan bahasa Indonesia yang santai, profesional, dan penuh wawasan 'insider'.
         """
         
         messages = [
@@ -101,24 +100,35 @@ def get_mext_scholarship():
         print(f"Error scraping MEXT: {e}")
         return None
 
-def get_international_scholarships():
-    print("Scraping International Scholarships via Google News RSS...")
-    # Query untuk beasiswa full funded terbaru
-    query = 'scholarship "fully funded" OR "full scholarship" OR "beasiswa penuh" 2025 2026'
-    url = f"https://news.google.com/rss/search?q={requests.utils.quote(query)}&hl=id&gl=ID&ceid=ID:id"
+def get_deep_scholarship_search():
+    print("Performing Deep Scholarship Search via Google News RSS...")
+    # Query yang lebih spesifik untuk menemukan 'celah' atau beasiswa yang jarang diketahui
+    queries = [
+        'scholarship "fully funded" OR "full scholarship" 2025 2026',
+        'beasiswa "biaya 0 rupiah" OR "beasiswa penuh" terbaru',
+        'scholarship "no application fee" OR "no IELTS" fully funded',
+        'beasiswa "tanpa wawancara" OR "tanpa TOEFL" luar negeri'
+    ]
+    
     results = []
-    try:
-        response = requests.get(url, headers=HEADERS, timeout=15)
-        feed = feedparser.parse(response.content)
-        for entry in feed.entries:
-            results.append({
-                "title": entry.title,
-                "link": entry.link,
-                "source": "Google News (Scholarships)"
-            })
-            if len(results) >= 5: break
-    except Exception as e:
-        print(f"Error scraping International Scholarships: {e}")
+    for query in queries:
+        url = f"https://news.google.com/rss/search?q={requests.utils.quote(query)}&hl=id&gl=ID&ceid=ID:id"
+        try:
+            response = requests.get(url, headers=HEADERS, timeout=15)
+            feed = feedparser.parse(response.content)
+            for entry in feed.entries:
+                # Hindari duplikasi
+                if not any(r['title'] == entry.title for r in results):
+                    results.append({
+                        "title": entry.title,
+                        "link": entry.link,
+                        "source": "Deep Search (Scholarships)"
+                    })
+                if len(results) >= 10: break
+        except Exception as e:
+            print(f"Error in deep search for query '{query}': {e}")
+        if len(results) >= 10: break
+            
     return results
 
 def get_scholarship_tab_news():
@@ -152,48 +162,60 @@ def get_scholarship_tab_news():
 
 def send_discord_embeds(webhook_url, title, items, color=3066993):
     if not items: return
-    embeds = []
-    for item in items:
-        hooked_title = generate_hook(item['title'])
-        description = f"Sumber: {item['source']}"
-        if 'status' in item:
-            description += f"\n**Status/Jadwal:** {item['status']}"
+    # Discord membatasi 10 embeds per pesan
+    for i in range(0, len(items), 10):
+        chunk = items[i:i+10]
+        embeds = []
+        for item in chunk:
+            hooked_title = generate_hook(item['title'])
+            description = f"Sumber: {item['source']}"
+            if 'status' in item:
+                description += f"\n**Status/Jadwal:** {item['status']}"
+                
+            embed = {
+                "title": hooked_title,
+                "url": item['link'],
+                "description": description,
+                "color": color,
+                "timestamp": datetime.datetime.utcnow().isoformat(),
+                "footer": {"text": "Scholarship Tracker Bot"},
+            }
+            embeds.append(embed)
             
-        embed = {
-            "title": hooked_title,
-            "url": item['link'],
-            "description": description,
-            "color": color,
-            "timestamp": datetime.datetime.utcnow().isoformat(),
-            "footer": {"text": "Scholarship Tracker Bot"},
+        payload = {
+            "username": "Scholarship Tracker Bot",
+            "content": f"**{title} (Part {i//10 + 1})**" if len(items) > 10 else f"**{title}**",
+            "embeds": embeds
         }
-        # Bagian image dihapus sesuai permintaan
-        embeds.append(embed)
-        
-    payload = {
-        "username": "Scholarship Tracker Bot",
-        "content": f"**{title}**",
-        "embeds": embeds[:10]
-    }
-    try:
-        response = requests.post(webhook_url, json=payload, timeout=15)
-        response.raise_for_status()
-        print(f"Successfully sent {title} to Discord.")
-    except Exception as e:
-        print(f"Failed to send {title} to Discord: {e}")
+        try:
+            response = requests.post(webhook_url, json=payload, timeout=15)
+            response.raise_for_status()
+            print(f"Successfully sent {title} chunk to Discord.")
+        except Exception as e:
+            print(f"Failed to send {title} chunk to Discord: {e}")
 
 def send_discord_text(webhook_url, title, content):
     if not content: return
-    payload = {
-        "username": "Scholarship Tracker Bot",
-        "content": f"**{title}**\n{content}"
-    }
-    try:
-        response = requests.post(webhook_url, json=payload, timeout=15)
-        response.raise_for_status()
-        print(f"Successfully sent {title} (Text) to Discord.")
-    except Exception as e:
-        print(f"Failed to send {title} (Text) to Discord: {e}")
+    # Pecah konten jika terlalu panjang untuk Discord (limit 2000 karakter)
+    if len(content) > 1900:
+        parts = [content[i:i+1900] for i in range(0, len(content), 1900)]
+        for idx, part in enumerate(parts):
+            payload = {
+                "username": "Scholarship Tracker Bot",
+                "content": f"**{title} (Part {idx+1})**\n{part}"
+            }
+            requests.post(webhook_url, json=payload, timeout=15)
+    else:
+        payload = {
+            "username": "Scholarship Tracker Bot",
+            "content": f"**{title}**\n{content}"
+        }
+        try:
+            response = requests.post(webhook_url, json=payload, timeout=15)
+            response.raise_for_status()
+            print(f"Successfully sent {title} (Text) to Discord.")
+        except Exception as e:
+            print(f"Failed to send {title} (Text) to Discord: {e}")
 
 # --- Main Logic ---
 
@@ -202,15 +224,15 @@ def main():
     
     # 1. Ambil Data
     mext = get_mext_scholarship()
-    intl_scholarships = get_international_scholarships()
+    deep_scholarships = get_deep_scholarship_search()
     tab_scholarships = get_scholarship_tab_news()
     
     # 2. AI Advisor (Gunakan MEXT atau beasiswa pertama sebagai input)
     advisor_topic = ""
     if mext:
         advisor_topic = f"{mext['title']} - {mext['status']}"
-    elif intl_scholarships:
-        advisor_topic = intl_scholarships[0]['title']
+    elif deep_scholarships:
+        advisor_topic = deep_scholarships[0]['title']
     
     ai_advice = "Tidak ada informasi beasiswa untuk dianalisis AI."
     if advisor_topic:
@@ -218,10 +240,10 @@ def main():
     
     # 3. Format Laporan Teks (Lokal)
     report = f"""
-# 🎓 Scholarship Tracker Report
+# 🎓 Scholarship Tracker Report (Deep Search Edition)
 Generated at: {now}
 
-## 🧠 AI Scholarship Advisor
+## 🧠 AI Scholarship Advisor (Insider Analysis)
 {ai_advice}
 
 ## 🇯🇵 Beasiswa MEXT Jepang (Special Monitor)
@@ -229,9 +251,9 @@ Generated at: {now}
 - **Link:** {mext['link'] if mext else 'N/A'}
 - **Status:** {mext['status'] if mext else 'N/A'}
 
-## 🌍 Beasiswa Internasional Terbaru (Full Funded)
+## 🌍 Deep Scholarship Search (Full Funded & Hidden Gems)
 """
-    for item in intl_scholarships:
+    for item in deep_scholarships:
         report += f"- {item['title']} ([Link]({item['link']}))\n"
         
     report += "\n## 📚 Peluang Beasiswa Lainnya (ScholarshipTab)\n"
@@ -248,7 +270,7 @@ Generated at: {now}
     
     if discord_webhook:
         # AI Advisor
-        send_discord_text(discord_webhook, "🧠 AI Scholarship Advisor", ai_advice)
+        send_discord_text(discord_webhook, "🧠 AI Scholarship Advisor (Insider Analysis)", ai_advice)
         time.sleep(1)
         
         # MEXT Special
@@ -256,8 +278,8 @@ Generated at: {now}
             send_discord_embeds(discord_webhook, "🇯🇵 Beasiswa MEXT Jepang", [mext], color=15158332)
             time.sleep(1)
             
-        # International
-        send_discord_embeds(discord_webhook, "🌍 Beasiswa Internasional (Full Funded)", intl_scholarships, color=3066993)
+        # Deep Search
+        send_discord_embeds(discord_webhook, "🌍 Deep Scholarship Search (Full Funded & Hidden Gems)", deep_scholarships, color=3066993)
         time.sleep(1)
         
         # ScholarshipTab
