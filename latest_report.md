@@ -1,6 +1,6 @@
 
 # 🎓 Scholarship Tracker Report (Deep Search Edition)
-Generated at: 2026-03-23 18:37:43
+Generated at: 2026-03-24 01:03:35
 
 ## 🧠 AI Scholarship Advisor (Insider Analysis)
 Error: GROQ_API_KEY tidak ditemukan.
@@ -11,7 +11,7 @@ Error: GROQ_API_KEY tidak ditemukan.
 - **Status:** Belum Diketahui / Cek Link
 
 ## 🌍 Deep Scholarship Search (Full Funded & Hidden Gems)
-- Raih Mimpimu: Panduan Lengkap Beasiswa S2 Inggris Fully Funded 2026 - readers.id ([Link](https://news.google.com/rss/articles/CBMiW0FVX3lxTFBObnhMWjJwVVRwUzJDaXJOaGpwSE5nSEU3N0RNZDVVMWZMRXprMll5WFpSTGpmSjJrUXFaUTlmaHZRY3E1TW9vLWVRR0E4MzUzckFSNUhNTl9NT0k?oc=5))
+- Raih Mimpimu: Panduan Lengkap Beasiswa S2 Inggris Fully Funded 2026 - Readers.id ([Link](https://news.google.com/rss/articles/CBMiW0FVX3lxTFBObnhMWjJwVVRwUzJDaXJOaGpwSE5nSEU3N0RNZDVVMWZMRXprMll5WFpSTGpmSjJrUXFaUTlmaHZRY3E1TW9vLWVRR0E4MzUzckFSNUhNTl9NT0k?oc=5))
 - UB Buka Brawijaya International Student Scholarship 2025 - Prasetya UB ([Link](https://news.google.com/rss/articles/CBMiiwFBVV95cUxONFZGUmdack8taEdaZlhmOTBuUExUV2I1NzdxU3h4QUJGUk1MY3RtWGk0d00yWW9IT3RiZUlZX2lJSDZIR2xETlozeVdCX3VZZUd3NHB5SW43RHg4enRJazNVOVh4amZIbm0xblVZckFzQm1tTWlQSTFVc0pQWGpUTHN4ak1zUHJSY3Rj?oc=5))
 - Universitas Brawijaya Reopens BISS 2026/2027: Aiming to Increase International Student Enrollment - Prasetya UB ([Link](https://news.google.com/rss/articles/CBMijwFBVV95cUxNMjMxS0M3Q1VMTXlSWnREN2ZIdFdrVjVQdUt5NkUtRHREMU9NR3BIMEtVOVdFc1A4eXBySGJ4TUN4OHdXc0xaTklJM1RCNk1IMkxYcWM3Z1l5UWtEQmJRNk1teW9sbi1SN0p6WWs3UXh3Y255WGstejE2WEI2X2pfTXZUV2hMYkJJX3R4QVFLZw?oc=5))
 - Beasiswa S2 Inggris Fully Funded 2026 Dibuka, Cek Syaratnya - Sultra Media ([Link](https://news.google.com/rss/articles/CBMiowFBVV95cUxOajhYM3hPZ0pKSk9TRXcwWl95UjNfUC04cmJqazlTNHNxd255WHJaWGloS0E0Vjh3VEF0ck9KNXE5Z0ZTbk5rdi1LN2p6UDg0b2hLb1M5d0g4Nl9meEp5RVRjbFVXQWYwTjJzVURaNktjc2hjbUxDQ0FTNkMwUV8wZkp2UzdpV0pTN0hxYnRLb3RHbWQwMG9tTTlrdXF5eXhIRkZZ?oc=5))
