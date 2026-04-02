@@ -1,6 +1,6 @@
 
 # 🎓 Scholarship Tracker Report (Deep Search Edition)
-Generated at: 2026-04-02 06:58:57
+Generated at: 2026-04-02 12:44:43
 
 ## 🧠 AI Scholarship Advisor (Insider Analysis)
 Error: GROQ_API_KEY tidak ditemukan.
@@ -12,7 +12,6 @@ Error: GROQ_API_KEY tidak ditemukan.
 
 ## 🌍 Deep Scholarship Search (Full Funded & Hidden Gems)
 - Universitas Brawijaya Reopens BISS 2026/2027: Aiming to Increase International Student Enrollment - Prasetya UB ([Link](https://news.google.com/rss/articles/CBMijwFBVV95cUxNMjMxS0M3Q1VMTXlSWnREN2ZIdFdrVjVQdUt5NkUtRHREMU9NR3BIMEtVOVdFc1A4eXBySGJ4TUN4OHdXc0xaTklJM1RCNk1IMkxYcWM3Z1l5UWtEQmJRNk1teW9sbi1SN0p6WWs3UXh3Y255WGstejE2WEI2X2pfTXZUV2hMYkJJX3R4QVFLZw?oc=5))
-- Raih Mimpimu: Panduan Lengkap Beasiswa S2 Inggris Fully Funded 2026 - Readers.id ([Link](https://news.google.com/rss/articles/CBMiW0FVX3lxTFBObnhMWjJwVVRwUzJDaXJOaGpwSE5nSEU3N0RNZDVVMWZMRXprMll5WFpSTGpmSjJrUXFaUTlmaHZRY3E1TW9vLWVRR0E4MzUzckFSNUhNTl9NT0k?oc=5))
 - Beasiswa S2 Eropa Fully Funded 2026: Siapkan Dirimu Sekarang! - Sultra Media ([Link](https://news.google.com/rss/articles/CBMipAFBVV95cUxQUi1hLXhJcVo4eEpFeTdTd2ZiX1lVYXBLSzJQM0w5UHF0eTZJVk4zNnQyMDlDeG9zc3A0VnUtLUNLeFhEQXRERktnM3U5RUk3cXV6MWJjSDl3bEtqYmx2cmFtWUR6RVhNeGlzRXowbnBwOEx2dmZ5Z2FaeS1YZkQ5RC0yLUJ4bEotNGxJS2JJS2NyOXQ1d3A2SHRTNW9PbjlUd1h2Sg?oc=5))
 - UB Buka Brawijaya International Student Scholarship 2025 - Prasetya UB ([Link](https://news.google.com/rss/articles/CBMiiwFBVV95cUxONFZGUmdack8taEdaZlhmOTBuUExUV2I1NzdxU3h4QUJGUk1MY3RtWGk0d00yWW9IT3RiZUlZX2lJSDZIR2xETlozeVdCX3VZZUd3NHB5SW43RHg4enRJazNVOVh4amZIbm0xblVZckFzQm1tTWlQSTFVc0pQWGpUTHN4ak1zUHJSY3Rj?oc=5))
 - Beasiswa S2 Belgia Fully Funded 2026 Dibuka! Dapat Tunjangan Rp 27 juta per Bulan dan Tidak Wajib Kembali ke Indonesia - kalderanews.com ([Link](https://news.google.com/rss/articles/CBMi6gFBVV95cUxNLVB5Y1o1SGMxZlI4VU93WUdTOTR3ejhISFRkVTF3UWRZRUFDRUtOYWF0TXRzdmh0Qmg2X0pTbHZSd3NhN1JCeXRudkhEQkRzcjBwbkg1QS1aOFFfQW9QSTU2dDF0WmlmdlVlTXczaFpBSUJmYVp2bktsZ3lWYWd1dzlENzlyTDNnWU1pdTd3NFRBVWNrQk5ZYXFvMDRlNGxDMEhsNmgwd0x2MGJEemhWY0xNYkhIbDVtQUVJdnRKV0R1TUZ4WS02SmxEdG9TM3Z1SE5ZMGpaZndWaWppeTRydG1BVWtoNFRjZ1E?oc=5))
@@ -21,6 +20,7 @@ Error: GROQ_API_KEY tidak ditemukan.
 - Telah Dibuka, Beasiswa BAZNAS Albukhary International University Batch 4 2025 - BAZNAS ([Link](https://news.google.com/rss/articles/CBMi2gFBVV95cUxQMldpYVBPQmdFbXQ4bUJIb0pnbFgyM2tnamNNcWR4VmlZLVpsX2E2ejI5MzNxb1Z1ZDBlSVJUazBqUE1hQ3VwTDdoN2FBVWlmc1Z2aTdLRTIyZ0d1bnBPMkZyYU5tNlUyeVpmVmoyeGZYY2RrQl8xWUZVVjU1cG00Skd6TkJiZ01mT1hHOXhmdXNzekJLdjNXSUhlcTNKam1iWkhjbzJDQUdHZHVQMm1iaElmdHRyZ0hha3l1aFdqbG9CbHpnNG9OcXB2dlYzQ0V4UElFbEV4YldIdw?oc=5))
 - Beasiswa S2 Inggris Fully Funded 2026 Dibuka, Cek Syaratnya - Sultra Media ([Link](https://news.google.com/rss/articles/CBMiowFBVV95cUxOajhYM3hPZ0pKSk9TRXcwWl95UjNfUC04cmJqazlTNHNxd255WHJaWGloS0E0Vjh3VEF0ck9KNXE5Z0ZTbk5rdi1LN2p6UDg0b2hLb1M5d0g4Nl9meEp5RVRjbFVXQWYwTjJzVURaNktjc2hjbUxDQ0FTNkMwUV8wZkp2UzdpV0pTN0hxYnRLb3RHbWQwMG9tTTlrdXF5eXhIRkZZ?oc=5))
 - Beasiswa Bright Scholarship 2025 Dibuka, Syarat & Cara Daftarnya - Tirto.id ([Link](https://news.google.com/rss/articles/CBMihAFBVV95cUxPMUs2YkZUMW54dGM1dXVjX0xRc1BzYzY1T1U3RWUtS1hPQnRPWE9DM0J4enlVdTF4YzZ2elNTMEMxTHViVG9JS3UzSDBRU0Y4T1lnYXNZaXhWRGo1cS1FOWpqMXhlMUhXb292Z1A4WU0wMFZELTctUE9CWUZ5WTlTUENYd0E?oc=5))
+- Alfath Flemmo Dorong Musisi Muda Indonesia Daftar Beasiswa Sony Music Group Global Scholars 2025-2026 Full Kuliah S1 - Kompasiana.com - Kompasiana.com ([Link](https://news.google.com/rss/articles/CBMiqAJBVV95cUxOcl9PTlZtTEhTcGtPNTdtMUstUkZtUUw1WjBPUWQ3d1pMQVFPdm5UUGhMY1dMZkFXdTg2TVl2bEVyd2xJMnZlNkJaYU80ZGhNV3hWR2tZWHY2S2F4NHlPUk9ZU2pFdmJ0dDE3VXFRNHFIXzhOUUo4VjdobmdoMEsyLWNkY0VuMFJzbk9jZDdfY0lvaFNZY1J3OTliTmlMTTN2cGpqYk5xQS14LW9jTWx5aUdGZmlmbjZXbGQ4aThJRkpqT0U1TXpTUzkwZFpTQ1VRMThSTEZJczhlVGkwQ1JLQUwxbm5wX0Z5YUlWZDl0TGtNNkRHdUtzSnZUMjhXT3I4UzkxeWhKVl9mRFpkV2QwN3pUengyNlp6VVpmQldPMDdiY2o2VHByetIBrgJBVV95cUxQYlY1aHRWUWRudkw2UmpfeENzVVFaM1ZLRXU0ckQ1RnU4VFAwb0drd21ZZHdfb1ZOaGUwd0g4dm5UX3NQMHRXSU9XRkU3ZU5yb2R6bTdzd0pVZDZsZy1SMUxnb2NzYW1WRTdjTEtRV0tlM0RKVjR4dFBaVGZoQUNobzFScnlOR3pSVW04cVlEMTMyNU95dXZ6Yjd3MzlQMjE1V0ZHUmZHellOM3QtTVJ0UWM1MjRYNWFJRFQzMkNIYUxPZnFpR1VPeUF0Y0xpazc5bElBZFdIamZPNzhRTFNSb0FOTmstWFppWXVSbWlzd2R2cHNWRDNXR2VFRTJ1RElxeTl4eUpiWWN5Y3N2b19RTlpzZFV2ejJoNGtjdEJvaHhiTnNldnE4VzlnNi05Zw?oc=5))
 
 ## 📚 Peluang Beasiswa Lainnya (ScholarshipTab)
 
