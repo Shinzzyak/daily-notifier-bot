@@ -1,6 +1,6 @@
 
 # 🎓 Scholarship Tracker Report (Deep Search Edition)
-Generated at: 2026-04-05 18:27:07
+Generated at: 2026-04-06 01:18:22
 
 ## 🧠 AI Scholarship Advisor (Insider Analysis)
 Error: GROQ_API_KEY tidak ditemukan.
@@ -20,7 +20,7 @@ Error: GROQ_API_KEY tidak ditemukan.
 - Beasiswa Bright Scholarship 2025 Dibuka, Syarat & Cara Daftarnya - Tirto.id ([Link](https://news.google.com/rss/articles/CBMihAFBVV95cUxPMUs2YkZUMW54dGM1dXVjX0xRc1BzYzY1T1U3RWUtS1hPQnRPWE9DM0J4enlVdTF4YzZ2elNTMEMxTHViVG9JS3UzSDBRU0Y4T1lnYXNZaXhWRGo1cS1FOWpqMXhlMUhXb292Z1A4WU0wMFZELTctUE9CWUZ5WTlTUENYd0E?oc=5))
 - Beasiswa S2–S3 Fully Funded ke Taiwan 2026-2027, Tanpa Batas Usia Dibuka! Dapat Tunjangan hingga Rp 10 Juta per Bulan - kalderanews.com ([Link](https://news.google.com/rss/articles/CBMi5wFBVV95cUxOeEYtalFyWGY5OGI0ejFZQmRjUUQ5bjJYWVR1SHZaLTFoUXFIc2lfbVVHOFZsRFY0dFIzVUR5T3pOa1Vlbjk4OXc4TGpWX09PUHV4VDNvd1V6aXltd3kybUdHOEF0bGx4UDlwb25lOG9VNmZ1S0tCeVMtdC1TS2F0UDJLakcycE9CbEdTbEFUanlHbHllSG1hWWRkWUhTSk95cVBtOE1xWm9GWWcwbFdKZ0YzNXFRbHZHM2NST3FQeWtUWEdOT3RPU1FxZkVEYkl1VWxab1B3ZVRGR3FBa1B6YjFUa0NxTW8?oc=5))
 - Alfath Flemmo Dorong Musisi Muda Indonesia Daftar Beasiswa Sony Music Group Global Scholars 2025-2026 Full Kuliah S1 - Kompasiana.com - Kompasiana.com ([Link](https://news.google.com/rss/articles/CBMiqAJBVV95cUxOcl9PTlZtTEhTcGtPNTdtMUstUkZtUUw1WjBPUWQ3d1pMQVFPdm5UUGhMY1dMZkFXdTg2TVl2bEVyd2xJMnZlNkJaYU80ZGhNV3hWR2tZWHY2S2F4NHlPUk9ZU2pFdmJ0dDE3VXFRNHFIXzhOUUo4VjdobmdoMEsyLWNkY0VuMFJzbk9jZDdfY0lvaFNZY1J3OTliTmlMTTN2cGpqYk5xQS14LW9jTWx5aUdGZmlmbjZXbGQ4aThJRkpqT0U1TXpTUzkwZFpTQ1VRMThSTEZJczhlVGkwQ1JLQUwxbm5wX0Z5YUlWZDl0TGtNNkRHdUtzSnZUMjhXT3I4UzkxeWhKVl9mRFpkV2QwN3pUengyNlp6VVpmQldPMDdiY2o2VHByetIBrgJBVV95cUxQYlY1aHRWUWRudkw2UmpfeENzVVFaM1ZLRXU0ckQ1RnU4VFAwb0drd21ZZHdfb1ZOaGUwd0g4dm5UX3NQMHRXSU9XRkU3ZU5yb2R6bTdzd0pVZDZsZy1SMUxnb2NzYW1WRTdjTEtRV0tlM0RKVjR4dFBaVGZoQUNobzFScnlOR3pSVW04cVlEMTMyNU95dXZ6Yjd3MzlQMjE1V0ZHUmZHellOM3QtTVJ0UWM1MjRYNWFJRFQzMkNIYUxPZnFpR1VPeUF0Y0xpazc5bElBZFdIamZPNzhRTFNSb0FOTmstWFppWXVSbWlzd2R2cHNWRDNXR2VFRTJ1RElxeTl4eUpiWWN5Y3N2b19RTlpzZFV2ejJoNGtjdEJvaHhiTnNldnE4VzlnNi05Zw?oc=5))
-- Sambil Nunggu Pengumuman SNBT, Intip 7 Rekomendasi Beasiswa S1 Luar Negeri 2025 - Medcom.id ([Link](https://news.google.com/rss/articles/CBMi0gFBVV95cUxQZmhFU3NjVkN0SHdKVUtDbHdWNE9EWERRNGJkc0NNQkZHbU9FMlZDdkh3aVF5OXl1ekdiNUYwc2JHdFhGQVdqNW1vR1BxMEZhTTJJRjB2VnhILWJ5SEhYSWlFZlVUTExVVEs4T3V4b1FzLUhQeDhqb0hWemVxUXRoMlhyczdlU2ZibnZKdVN2aGM3Znc3WjhBUXRnNGROaXhTUndsbDcyYnVYby1GQVZOMk1SRVBVR2otLWtnTzg2Smt1aVpzM3JmRzZvNVFObjNKT1E?oc=5))
+- 6 Beasiswa S1 “Fully Funded” ke Luar Negeri, Buka hingga November 2025 - Kompas.com ([Link](https://news.google.com/rss/articles/CBMivAFBVV95cUxNNmIyV3lDbXVjUHA2N1NpZWkwaEJZX2hzR2lEZ3NBNVdRQ1JMNFpZM1ltZXd6NmxPb1dpSzIwYWRKYXFlOXpweFMyNFNBcGxYR0xiRTJ1c0cyQlZvY3A3dWRKUFNCYW90R3FwR1FpM2l5UHR1SmdaVGNLaHI2OWhZaVFrc2tITlVqVW1ERzV1UmFpX2tyb2w2cGxrRk9hbXUyLVZwMW9lMlVpdllnSzRFWlBxQnFFZUxZSHpvVA?oc=5))
 
 ## 📚 Peluang Beasiswa Lainnya (ScholarshipTab)
 
